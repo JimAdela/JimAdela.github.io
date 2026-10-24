@@ -3,12 +3,35 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{{ site.description }}">
+    {% assign page_desc = page.description | default: page.subtitle | default: site.description | strip_html | normalize_whitespace | truncate: 150 %}
+    <meta name="description" content="{{ page_desc }}">
     <meta name="keywords"  content="{{ site.keyword }}">
+    <meta name="author" content="{{ page.author | default: 'WY' }}">
     <meta name="theme-color" content="{{ site.chrome-tab-theme-color }}">
     <meta name="referrer" content="never">
 
     <title>{% if page.title %}{{ page.title }} - {{ site.SEOTitle }}{% else %}{{ site.SEOTitle }}{% endif %}</title>
+
+    <!-- Open Graph / 分享卡片 -->
+    {% assign page_img = page.header-img | default: site.header-img %}
+    <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+    <meta property="og:site_name" content="{{ site.title }}">
+    <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.SEOTitle }}{% endif %}">
+    <meta property="og:description" content="{{ page_desc }}">
+    <meta property="og:url" content="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
+    <meta property="og:image" content="{{ site.url }}{{ site.baseurl }}/{{ page_img }}">
+    <meta property="og:locale" content="zh_CN">
+    {% if page.layout == 'post' %}
+    <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
+    <meta property="article:author" content="{{ page.author | default: 'WY' }}">
+    {% for tag in page.tags limit:6 %}<meta property="article:tag" content="{{ tag }}">
+    {% endfor %}{% endif %}
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.SEOTitle }}{% endif %}">
+    <meta name="twitter:description" content="{{ page_desc }}">
+    <meta name="twitter:image" content="{{ site.url }}{{ site.baseurl }}/{{ page_img }}">
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="{{ site.baseurl }}/pwa/manifest.json">
