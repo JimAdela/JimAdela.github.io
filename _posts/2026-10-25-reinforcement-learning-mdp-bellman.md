@@ -107,7 +107,13 @@ $$
 - 在 $B$ 只能"停"在原地，奖励 1
 - $\gamma = 0.9$
 
-策略固定为这条链。于是 $P^\pi = \begin{bmatrix} 0 & 1 \\ 0 & 1\end{bmatrix}$，$R^\pi = \begin{bmatrix} 0 \\ 1 \end{bmatrix}$。
+策略固定为这条链。于是转移矩阵与奖励向量分别是：
+
+$$
+P^\pi = \begin{bmatrix} 0 & 1 \\ 0 & 1 \end{bmatrix},
+\qquad
+R^\pi = \begin{bmatrix} 0 \\ 1 \end{bmatrix}
+$$
 
 直接代入闭式解：
 
@@ -257,5 +263,16 @@ $$
 > 下一篇：《策略梯度与 PPO：为什么"奖励"能变成"方向"》，从"给状态打分"走到"直接调策略参数"，把强化学习接回我们熟悉的反向传播。
 
 <!-- 本文公式较多，单独为本页挂载 MathJax；不影响其他页面，也不改动主题模板 -->
-<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  },
+  options: {
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
