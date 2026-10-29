@@ -5,6 +5,29 @@
 (function () {
   'use strict';
 
+  /* ---------- 深浅色 ---------- */
+  var themeBtn = document.getElementById('js-theme');
+  if (themeBtn) {
+    var syncTheme = function () {
+      var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+      // 图标显示的是「点下去会变成什么」
+      themeBtn.textContent = dark ? '\u2600' : '\u263E';
+      themeBtn.setAttribute('aria-label', dark ? '切换到浅色模式' : '切换到深色模式');
+      themeBtn.setAttribute('title', dark ? '切换到浅色模式' : '切换到深色模式');
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', dark ? '#16191A' : '#FCFBF8');
+    };
+
+    themeBtn.addEventListener('click', function () {
+      var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) { /* 忽略 */ }
+      syncTheme();
+    });
+
+    syncTheme();
+  }
+
   /* ---------- 阅读进度 ---------- */
   var bar = document.getElementById('js-progress');
   if (bar) {

@@ -24,6 +24,39 @@
 
   /* 版心 */
   --measure: 660px;
+
+  /* 代码高亮：从纸墨套色里推出来的，不用 GitHub 那套粉绿 */
+  --syn-com: #8A928C;
+  --syn-kw:  #8B3A2B;
+  --syn-str: #1E5B4E;
+  --syn-num: #7A5C2E;
+  --syn-fn:  #2C3330;
+
+  --masthead-bg: rgba(252, 251, 248, 0.94);
+  --rule-strong: #16191A;
+}
+
+/* 暗色：不是把灯关掉，是把纸翻到背面。由 head 里的内联脚本解析偏好后写到 <html data-theme>。 */
+:root[data-theme="dark"] {
+  --paper:  #16191A;
+  --ink:    #E8E5DD;
+  --ink-2:  #9BA39E;
+  --rule:   #2E3431;
+  --rule-2: #232827;
+  --press:  #7DC0A6;
+  --mark:   #D98A6E;
+  --wash:   #1D2220;
+
+  --syn-com: #6E7A72;
+  --syn-kw:  #C8836B;
+  --syn-str: #8FC7AE;
+  --syn-num: #C4A972;
+  --syn-fn:  #DCD8CE;
+
+  --masthead-bg: rgba(22, 25, 26, 0.94);
+  --rule-strong: #5A655F;
+
+  color-scheme: dark;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -77,8 +110,8 @@ td, th { padding: 0; }
 
 button, input, select, textarea { font-family: inherit; font-size: inherit; line-height: inherit; }
 
-::selection { background: #DCE8E2; color: var(--ink); }
-::-moz-selection { background: #DCE8E2; color: var(--ink); }
+::selection { background: var(--press); color: var(--paper); }
+::-moz-selection { background: var(--press); color: var(--paper); }
 
 :focus-visible {
   outline: 2px solid var(--press);
@@ -108,7 +141,7 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(252, 251, 248, 0.94);
+  background: var(--masthead-bg);
   -webkit-backdrop-filter: saturate(180%) blur(8px);
   backdrop-filter: saturate(180%) blur(8px);
   border-bottom: 1px solid var(--rule);
@@ -416,14 +449,14 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
   text-align: left;
 }
 .sheet thead th {
-  border-top: 1.5px solid var(--ink) !important;
+  border-top: 1.5px solid var(--rule-strong) !important;
   border-bottom: 1px solid var(--rule) !important;
   font-weight: 600;
   font-size: 13px;
   color: var(--ink-2);
   letter-spacing: 0.02em;
 }
-.sheet tbody tr:last-child td { border-bottom: 1.5px solid var(--ink) !important; }
+.sheet tbody tr:last-child td { border-bottom: 1.5px solid var(--rule-strong) !important; }
 
 /* 图 */
 .sheet img { display: block; margin: 1.8em auto; border-radius: 0; }
@@ -755,8 +788,8 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
 
 @media (max-width: 560px) {
   body { font-size: 16.5px; }
-  /* 五个入口在 390px 下挤到边缘，RSS 页脚还有，窄屏先让位 */
-  .site-nav a[href$="feed.xml"] { display: none; }
+  /* 窄屏放不下五个入口，关于页脚有链接，先让位 */
+  .site-nav .nav-about { display: none; }
   .sheet { font-size: 16.5px; }
   .sheet h2 { font-size: 22px; }
   .sheet h3 { font-size: 18.5px; }
@@ -990,4 +1023,136 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
   .track { display: none !important; }
   .serie { break-before: auto; }
   .chapter-list a { text-decoration: none; }
+}
+
+/* ==========================================================================
+   代码高亮：把 GitHub 的粉绿换成纸墨体系
+   syntax.css 只负责词法结构，颜色在这里统一接管，深浅两套共用变量。
+   ========================================================================== */
+
+.highlight .c, .highlight .ch, .highlight .cm, .highlight .cp,
+.highlight .cpf, .highlight .c1, .highlight .cs {
+  color: var(--syn-com);
+  font-style: italic;
+}
+
+.highlight .k, .highlight .kc, .highlight .kd, .highlight .kn,
+.highlight .kp, .highlight .kr, .highlight .kt {
+  color: var(--syn-kw);
+  font-weight: 600;
+}
+
+.highlight .s, .highlight .sa, .highlight .sb, .highlight .sc, .highlight .dl,
+.highlight .sd, .highlight .s2, .highlight .se, .highlight .sh, .highlight .si,
+.highlight .sx, .highlight .sr, .highlight .s1, .highlight .ss {
+  color: var(--syn-str);
+}
+
+.highlight .m, .highlight .mb, .highlight .mf, .highlight .mh,
+.highlight .mi, .highlight .mo, .highlight .mx, .highlight .il {
+  color: var(--syn-num);
+}
+
+.highlight .nf, .highlight .fm, .highlight .nb, .highlight .nc,
+.highlight .nn, .highlight .nt, .highlight .nv, .highlight .na {
+  color: var(--syn-fn);
+}
+
+.highlight .o, .highlight .ow { color: var(--syn-fn); font-weight: 400; }
+
+.highlight .gd { color: var(--mark); }
+.highlight .gi { color: var(--press); }
+.highlight .err { color: var(--mark); background: transparent; }
+.highlight .hll { background: rgba(30, 91, 78, 0.1); }
+.highlight .gh, .highlight .gu, .highlight .gp { color: var(--ink-2); }
+
+/* ==========================================================================
+   主题切换按钮
+   ========================================================================== */
+
+.theme-toggle {
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1;
+  color: var(--ink-2);
+  background: none;
+  border: 0;
+  padding: 4px 0;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+}
+.theme-toggle:hover { color: var(--ink); }
+
+@media (max-width: 560px) {
+  .theme-toggle { font-size: 12.5px; }
+}
+
+/* ==========================================================================
+   搜索页
+   ========================================================================== */
+
+.search-input {
+  display: block;
+  width: 100%;
+  font-family: var(--sans);
+  font-size: 21px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  border-radius: 0;
+  padding: 6px 0 12px;
+  margin: 0 0 14px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.search-input::placeholder { color: var(--ink-2); opacity: 0.65; }
+.search-input:focus { outline: none; border-bottom-color: var(--press); }
+.search-input::-webkit-search-cancel-button { -webkit-appearance: none; }
+
+.search-hint {
+  font-size: 12.5px;
+  color: var(--ink-2);
+  margin: 0 0 28px;
+}
+
+.sheet .search-results { list-style: none; margin: 0; padding: 0; }
+
+.sheet .search-results li {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 18px;
+  margin: 0;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--rule-2);
+}
+
+.search-results time {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--ink-2);
+  padding-top: 4px;
+  white-space: nowrap;
+}
+
+.search-results a {
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--ink);
+  text-decoration: none;
+}
+.search-results a:hover { color: var(--press); }
+
+.search-results p {
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--ink-2);
+  margin: 6px 0 0;
+}
+
+@media (max-width: 900px) {
+  .sheet .search-results li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .search-results time { padding-top: 0; }
+  .search-input { font-size: 18px; }
 }

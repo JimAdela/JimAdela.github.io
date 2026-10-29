@@ -1,0 +1,9 @@
+---
+permalink: /search.json
+layout: null
+sitemap: false
+---
+[
+{% for post in site.posts %}{"t":{{ post.title | jsonify }},"u":{{ post.url | relative_url | jsonify }},"d":"{{ post.date | date: '%Y-%m-%d' }}","g":{{ post.tags | jsonify }},"c":{{ post.content | strip_html | normalize_whitespace | jsonify }}}{% unless forloop.last %},{% endunless %}
+{% endfor %}
+]

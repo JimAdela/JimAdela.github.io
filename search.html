@@ -1,0 +1,125 @@
+---
+layout: page
+title: "搜索"
+kicker: "Search"
+description: "标题、标签、正文一起搜。支持多个词，空格分隔。"
+---
+
+<input id="q" class="search-input" type="search" autocomplete="off" spellcheck="false"
+       placeholder="试试「分区」「PPO」「幂等」" aria-label="搜索文章">
+
+<p class="search-hint" id="hint">输入关键词开始——索引在本地，不打网络请求。</p>
+
+<ol class="search-results" id="results" aria-live="polite"></ol>
+
+<script>
+(function () {
+  var input = document.getElementById('q');
+  var hint = document.getElementById('hint');
+  var list = document.getElementById('results');
+  var index = null;
+  var loading = false;
+  var pending = '';
+
+  function load(done) {
+    if (index) return done();
+    if (loading) return;
+    loading = true;
+    fetch('{{ "/search.json" | relative_url }}')
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        index = data.map(function (p) {
+          return {
+            t: p.t, u: p.u, d: p.d, g: p.g || [], c: p.c || '',
+            lt: p.t.toLowerCase(),
+            lg: (p.g || []).join(' ').toLowerCase(),
+            lc: (p.c || '').toLowerCase()
+          };
+        });
+        loading = false;
+        done();
+      })
+      .catch(function () {
+        loading = false;
+        hint.textContent = '索引加载失败，刷新试试。';
+      });
+  }
+
+  function esc(s) {
+    return s.replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  function snippet(text, term) {
+    var i = text.toLowerCase().indexOf(term);
+    if (i < 0) return text.slice(0, 64);
+    var start = Math.max(0, i - 28);
+    var out = text.slice(start, start + 96).trim();
+    return (start > 0 ? '…' : '') + out + (start + 96 < text.length ? '…' : '');
+  }
+
+  function render(q) {
+    var terms = q.toLowerCase().split(/\s+/).filter(Boolean);
+    if (!terms.length) {
+      list.innerHTML = '';
+      hint.textContent = '输入关键词开始——索引在本地，不打网络请求。';
+      return;
+    }
+
+    var hits = [];
+    index.forEach(function (p) {
+      var score = 0;
+      for (var k = 0; k < terms.length; k++) {
+        var t = terms[k], s = 0;
+        if (p.lt.indexOf(t) > -1) s += 8;
+        if (p.lg.indexOf(t) > -1) s += 5;
+        var at = p.lc.indexOf(t);
+        if (at > -1) s += 2 + Math.max(0, 3 - at / 2000);
+        if (!s) return;           // 有一个词没命中就不算结果（AND）
+        score += s;
+      }
+      hits.push({ p: p, s: score });
+    });
+
+    hits.sort(function (a, b) { return b.s - a.s || (a.p.d < b.p.d ? 1 : -1); });
+
+    if (!hits.length) {
+      list.innerHTML = '';
+      hint.textContent = '没有匹配「' + q + '」的文章。';
+      return;
+    }
+
+    hint.textContent = hits.length + ' 篇匹配「' + q + '」';
+    list.innerHTML = hits.slice(0, 30).map(function (h) {
+      return '<li>' +
+        '<time>' + h.p.d + '</time>' +
+        '<div><a href="' + h.p.u + '">' + esc(h.p.t) + '</a>' +
+        '<p>' + esc(snippet(h.p.c, terms[0])) + '</p></div>' +
+        '</li>';
+    }).join('');
+  }
+
+  var timer;
+  input.addEventListener('input', function () {
+    pending = input.value.trim();
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      if (!pending) return render('');
+      load(function () { render(pending); });
+    }, 120);
+  });
+
+  // 支持 ?q= 直达
+  var q0 = new URLSearchParams(location.search).get('q');
+  if (q0) {
+    input.value = q0;
+    load(function () { render(q0); });
+  } else {
+    input.addEventListener('focus', function once() {
+      input.removeEventListener('focus', once);
+      load(function () {});
+    });
+  }
+})();
+</script>

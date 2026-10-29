@@ -1,13 +1,15 @@
 <!-- 顶栏：站名 + 导航 + 阅读进度 -->
+{% assign u = page.url %}
 <header class="masthead">
     <div class="masthead-in">
         <a class="site-mark" href="{{ site.baseurl }}/">{{ site.title }}</a>
         <nav class="site-nav" aria-label="主导航">
-            <a href="{{ site.baseurl }}/"{% if page.url == "/" %} class="is-on" aria-current="page"{% endif %}>首页</a>
-            <a href="{{ site.baseurl }}/series/"{% if page.url contains "/series" %} class="is-on" aria-current="page"{% endif %}>系列</a>
-            <a href="{{ site.baseurl }}/tags/"{% if page.url contains "/tags" %} class="is-on" aria-current="page"{% endif %}>标签</a>
-            <a href="{{ site.baseurl }}/about/"{% if page.url contains "/about" %} class="is-on" aria-current="page"{% endif %}>关于</a>
-            <a href="{{ site.baseurl }}/feed.xml">RSS</a>
+            <a href="{{ site.baseurl }}/"{% if u == "/" %} class="is-on" aria-current="page"{% endif %}>首页</a>
+            <a href="{{ site.baseurl }}/series/"{% if u contains "/series" %} class="is-on" aria-current="page"{% endif %}>系列</a>
+            <a href="{{ site.baseurl }}/tags/"{% if u contains "/tags" %} class="is-on" aria-current="page"{% endif %}>标签</a>
+            <a class="nav-about{% if u contains "/about" %} is-on{% endif %}" href="{{ site.baseurl }}/about/"{% if u contains "/about" %} aria-current="page"{% endif %}>关于</a>
+            <a href="{{ site.baseurl }}/search/"{% if u contains "/search" %} class="is-on" aria-current="page"{% endif %}>搜索</a>
+            <button class="theme-toggle" type="button" id="js-theme" aria-label="切换深色模式" title="切换深色模式">&#9790;</button>
         </nav>
     </div>
     <div class="readbar" aria-hidden="true"><i id="js-progress"></i></div>
