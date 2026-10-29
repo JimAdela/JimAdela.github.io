@@ -1,7 +1,8 @@
 {%- comment -%}
     源码行号链接，指向 front matter `source: 仓库@commit` 固定的那一版。
-    用法：{% include src.html path="inference/model.py" lines="131-165" %}
-          {% include src.html path="inference/generate.py" lines="113" text="第 113 行" %}
+    用法（外面套上 Liquid 的 include 标签）：
+        include src.html path="inference/model.py" lines="131-165"
+        include src.html path="inference/generate.py" lines="113" text="第 113 行"
     输出必须保持单行，否则放进表格单元格会把表格拆断。
 {%- endcomment -%}
 {%- assign _src = page.source | split: "@" -%}
