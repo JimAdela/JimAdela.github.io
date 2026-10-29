@@ -1,0 +1,79 @@
+# 三条连载的完整章目（含已写）。/series/ 只显示章号大于已写最大章号的条目，
+# 所以发新文章不用改这里；只有调整选题或顺序时才需要同步 CONTENT-PLAN.md。
+deepseek-source:
+  - { ch: 1, title: "仓库地图：809 行里哪 100 行最重要" }
+  - { ch: 2, title: "并行线性层：切一刀为什么要 all-reduce" }
+  - { ch: 3, title: "位置编码：81 行的 freqs_cis" }
+  - { ch: 4, title: "fp8 与权重：checkpoint 怎么变成能算的数" }
+  - { ch: 5, title: "MLA 上：1536 与 512 这两个数在压什么" }
+  - { ch: 6, title: "MLA 下：576 维的 KV cache 与吸收技巧" }
+  - { ch: 7, title: "MoE 上：256 选 8 怎么不旱涝不均" }
+  - { ch: 8, title: "MoE 下：8 个专家的 token 怎么拼成一批" }
+  - { ch: 9, title: "V4.1 比 V3 多了什么" }
+  - { ch: 10, title: "稀疏注意力：只算 top-k 块" }
+  - { ch: 11, title: "Engram：一个新的记忆结构" }
+  - { ch: 12, title: "YOCO：只缓存一次" }
+  - { ch: 13, title: "MTP 与投机解码" }
+  - { ch: 14, title: "从能跑到能服务：EPLB 与 batch-invariant" }
+ai-math:
+  - { ch: 23, title: "强化学习：马尔可夫决策与贝尔曼方程" }
+  - { ch: 24, title: "策略梯度与 PPO：为什么“奖励”能变成“方向”" }
+  - { ch: 25, title: "生成对抗网络：一场零和博弈的数学" }
+  - { ch: 26, title: "变分自编码器：ELBO 与重参数化技巧" }
+  - { ch: 27, title: "扩散模型：前向加噪与反向去噪的对偶" }
+  - { ch: 28, title: "位置编码：正弦、RoPE 与相对位置" }
+  - { ch: 29, title: "注意力变体：MQA / GQA / FlashAttention" }
+  - { ch: 30, title: "混合专家 MoE：路由与负载均衡" }
+  - { ch: 31, title: "参数高效微调：LoRA 的低秩假设" }
+  - { ch: 32, title: "量化：INT8 / INT4 的误差从哪来" }
+  - { ch: 33, title: "图神经网络：消息传递的统一视角" }
+  - { ch: 34, title: "对比学习：InfoNCE 与温度系数" }
+  - { ch: 35, title: "状态空间模型：从 RNN 到 Mamba" }
+  - { ch: 36, title: "分词：BPE 与词表大小的权衡" }
+  - { ch: 37, title: "词向量空间：余弦相似度的几何直觉" }
+  - { ch: 38, title: "损失函数谱系：交叉熵 / MSE / 三元组" }
+  - { ch: 39, title: "参数初始化：Xavier 与 He 的推导" }
+  - { ch: 40, title: "学习率调度：warmup 与余弦退火" }
+  - { ch: 41, title: "混合精度训练：float16 为什么会溢出" }
+  - { ch: 42, title: "采样策略：temperature / top-k / top-p" }
+  - { ch: 43, title: "上下文窗口：位置外推与长度泛化" }
+  - { ch: 44, title: "RAG 的数学：向量检索与近似最近邻" }
+  - { ch: 45, title: "模型蒸馏：软标签为何比硬标签有效" }
+  - { ch: 46, title: "智能体规划：搜索、回溯与思维链" }
+  - { ch: 47, title: "评估指标：困惑度 / BLEU / pass@k" }
+  - { ch: 48, title: "归一化家族：BatchNorm / LayerNorm / RMSNorm" }
+  - { ch: 49, title: "残差连接：为什么深网络还能训得动" }
+  - { ch: 50, title: "缩放定律：参数、数据与算力的三角" }
+  - { ch: 51, title: "多模态对齐：CLIP 的对比目标" }
+  - { ch: 52, title: "推理加速：KV cache 与投机采样" }
+engineering:
+  - { ch: 1, title: "Laravel 12 分层：Controller 之外该放什么" }
+  - { ch: 2, title: "OwlAdmin + amis：低代码后台的真实取舍" }
+  - { ch: 3, title: "PostgreSQL 月度 RANGE 分区：踩过的坑" }
+  - { ch: 4, title: "支付幂等：唯一约束与事务顺序" }
+  - { ch: 5, title: "双钱包模型：通道钱包与商户钱包怎么对账" }
+  - { ch: 6, title: "回调可靠性：重试、去重与死信队列" }
+  - { ch: 7, title: "慢查询排查：从 EXPLAIN 到索引选择" }
+  - { ch: 8, title: "Redis 三大坑：穿透、击穿、雪崩" }
+  - { ch: 9, title: "队列削峰与失败补偿" }
+  - { ch: 10, title: "Telescope 上生产：采样与开销控制" }
+  - { ch: 11, title: "Nginx + PHP-FPM 调优清单" }
+  - { ch: 12, title: "Laravel 最小化 Docker 镜像" }
+  - { ch: 13, title: "可观测性：日志、指标、追踪的取舍" }
+  - { ch: 14, title: "Uptime Kuma：自建监控的边界" }
+  - { ch: 15, title: "支付回调安全：签名、时间戳与重放" }
+  - { ch: 16, title: "多租户隔离的四种方案" }
+  - { ch: 17, title: "灰度发布与回滚剧本" }
+  - { ch: 18, title: "密钥管理：别把 token 写进代码" }
+  - { ch: 19, title: "API 限流：令牌桶与漏桶的实现" }
+  - { ch: 20, title: "LLM 接入工程：超时、重试、降级" }
+  - { ch: 21, title: "向量库选型：pgvector 够不够用" }
+  - { ch: 22, title: "MCP Server 落地实践" }
+  - { ch: 23, title: "代理后的真实 IP：CF-Connecting-IP" }
+  - { ch: 24, title: "审计日志：append-only 表怎么设计" }
+  - { ch: 25, title: "时区与时间戳：跨时区订单的坑" }
+  - { ch: 26, title: "金额计算：浮点、整数与货币精度" }
+  - { ch: 27, title: "不停机改表：数据迁移的顺序" }
+  - { ch: 28, title: "云账单里的隐形开销" }
+  - { ch: 29, title: "文件上传：OSS 直传与 CDN 回源" }
+  - { ch: 30, title: "日志分级与告警阈值怎么定" }

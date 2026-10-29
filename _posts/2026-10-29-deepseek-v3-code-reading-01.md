@@ -10,6 +10,7 @@ description: 把 809 行拆成三层结构，标出真正要先读的 114 行；
 math:       true
 series:     deepseek-source
 chapter:    1
+source:     deepseek-ai/DeepSeek-V3@9b4e9788e4a3
 tags:
     - 人工智能
     - 深度学习
@@ -35,22 +36,22 @@ tags:
 
 | 层 | 定义 | 行号 | 行数 | 职责 |
 |---|---|---|---|---|
-| 入口 | `ModelArgs` | 20-88 | 69 | 全部超参，一个 dataclass |
-| 入口 | `Block` | 696-737 | 42 | 一层 = 注意力 + 前馈 + 两个 norm |
-| 入口 | `Transformer` | 738-809 | 72 | 嵌入 → 61 层 → norm → 输出头 |
-| 结构 | `MLA` | 396-499 | 104 | 注意力本体 |
-| 结构 | `MLP` | 500-534 | 35 | 稠密前馈（只在前 3 层） |
-| 结构 | `Gate` | 535-600 | 66 | 路由打分 |
-| 结构 | `Expert` | 601-635 | 35 | 单个专家 |
-| 结构 | `MoE` | 636-695 | 60 | 256 个专家怎么组织 |
-| 算子 | `ParallelEmbedding` | 89-130 | 42 | 词表并行的嵌入 |
-| 算子 | `linear` | 131-165 | 35 | 带 fp8 分支的矩阵乘 |
-| 算子 | `Linear` | 166-207 | 42 | 自定义线性层基类 |
-| 算子 | `ColumnParallelLinear` | 208-236 | 29 | 切输出维 |
-| 算子 | `RowParallelLinear` | 237-269 | 33 | 切输入维 |
-| 算子 | `RMSNorm` | 270-296 | 27 | 归一化 |
-| 算子 | `precompute_freqs_cis` | 297-377 | 81 | 预计算旋转位置编码 |
-| 算子 | `apply_rotary_emb` | 378-395 | 18 | 把 RoPE 应用到 q/k |
+| 入口 | `ModelArgs` | {% include src.html path="inference/model.py" lines="20-88" %} | 69 | 全部超参，一个 dataclass |
+| 入口 | `Block` | {% include src.html path="inference/model.py" lines="696-737" %} | 42 | 一层 = 注意力 + 前馈 + 两个 norm |
+| 入口 | `Transformer` | {% include src.html path="inference/model.py" lines="738-809" %} | 72 | 嵌入 → 61 层 → norm → 输出头 |
+| 结构 | `MLA` | {% include src.html path="inference/model.py" lines="396-499" %} | 104 | 注意力本体 |
+| 结构 | `MLP` | {% include src.html path="inference/model.py" lines="500-534" %} | 35 | 稠密前馈（只在前 3 层） |
+| 结构 | `Gate` | {% include src.html path="inference/model.py" lines="535-600" %} | 66 | 路由打分 |
+| 结构 | `Expert` | {% include src.html path="inference/model.py" lines="601-635" %} | 35 | 单个专家 |
+| 结构 | `MoE` | {% include src.html path="inference/model.py" lines="636-695" %} | 60 | 256 个专家怎么组织 |
+| 算子 | `ParallelEmbedding` | {% include src.html path="inference/model.py" lines="89-130" %} | 42 | 词表并行的嵌入 |
+| 算子 | `linear` | {% include src.html path="inference/model.py" lines="131-165" %} | 35 | 带 fp8 分支的矩阵乘 |
+| 算子 | `Linear` | {% include src.html path="inference/model.py" lines="166-207" %} | 42 | 自定义线性层基类 |
+| 算子 | `ColumnParallelLinear` | {% include src.html path="inference/model.py" lines="208-236" %} | 29 | 切输出维 |
+| 算子 | `RowParallelLinear` | {% include src.html path="inference/model.py" lines="237-269" %} | 33 | 切输入维 |
+| 算子 | `RMSNorm` | {% include src.html path="inference/model.py" lines="270-296" %} | 27 | 归一化 |
+| 算子 | `precompute_freqs_cis` | {% include src.html path="inference/model.py" lines="297-377" %} | 81 | 预计算旋转位置编码 |
+| 算子 | `apply_rotary_emb` | {% include src.html path="inference/model.py" lines="378-395" %} | 18 | 把 RoPE 应用到 q/k |
 
 把行数加起来：入口层 183 行，结构层 300 行，算子层 307 行，加上 `ModelArgs` 的 69 行，是 859——比 809 多，因为相邻定义的边界行有重叠（每个类的最后一行既是本类的结尾，也是下一个定义之前的空行）。真正的有效代码约 790 行，剩下的是空行。
 
@@ -60,8 +61,8 @@ tags:
 
 | 遍次 | 读什么 | 读完应该知道 | 大概耗时 |
 |---|---|---|---|
-| 第一遍 | `Block` 696-737 | 一层里有哪两个子层、残差加在哪 | 10 分钟 |
-| 第二遍 | `Transformer` 738-809 | 61 层怎么串、输出怎么取、mask 什么时候建 | 15 分钟 |
+| 第一遍 | `Block` {% include src.html path="inference/model.py" lines="696-737" %} | 一层里有哪两个子层、残差加在哪 | 10 分钟 |
+| 第二遍 | `Transformer` {% include src.html path="inference/model.py" lines="738-809" %} | 61 层怎么串、输出怎么取、mask 什么时候建 | 15 分钟 |
 | 第三遍 | `MLA` + `MoE` | 创新点在哪、和标准 Transformer 差在哪 | 40 分钟 |
 | 随时查 | 算子层 307 行 | 某个变换的精确公式 | 按需 |
 
@@ -76,14 +77,14 @@ tags:
 | 步骤 | 代码位置 | 张量形状 |
 |---|---|---|
 | 输入 token id | `forward` 参数 | `[1, S]`，int64 |
-| 词嵌入 | 785 行 `self.embed(tokens)` | `[1, S, 7168]` |
-| 61 个 Block | 790-791 行循环 | `[1, S, 7168]` 不变 |
-| 取最后一个位置 | 792 行 `[:, -1]` | `[1, 7168]` |
-| 输出头投影 | 793 行 `self.head(h)` | `[1, 129280]` |
+| 词嵌入 | {% include src.html path="inference/model.py" lines="785" text="785 行" %} `self.embed(tokens)` | `[1, S, 7168]` |
+| 61 个 Block | {% include src.html path="inference/model.py" lines="790-791" text="790-791 行" %}循环 | `[1, S, 7168]` 不变 |
+| 取最后一个位置 | {% include src.html path="inference/model.py" lines="792" text="792 行" %} `[:, -1]` | `[1, 7168]` |
+| 输出头投影 | {% include src.html path="inference/model.py" lines="793" text="793 行" %} `self.head(h)` | `[1, 129280]` |
 
 注意倒数第二步。**`Transformer.forward` 返回的不是每个位置的分布，只是最后一个位置的分布。** 这一行决定了整个仓库的性质：它是推理实现，不是训练实现。训练时要对每个位置算损失，绝不会在这里切片。
 
-想亲手验证这条流水线，文件末尾 801-808 行有个五行的小测试：造一个 `[2, 128]` 的随机 token，跑一遍 `Transformer`，打印输出尺寸。它默认跑不起来（`device` 写死成 `cuda`），但改成 `cpu` 就能跑。跑完你会发现输出是 `(2, 102400)` 而不是 `(2, 128, 102400)`——两件事同时被验证了：切片确实发生了，而且这里用的是 `ModelArgs` 的**默认词表大小**，不是 129280。这个细节下一节就会用到。
+想亲手验证这条流水线，文件末尾 {% include src.html path="inference/model.py" lines="801-808" text="801-808 行" %}有个五行的小测试：造一个 `[2, 128]` 的随机 token，跑一遍 `Transformer`，打印输出尺寸。它默认跑不起来（`device` 写死成 `cuda`），但改成 `cpu` 就能跑。跑完你会发现输出是 `(2, 102400)` 而不是 `(2, 128, 102400)`——两件事同时被验证了：切片确实发生了，而且这里用的是 `ModelArgs` 的**默认词表大小**，不是 129280。这个细节下一节就会用到。
 
 ### 3. 骨架的 72 行
 
@@ -121,7 +122,7 @@ logits = self.head(h)
 
 这二十几行里有三个细节，值得单独拎出来。
 
-**第一，`Linear.dtype` 是类属性，不是实例属性。** 第 760 行给 `Linear` 这个类赋了一个类型，之后所有 `Linear` 子类实例都用它。含义是：一个进程里只能有一种精度，你不能让第 1 层跑 bf16、第 30 层跑 fp8。这是刻意的简化——真实部署里按层混精度的收益很小，而分支判断的成本会渗到每一次矩阵乘里。
+**第一，`Linear.dtype` 是类属性，不是实例属性。** {% include src.html path="inference/model.py" lines="760" text="第 760 行" %}给 `Linear` 这个类赋了一个类型，之后所有 `Linear` 子类实例都用它。含义是：一个进程里只能有一种精度，你不能让第 1 层跑 bf16、第 30 层跑 fp8。这是刻意的简化——真实部署里按层混精度的收益很小，而分支判断的成本会渗到每一次矩阵乘里。
 
 **第二，`freqs_cis` 用了 `persistent=False`。** 这个 buffer 不进 `state_dict`，也就是说它不会被存进 checkpoint。好处是：你改了 `rope_theta` 或 `rope_factor`，不需要重新保存一遍权重；坏处是：加载权重时如果忘了重新算，位置编码会静默错位。第 3 期会专门讲这 81 行。
 
@@ -185,7 +186,7 @@ $$
 
 打开 `ModelArgs`，你会看到 `dim: int = 2048`、`n_layers: int = 27`、`n_routed_experts: int = 64`、`vocab_size: int = 102400`。按这组默认值算出来是个 2B 左右的小模型。
 
-真实配置在别处。`generate.py` 第 113 行只有一句：
+真实配置在别处。`generate.py` {% include src.html path="inference/generate.py" lines="113" text="第 113 行" %}只有一句：
 
 ```python
 args = ModelArgs(**json.load(f))   # f 指向 --config 指定的 json
@@ -247,7 +248,7 @@ MoE 层   667.42 B
 
 如果你把这五行对上官方数字，会有一个小小的成就感——**你没有相信任何人，你自己算出来的。**
 
-顺便说一句，`n_dense_layers` 这个字段的用法在 `Block.__init__` 第 716 行：
+顺便说一句，`n_dense_layers` 这个字段的用法在 `Block.__init__` {% include src.html path="inference/model.py" lines="716" text="第 716 行" %}：
 
 ```python
 self.ffn = MLP(args.dim, args.inter_dim) if layer_id < args.n_dense_layers else MoE(args)
@@ -259,7 +260,7 @@ self.ffn = MLP(args.dim, args.inter_dim) if layer_id < args.n_dense_layers else 
 
 地图画完了，用三个问题检查一下读没读懂。答得上来，这一期就没白读：
 
-1. `Transformer.forward` 第 792 行为什么是 `self.norm(h)[:, -1]` 而不是 `self.norm(h)`？如果去掉 `[:, -1]`，输出的形状会变成什么，后续哪一步会崩？
+1. `Transformer.forward` {% include src.html path="inference/model.py" lines="792" text="第 792 行" %}为什么是 `self.norm(h)[:, -1]` 而不是 `self.norm(h)`？如果去掉 `[:, -1]`，输出的形状会变成什么，后续哪一步会崩？
 2. 解码阶段 `mask` 传的是 `None`。如果误传了一个 `1 × 1` 的掩码矩阵，结果会错吗？为什么？
 3. 671B 里，哪一部分占了 99.4%？如果要把模型压到 100B 以内，最直接的一刀砍在哪？
 
@@ -278,5 +279,5 @@ self.ffn = MLP(args.dim, args.inter_dim) if layer_id < args.n_dense_layers else 
 ## 小结
 
 - 809 行里真正要先读的是入口层 114 行：`Block` 42 行说明一层长什么样，`Transformer` 72 行说明 61 层怎么串起来。算子层留到需要时再查。
-- `Transformer.forward` 只返回最后一个位置的 logits（第 792 行），这个细节决定了整个仓库是推理实现而非训练实现；`Linear.dtype` 是类属性，一个进程只能有一种精度。
+- `Transformer.forward` 只返回最后一个位置的 logits（{% include src.html path="inference/model.py" lines="792" text="第 792 行" %}），这个细节决定了整个仓库是推理实现而非训练实现；`Linear.dtype` 是类属性，一个进程只能有一种精度。
 - 671.0B 与 37.4B 都能从一份 config 手算出来，误差在小数点后一位。MoE 的部分之所以划算，是因为 8 个路由专家加 1 个共享专家的宽度恰好等于一个稠密前馈（2048 × 9 = 18432）——参数涨 19 倍，算力不涨。

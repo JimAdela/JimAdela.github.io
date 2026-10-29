@@ -1,14 +1,18 @@
 # 系列词表
 # 文章 front matter 用 series: <id> + chapter: <起始章>（合辑可再加 chapters: <末章>）
+# 待写章目在 _data/roadmap.yml；status 显示在 /series/ 的系列标题下
 - id: ai-math
   name: AI 数学直觉
   total: 52
+  status: 暂停，源码精读写完后恢复
   desc: 不满足于「调包能跑」。从线性代数的空间变换一路推到 PPO 与扩散模型，每个公式都要能算出数字。
 - id: engineering
   name: 工程实战
   total: 30
+  status: 暂停，源码精读写完后恢复
   desc: 真实项目里踩过的坑，写成可以直接照抄的配置、命令和判据。支付、分区、幂等、可观测性。
 - id: deepseek-source
   name: 开源大模型源码精读
   total: 14
+  status: 连载中
   desc: 从 809 行的 DeepSeek-V3 推理实现读到 V4.1 的 v4_modules。每期一个文件、一条 shape 流水线、一段能跑起来的复现。

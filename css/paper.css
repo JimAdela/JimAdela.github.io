@@ -952,6 +952,30 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
   white-space: nowrap;
 }
 
+/* 路线图：还没写的章节，次墨、无链接，章号退成规线色 */
+.serie-status { color: var(--ink-2); }
+.serie-status.is-live { color: var(--press); }
+
+.roadmap-label {
+  margin: 26px 0 2px;
+  font-size: 12.5px;
+  letter-spacing: 0.08em;
+  color: var(--ink-2);
+}
+.chapter-list.is-planned li { color: var(--ink-2); }
+.chapter-list.is-planned .ch { color: var(--ink-2); }
+
+.roadmap-more summary {
+  cursor: pointer;
+  padding: 11px 0;
+  font-size: 13.5px;
+  color: var(--press);
+  list-style: none;
+}
+.roadmap-more summary::-webkit-details-marker { display: none; }
+.roadmap-more summary::before { content: "+ "; font-family: var(--mono); }
+.roadmap-more[open] summary::before { content: "− "; }
+
 /* ==========================================================================
    观影账本
    ========================================================================== */

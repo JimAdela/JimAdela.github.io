@@ -1,0 +1,10 @@
+{%- comment -%}
+    源码行号链接，指向 front matter `source: 仓库@commit` 固定的那一版。
+    用法：{% include src.html path="inference/model.py" lines="131-165" %}
+          {% include src.html path="inference/generate.py" lines="113" text="第 113 行" %}
+    输出必须保持单行，否则放进表格单元格会把表格拆断。
+{%- endcomment -%}
+{%- assign _src = page.source | split: "@" -%}
+{%- assign _ln = include.lines | split: "-" -%}
+{%- capture _anchor -%}#L{{ _ln[0] }}{% if _ln[1] %}-L{{ _ln[1] }}{% endif %}{%- endcapture -%}
+<a class="src-ref" href="https://github.com/{{ _src[0] }}/blob/{{ _src[1] }}/{{ include.path }}{{ _anchor }}" title="{{ include.path }} @ {{ _src[1] | slice: 0, 7 }}">{{ include.text | default: include.lines }}</a>{%- comment -%}{%- endcomment -%}
