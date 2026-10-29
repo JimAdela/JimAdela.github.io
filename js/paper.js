@@ -84,13 +84,15 @@
     var parent = pre.parentNode;
     if (parent && parent.classList && parent.classList.contains('codeblock')) return;
 
-    var host = pre.closest('.highlight') || pre;
+    // 语言类挂在外层 .language-xxx 上；pre 自己带 .highlight，closest('.highlight') 会命中它本身
+    var langEl = pre.closest('[class*="language-"]');
+    var host = langEl || pre.closest('.highlight') || pre;
     var outer = host.parentNode;
 
-    var lang = '';
-    var m = (outer.className || '').match(/language-([A-Za-z0-9+#-]+)/);
-    if (!m) m = (host.className || '').match(/language-([A-Za-z0-9+#-]+)/);
-    if (m) lang = m[1];
+    var m = (langEl && langEl.className || '').match(/language-([A-Za-z0-9+#-]+)/) ||
+            (host.className || '').match(/language-([A-Za-z0-9+#-]+)/);
+    var lang = m ? m[1] : '';
+    if (lang === 'plaintext') lang = '';
 
     var box = document.createElement('div');
     box.className = 'codeblock';
