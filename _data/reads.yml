@@ -6,6 +6,270 @@
 
 # ----- 中国小说 -----
 
+- title: "飘邈之旅"
+  shelf: cn
+  year: 2002
+  author: "萧潜"
+  note: "李强被带上修真之路。2002 年起连载。"
+
+- title: "亵渎"
+  shelf: cn
+  year: 2003
+  year_end: 2006
+  author: "烟雨江南"
+  note: "罗格在神权压顶的世界里走自己的路。"
+
+- title: "佣兵天下"
+  shelf: cn
+  year: 2003
+  author: "说不得大师"
+  note: "三个小佣兵卷进一场打到神界的战争。2003 年起在起点连载，写了约四年。"
+
+- title: "紫川"
+  shelf: cn
+  year: 2003
+  year_end: 2009
+  author: "老猪"
+  note: "紫川秀与紫川三杰。2003 至 2009 年在起点连载。"
+
+- title: "尘缘"
+  shelf: cn
+  year: 2006
+  year_end: 2009
+  author: "烟雨江南"
+  note: "一方青石脱却石体，修成仙胎。"
+
+- title: "神墓"
+  shelf: cn
+  year: 2006
+  year_end: 2008
+  author: "辰东"
+  note: "辰南从神墓里醒来。万年前的布局还没结束。"
+
+- title: "回到明朝当王爷"
+  shelf: cn
+  year: 2006
+  year_end: 2008
+  author: "月关"
+  note: "杨凌回到正德年间。"
+
+- title: "佛本是道"
+  shelf: cn
+  year: 2006
+  year_end: 2007
+  author: "梦入神机"
+  note: "周青走进封神与西游叠在一起的洪荒。"
+
+- title: "无限恐怖"
+  shelf: cn
+  year: 2007
+  year_end: 2009
+  author: "zhttty"
+  note: "郑吒被拉进主神空间。正传，不含后来的《洪荒历》。"
+
+- title: "星辰变"
+  shelf: cn
+  year: 2007
+  year_end: 2008
+  author: "我吃西红柿"
+  note: "秦羽得到流星泪，从王府世子走到星空之外。"
+
+- title: "庆余年"
+  shelf: cn
+  year: 2007
+  year_end: 2009
+  author: "猫腻"
+  note: "范闲在庆国查身世。这里记小说。剧集在观影里只记了第一季。"
+
+- title: "长生界"
+  shelf: cn
+  year: 2008
+  year_end: 2010
+  author: "辰东"
+  note: "萧晨被卷进长生界。"
+
+- title: "盘龙"
+  shelf: cn
+  year: 2008
+  year_end: 2009
+  author: "我吃西红柿"
+  note: "林雷得到盘龙戒指，从魔法大陆走到更高处。"
+
+- title: "凡人修仙传"
+  shelf: cn
+  year: 2008
+  year_end: 2013
+  author: "忘语"
+  note: "韩立资质平庸，靠一只小绿瓶把修仙走完。"
+
+- title: "阳神"
+  shelf: cn
+  year: 2009
+  year_end: 2010
+  author: "梦入神机"
+  note: "写在《佛本是道》之后。一个现代人出窍修阳神。"
+
+- title: "仙逆"
+  shelf: cn
+  year: 2009
+  year_end: 2012
+  author: "耳根"
+  note: "王林从赵国的小村子里走出去。"
+
+- title: "永生"
+  shelf: cn
+  year: 2010
+  year_end: 2012
+  author: "梦入神机"
+  note: "方寒在诸天万界里修一条永生之路。"
+
+- title: "吞噬星空"
+  shelf: cn
+  year: 2010
+  year_end: 2012
+  author: "我吃西红柿"
+  note: "罗峰在大涅槃之后的地球上成为武者，再走向宇宙。"
+
+- title: "遮天"
+  shelf: cn
+  year: 2010
+  year_end: 2013
+  author: "辰东"
+  note: "叶凡随着同学进入北斗。"
+
+- title: "赘婿"
+  shelf: cn
+  year: 2011
+  author: "愤怒的香蕉"
+  note: "宁毅入赘江宁苏家。2011 年起在起点连载。"
+
+- title: "武动乾坤"
+  shelf: cn
+  year: 2011
+  year_end: 2013
+  author: "天蚕土豆"
+  note: "林动得到一块石符，从林家走出。"
+
+- title: "将夜"
+  shelf: cn
+  year: 2011
+  year_end: 2014
+  author: "猫腻"
+  note: "宁缺带着桑桑，从边关走到书院。"
+
+- title: "莽荒纪"
+  shelf: cn
+  year: 2012
+  year_end: 2015
+  author: "我吃西红柿"
+  note: "纪宁没喝孟婆汤，投胎进了纪氏部族。"
+
+- title: "惊悚乐园"
+  shelf: cn
+  year: 2013
+  year_end: 2017
+  author: "三天两觉"
+  note: "封不觉以疯不觉的名字，进入一款叫惊悚乐园的游戏。"
+
+- title: "奥术神座"
+  shelf: cn
+  year: 2013
+  year_end: 2014
+  author: "爱潜水的乌贼"
+  note: "夏风带着现代科学，在魔法世界里重走一遍。"
+
+- title: "一世之尊"
+  shelf: cn
+  year: 2014
+  year_end: 2016
+  author: "爱潜水的乌贼"
+  note: "孟奇从少林走进一场轮回。"
+
+- title: "武道宗师"
+  shelf: cn
+  year: 2016
+  author: "爱潜水的乌贼"
+  note: "楼成得到一门断了传承的武道。写在《诡秘之主》之前。"
+
+- title: "圣墟"
+  shelf: cn
+  year: 2016
+  year_end: 2021
+  author: "辰东"
+  note: "楚风在灵气复苏之后的地球上捡到一只石盒。"
+
+- title: "修真聊天群"
+  shelf: cn
+  year: 2016
+  author: "圣骑士的传说"
+  note: "宋书航被拉进一个全是修真者的聊天群。"
+
+- title: "放开那个女巫"
+  shelf: cn
+  year: 2016
+  year_end: 2019
+  author: "二目"
+  note: "工程师变成边境王子罗兰，女巫和蒸汽机在同一座城里。"
+
+- title: "秦吏"
+  shelf: cn
+  year: 2018
+  year_end: 2020
+  author: "七月新番"
+  note: "黑夫在秦朝做一名小吏。"
+
+- title: "神秘复苏"
+  shelf: cn
+  year: 2018
+  year_end: 2023
+  author: "佛前献花"
+  note: "杨间活在灵异复苏的城市里。开篇那句是：当你看到这句话的时候我已经死了。"
+
+- title: "黎明之剑"
+  shelf: cn
+  year: 2018
+  author: "远瞳"
+  note: "高文在灰烬年代接手领主府，把魔法往工业上推。2018 年起在起点连载。"
+
+- title: "赤心巡天"
+  shelf: cn
+  year: 2019
+  author: "情何以甚"
+  note: "姜望拿一颗赤心，去问这个世界发生过什么。"
+
+- title: "我师兄实在太稳健了"
+  shelf: cn
+  year: 2019
+  year_end: 2022
+  author: "言归正传"
+  note: "李长寿在封神之前，把每一步都算到九成八。"
+
+- title: "飞剑问道"
+  shelf: cn
+  year: 2020
+  author: "我吃西红柿"
+  note: "秦云炼一口飞剑，去看妖魔鬼怪。2020 年起在起点连载。"
+
+- title: "道诡异仙"
+  shelf: cn
+  year: 2021
+  year_end: 2023
+  author: "狐尾的笔"
+  note: "李火旺分不清自己在疯，还是世界在疯。"
+
+- title: "玄鉴仙族"
+  shelf: cn
+  year: 2022
+  author: "季越人"
+  note: "陆江仙的残魂附在一面铜镜上，被一个小家族捡到。2022 年起连载，还在更新。"
+
+- title: "深海余烬"
+  shelf: cn
+  year: 2022
+  year_end: 2024
+  author: "远瞳"
+  note: "周铭成为幽灵船失乡号的船长。"
+
 - title: "诡秘之主"
   shelf: cn
   year: 2018

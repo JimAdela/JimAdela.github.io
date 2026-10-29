@@ -851,8 +851,12 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
 
 .serie { margin-top: 60px; }
 .serie:first-child { margin-top: 8px; }
-/* 观影页开头有一行跳转，第一节不能靠 :first-child 收紧 */
-.shelf-jump + .serie { margin-top: 8px; }
+/* 书影跳转条或分栏标题紧挨着的第一节，不再留一大段空白 */
+.shelf-jump + .serie,
+.shelf-part + .serie { margin-top: 8px; }
+/* 吸顶条高度不固定（窄屏会折行），锚点多留一截，避免标题钻进顶栏和跳转条下面 */
+.shelf-index ~ .serie,
+.shelf-index ~ .shelf-part { scroll-margin-top: 168px; }
 /* 两块之间给一条规线，否则第二块看起来像第一块的延续 */
 .serie + .serie {
   margin-top: 44px;
@@ -935,6 +939,30 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
   color: var(--ink-2);
 }
 
+/* 书影整页一条目录，滚过页题后贴在顶栏下沿。顶栏含 1px 进度条，所以 top 比栏身矮 2px，接缝不露正文。 */
+.sheet .shelf-index {
+  position: sticky;
+  top: 64px;
+  z-index: 40;
+  margin: 0 0 4px;
+  padding: 8px 0 6px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+}
+
+.sheet .shelf-index p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--ink-2);
+}
+
+.shelf-index-label {
+  margin-right: 10px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
 .sheet .shelf-list { list-style: none; margin: 0; padding: 0; }
 
 .sheet .shelf-list li {
@@ -990,7 +1018,8 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
    ========================================================================== */
 
 .sheet .shelf-part { margin: 52px 0 14px; }
-.sheet .shelf-part:first-child { margin-top: 0; }
+.sheet .shelf-part:first-child,
+.shelf-index + .shelf-part { margin-top: 22px; }
 
 .sheet .verse {
   margin: 0;
@@ -1090,6 +1119,7 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
 @media (max-width: 900px) {
   .sheet .chapter-list li { grid-template-columns: 52px minmax(0, 1fr); }
   .chapter-list time { grid-column: 2; font-size: 11px; }
+  .sheet .shelf-index { top: 58px; }
 }
 
 /* ==========================================================================
@@ -1109,6 +1139,8 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
   .skip,
   .code-copy,
   .code-lang { display: none !important; }
+
+  .sheet .shelf-index { position: static; }
 
   body {
     background: #fff;

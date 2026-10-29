@@ -18,14 +18,12 @@ description: "看过的电影和剧，读过的书。不记哪一天，也不放
 {% assign jp = reads | where: "shelf", "jp" | sort: "year" | reverse %}
 {% assign nf = reads | where: "shelf", "nf" | sort: "year" | reverse %}
 
+<nav class="shelf-index" aria-label="书影分类">
+    <p><span class="shelf-index-label">观影</span><a href="#film-zh">华语电影</a> · <a href="#film-world">外语电影</a> · <a href="#series-zh">华语剧集</a> · <a href="#series-world">海外剧集</a> · <a href="#anime">动画</a></p>
+    <p><span class="shelf-index-label">小说</span><a href="#read-cn">中国小说</a> · <a href="#read-world">外国小说</a> · <a href="#read-jp">日本小说</a> · <a href="#read-nf">非虚构</a></p>
+</nav>
+
 <p class="kicker shelf-part" id="watch">观影</p>
-<p class="shelf-jump">
-    <a href="#film-zh">华语电影</a> ·
-    <a href="#film-world">外语电影</a> ·
-    <a href="#series-zh">华语剧集</a> ·
-    <a href="#series-world">海外剧集</a> ·
-    <a href="#anime">动画</a>
-</p>
 
 {% include watch-section.html name="华语电影" id="film-zh" items=films_zh %}
 {% include watch-section.html name="外语电影" id="film-world" items=films_world %}
@@ -34,12 +32,6 @@ description: "看过的电影和剧，读过的书。不记哪一天，也不放
 {% include watch-section.html name="动画" id="anime" items=anime %}
 
 <p class="kicker shelf-part" id="reads">小说</p>
-<p class="shelf-jump">
-    <a href="#read-cn">中国小说</a> ·
-    <a href="#read-world">外国小说</a> ·
-    <a href="#read-jp">日本小说</a> ·
-    <a href="#read-nf">非虚构</a>
-</p>
 
 {% include watch-section.html name="中国小说" id="read-cn" items=cn unit="本" %}
 {% include watch-section.html name="外国小说" id="read-world" items=world unit="本" %}
