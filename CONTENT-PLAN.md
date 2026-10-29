@@ -1,17 +1,40 @@
 # 内容排期与选题池
 
-**节奏**：每天 1 篇，自动发布（质检通过即推送）。
-**双线交替**：AI 数学直觉（系列连载）→ 工程实战 → 系列 → 实战，避免读者疲劳，也让搜索引擎抓到两类关键词。
+**当前阶段**：C 线「开源大模型源码精读」连载中（2026-10-29 起）。
+**A 线（AI 数学直觉）与 B 线（工程实战）已暂停**，等 C 线 14 期更新完再恢复，已写内容保留不删。
 
 ## 发布规则
 
-- 系列线：章节号必须连续，从**第 23 章**往下写，不能断号、不能重复。
+- 系列线：期号/章号必须连续，不能断号、不能重复。
 - 实战线：一次讲透一个具体问题，必须有可直接照抄的配置、代码或命令。
 - 每篇至少 1200 中文字，必须有一个「读者读完能拿走」的结论。
 - 头图从 `img/` 现有资源选，不新增无来源图片。
 - 标签只从 `_data/tags.yml` 词表选。
+- C 线额外要求：代码行号必须对得上 pin 的 commit；每期给出一条 shape 流水线和一个 CPU 可跑的复现。
 
-## A 线 · AI 数学直觉（第 23 章起）
+## C 线 · 开源大模型源码精读（连载中）
+
+方案与逐期大纲见 `.workbuddy/plans/code-reading-series-plan.md`。
+第一季基于 `deepseek-ai/DeepSeek-V3@9b4e9788e4a3`（`inference/` 目录），第二季基于 `deepseek-ai/DeepInfer@553741557a57`（`deepinfer/model_executor/models/v4_modules/`）。
+
+| 期 | 季 | 题目 | 代码锚点 | 状态 |
+|---|---|---|---|---|
+| 01 | S1 | 仓库地图：809 行里哪 100 行最重要 | `model.py` `ModelArgs` 20-88、`Transformer` 738-809 | 待写 |
+| 02 | S1 | 并行线性层：切一刀为什么要 all-reduce | `linear()` 131-165、`Column/RowParallelLinear` 208-269 | 待写 |
+| 03 | S1 | 位置编码：81 行的 freqs_cis | `RMSNorm` 270-296、`precompute_freqs_cis` 297-377 | 待写 |
+| 04 | S1 | fp8 与权重：checkpoint 怎么变成能算的数 | `convert.py` 97 行、`kernel.py` 197 行 | 待写 |
+| 05 | S1 | MLA 上：1536 与 512 这两个数在压什么 | `MLA.__init__` 396-450 | 待写 |
+| 06 | S1 | MLA 下：576 维的 KV cache 与吸收技巧 | `MLA.forward` 450-499 | 待写 |
+| 07 | S1 | MoE 上：256 选 8 怎么不旱涝不均 | `Gate` 535-600、`Expert` 601-635 | 待写 |
+| 08 | S1 | MoE 下：8 个专家的 token 怎么拼成一批 | `MoE.forward` 636-695、`kernel.py` `fp8_gemm` | 待写 |
+| 09 | S2 | V4.1 比 V3 多了什么 | `v4_modules/` 24 个文件、`builder.py` | 待写 |
+| 10 | S2 | 稀疏注意力：只算 top-k 块 | `index_attn.py` 576 行 | 待写 |
+| 11 | S2 | Engram：一个新的记忆结构 | `engram.py` 220 行、`engram_parameters.py` | 待写 |
+| 12 | S2 | YOCO：只缓存一次 | `yoco.py` 124 行、`compress.py` 168 行 | 待写 |
+| 13 | S2 | MTP 与投机解码 | `models/mtp/dflash.py` | 待写 |
+| 14 | S2 | 从能跑到能服务：EPLB 与 batch-invariant | `eplb/policy.py`、`eplb/shuffle.py` | 待写 |
+
+## A 线 · AI 数学直觉（暂停中，第 26 章起待恢复）
 
 | 章 | 题目 | 状态 |
 |---|---|---|
@@ -46,7 +69,7 @@
 | 51 | 多模态对齐：CLIP 的对比目标 | 待写 |
 | 52 | 推理加速：KV cache 与投机采样 | 待写 |
 
-## B 线 · 工程实战（源自真实项目，需脱敏）
+## B 线 · 工程实战（暂停中，第 4 期起待恢复）
 
 | # | 题目 | 状态 |
 |---|---|---|
