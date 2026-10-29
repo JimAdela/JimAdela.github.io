@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>预览 · 系列页</title>
+<link rel="stylesheet" href="../../css/paper.css">
+</head>
+<body>
+<header class="masthead">
+    <div class="masthead-in">
+        <a class="site-mark" href="#">无意 Blog</a>
+        <nav class="site-nav" aria-label="主导航">
+            <a href="#">首页</a>
+            <a href="#" class="is-on" aria-current="page">系列</a>
+            <a href="#">标签</a>
+            <a href="#">关于</a>
+            <a href="#">RSS</a>
+        </nav>
+    </div>
+    <div class="readbar"><i id="js-progress" style="width:0"></i></div>
+</header>
+
+<main id="main">
+<div class="wrap">
+    <header class="page-head">
+        <p class="kicker">Series</p>
+        <h1>系列</h1>
+        <p class="deck">两条连载。一条把论文里的公式推到能算出数字，一条把项目里的坑写成能照抄的清单。</p>
+    </header>
+
+    <div class="sheet">
+        <section class="serie" id="ai-math">
+            <header class="serie-head">
+                <h2>AI 数学直觉</h2>
+                <p class="serie-meta">8 篇 · 覆盖第 1–25 章 · 计划 52 章</p>
+                <p class="serie-desc">不满足于「调包能跑」。从线性代数的空间变换一路推到 PPO 与扩散模型，每个公式都要能算出数字。</p>
+            </header>
+            <div class="track"><i style="width: 48%"></i></div>
+            <ol class="chapter-list">
+                <li><span class="ch">1–7</span><a href="#">线性代数直观入门：AI 的空间、维度与变换</a><time>2025-12-20</time></li>
+                <li><span class="ch">8–12</span><a href="#">微积分与概率论进阶：AI 的灵魂与直觉</a><time>2025-12-22</time></li>
+                <li><span class="ch">13–15</span><a href="#">AI 训练的进阶艺术：优化算法与过拟合防御</a><time>2025-12-24</time></li>
+                <li><span class="ch">16–19</span><a href="#">Transformer 的数学之美：ChatGPT 的底层引擎</a><time>2025-12-25</time></li>
+                <li><span class="ch">20–22</span><a href="#">感知与记忆：CNN、RNN 与扩散模型的数学直觉</a><time>2025-12-27</time></li>
+                <li><span class="ch">23</span><a href="#">强化学习入门：马尔可夫决策与贝尔曼方程</a><time>2026-10-25</time></li>
+                <li><span class="ch">24</span><a href="#">策略梯度与 PPO：为什么“奖励”能变成“方向”</a><time>2026-10-27</time></li>
+                <li><span class="ch">25</span><a href="#">生成对抗网络：一场零和博弈的数学</a><time>2026-10-29</time></li>
+            </ol>
+        </section>
+
+        <section class="serie" id="engineering">
+            <header class="serie-head">
+                <h2>工程实战</h2>
+                <p class="serie-meta">3 篇 · 覆盖第 1–3 章 · 计划 30 章</p>
+                <p class="serie-desc">真实项目里踩过的坑，写成可以直接照抄的配置、命令和判据。支付、分区、幂等、可观测性。</p>
+            </header>
+            <div class="track"><i style="width: 10%"></i></div>
+            <ol class="chapter-list">
+                <li><span class="ch">1</span><a href="#">Laravel 12 分层：Controller 之外该放什么</a><time>2026-10-24</time></li>
+                <li><span class="ch">2</span><a href="#">OwlAdmin + amis：低代码后台的真实取舍</a><time>2026-10-26</time></li>
+                <li><span class="ch">3</span><a href="#">PostgreSQL 月度 RANGE 分区：踩过的坑</a><time>2026-10-28</time></li>
+            </ol>
+        </section>
+    </div>
+</div>
+</main>
+
+<footer class="colophon">
+    <div class="colophon-in">
+        <span>© 2026 无意 Blog</span>
+        <span><a href="#">RSS</a> · <a href="#">1608808586@qq.com</a> · <a href="#">源码</a></span>
+    </div>
+</footer>
+</body>
+</html>

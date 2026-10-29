@@ -48,7 +48,7 @@ layout: default
         <div class="series">
             {% assign done = page.chapters | default: page.chapter %}
             <div class="series-row">
-                <a href="{{ site.baseurl }}/tags/">{{ s.name }}</a>
+                <a href="{{ site.baseurl }}/series/#{{ s.id }}">{{ s.name }}</a>
                 <span>第 {{ page.chapter }}{% if page.chapters %}–{{ page.chapters }}{% endif %} / {{ s.total }} 章 · 共 {{ site.posts.size }} 篇</span>
             </div>
             <div class="track"><i style="width: {{ done | times: 100 | divided_by: s.total }}%"></i></div>

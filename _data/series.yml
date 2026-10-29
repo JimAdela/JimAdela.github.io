@@ -1,8 +1,10 @@
 # 系列词表
-# 文章 front matter 用 series: <id> + chapter: <编号> 标注，文章页底部会显示进度条
+# 文章 front matter 用 series: <id> + chapter: <起始章>（合辑可再加 chapters: <末章>）
 - id: ai-math
   name: AI 数学直觉
   total: 52
+  desc: 不满足于「调包能跑」。从线性代数的空间变换一路推到 PPO 与扩散模型，每个公式都要能算出数字。
 - id: engineering
   name: 工程实战
   total: 30
+  desc: 真实项目里踩过的坑，写成可以直接照抄的配置、命令和判据。支付、分区、幂等、可观测性。

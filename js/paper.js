@@ -79,4 +79,67 @@
       img.addEventListener('error', drop);
     }
   });
+  /* ---------- 代码块：语言标签与复制 ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll('.sheet pre'), function (pre) {
+    var parent = pre.parentNode;
+    if (parent && parent.classList && parent.classList.contains('codeblock')) return;
+
+    var host = pre.closest('.highlight') || pre;
+    var outer = host.parentNode;
+
+    var lang = '';
+    var m = (outer.className || '').match(/language-([A-Za-z0-9+#-]+)/);
+    if (!m) m = (host.className || '').match(/language-([A-Za-z0-9+#-]+)/);
+    if (m) lang = m[1];
+
+    var box = document.createElement('div');
+    box.className = 'codeblock';
+    outer.insertBefore(box, host);
+    box.appendChild(host);
+
+    if (lang) {
+      var tag = document.createElement('span');
+      tag.className = 'code-lang';
+      tag.textContent = lang;
+      box.appendChild(tag);
+    }
+
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'code-copy';
+    btn.textContent = '复制';
+    btn.setAttribute('aria-label', '复制这段代码');
+    box.appendChild(btn);
+
+    btn.addEventListener('click', function () {
+      var text = pre.innerText.replace(/\s+$/, '');
+
+      var done = function () {
+        btn.textContent = '已复制';
+        btn.classList.add('is-done');
+        setTimeout(function () {
+          btn.textContent = '复制';
+          btn.classList.remove('is-done');
+        }, 1400);
+      };
+
+      var fallback = function () {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.top = '-1000px';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) { /* 忽略 */ }
+        document.body.removeChild(ta);
+      };
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, fallback);
+      } else {
+        fallback();
+      }
+    });
+  });
 })();

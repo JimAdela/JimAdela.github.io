@@ -4,6 +4,7 @@
         <a class="site-mark" href="{{ site.baseurl }}/">{{ site.title }}</a>
         <nav class="site-nav" aria-label="主导航">
             <a href="{{ site.baseurl }}/"{% if page.url == "/" %} class="is-on" aria-current="page"{% endif %}>首页</a>
+            <a href="{{ site.baseurl }}/series/"{% if page.url contains "/series" %} class="is-on" aria-current="page"{% endif %}>系列</a>
             <a href="{{ site.baseurl }}/tags/"{% if page.url contains "/tags" %} class="is-on" aria-current="page"{% endif %}>标签</a>
             <a href="{{ site.baseurl }}/about/"{% if page.url contains "/about" %} class="is-on" aria-current="page"{% endif %}>关于</a>
             <a href="{{ site.baseurl }}/feed.xml">RSS</a>

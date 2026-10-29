@@ -768,3 +768,224 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
   html { scroll-behavior: auto; }
   * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
+
+/* ==========================================================================
+   系列总览页
+   ========================================================================== */
+
+.serie { margin-top: 60px; }
+.serie:first-child { margin-top: 8px; }
+
+.serie-head h2 {
+  font-family: var(--serif);
+  font-size: 26px;
+  line-height: 1.35;
+  font-weight: 600;
+  margin: 0 0 10px;
+  padding-top: 0;
+  border-top: 0;
+}
+.serie-head h2::before { display: none; }
+
+.serie-head .serie-meta {
+  font-size: 12.5px;
+  color: var(--ink-2);
+  margin: 0 0 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.serie-head .serie-desc {
+  font-size: 15.5px;
+  line-height: 1.8;
+  color: var(--ink-2);
+  margin: 0 0 18px;
+  max-width: 34em;
+}
+
+.serie .track {
+  height: 3px;
+  background: var(--rule);
+  margin: 2px 0 16px;
+}
+.serie .track i { height: 3px; }
+
+.sheet .chapter-list { list-style: none; margin: 0; padding: 0; }
+
+.sheet .chapter-list li {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: baseline;
+  margin: 0;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--rule-2);
+  font-size: 15px;
+}
+
+.chapter-list .ch {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--press);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.chapter-list a { color: var(--ink); text-decoration: none; line-height: 1.6; }
+.chapter-list a:hover { color: var(--press); }
+
+.chapter-list time {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   代码块：语言标签与复制
+   ========================================================================== */
+
+.codeblock { position: relative; margin: 0 0 26px; }
+.sheet .codeblock pre,
+.sheet .codeblock .highlight { margin: 0; }
+
+.code-lang {
+  position: absolute;
+  top: 9px;
+  right: 12px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  opacity: 0.5;
+  pointer-events: none;
+  transition: opacity 0.15s;
+}
+
+.code-copy {
+  position: absolute;
+  top: 5px;
+  right: 7px;
+  font-family: var(--sans);
+  font-size: 11.5px;
+  line-height: 1;
+  color: var(--ink-2);
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  padding: 4px 8px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.codeblock:hover .code-copy,
+.code-copy:focus-visible { opacity: 1; }
+.codeblock:hover .code-lang { opacity: 0; }
+.code-copy:hover { color: var(--press); border-color: var(--press); }
+.code-copy.is-done { color: var(--press); border-color: var(--press); opacity: 1; }
+
+@media (hover: none) {
+  .code-copy { opacity: 1; }
+  .code-lang { display: none; }
+}
+
+@media (max-width: 900px) {
+  .sheet .chapter-list li { grid-template-columns: 52px minmax(0, 1fr); }
+  .chapter-list time { grid-column: 2; font-size: 11px; }
+}
+
+/* ==========================================================================
+   打印：讲义本来就该能印出来
+   ========================================================================== */
+
+@media print {
+  @page { margin: 16mm 14mm; }
+
+  .masthead,
+  .readbar,
+  .toc,
+  .pager2,
+  .series,
+  .comments,
+  .colophon,
+  .skip,
+  .code-copy,
+  .code-lang { display: none !important; }
+
+  body {
+    background: #fff;
+    color: #000;
+    font-size: 10.5pt;
+    line-height: 1.62;
+  }
+
+  .wrap { max-width: none; padding: 0; }
+  .sheet,
+  .post-head,
+  .page-head,
+  .serie { max-width: none; margin: 0; }
+  .post-head { padding: 0 0 14pt; }
+  .page-head { padding: 0 0 14pt; }
+
+  .post-head h1 { font-size: 20pt; line-height: 1.3; }
+  .standfirst { font-size: 11pt; margin-top: 8pt; }
+  .meta-row { font-size: 8.5pt; margin-bottom: 10pt; }
+
+  .sheet h2 {
+    font-size: 14pt;
+    margin: 18pt 0 6pt;
+    padding-top: 0;
+    border-top: 0;
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+  .sheet h2::before { display: none; }
+  .sheet h3 { font-size: 11.5pt; margin: 14pt 0 4pt; break-after: avoid; }
+  .sheet h4 { font-size: 10.5pt; margin: 10pt 0 4pt; break-after: avoid; }
+  .sheet p { margin: 0 0 8pt; }
+
+  .sheet a { color: #000; text-decoration: none; }
+  .sheet a[href^="http"]::after {
+    content: " ⟨" attr(href) "⟩";
+    font-size: 7.5pt;
+    color: #555;
+    word-break: break-all;
+  }
+
+  .sheet pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    background: #f6f6f6;
+    border: 1px solid #bbb;
+    border-left: 2px solid #000;
+    font-size: 8.5pt;
+    line-height: 1.45;
+    padding: 6pt 8pt;
+  }
+
+  .sheet table { break-inside: avoid; page-break-inside: avoid; font-size: 9pt; }
+  .sheet tr,
+  .sheet img,
+  .sheet blockquote,
+  .sheet .note { break-inside: avoid; page-break-inside: avoid; }
+
+  .sheet .note {
+    float: none;
+    width: auto;
+    margin: 6pt 0;
+    border-top: 0;
+    border-left: 2px solid #000;
+    padding: 0 0 0 6pt;
+    color: #333;
+    font-size: 9pt;
+  }
+
+  .sheet th,
+  .sheet td { border-bottom: 1px solid #999 !important; }
+  .sheet thead th { border-top: 1pt solid #000 !important; border-bottom: 1pt solid #000 !important; }
+  .sheet tbody tr:last-child td { border-bottom: 1pt solid #000 !important; }
+
+  .track { display: none !important; }
+  .serie { break-before: auto; }
+  .chapter-list a { text-decoration: none; }
+}
