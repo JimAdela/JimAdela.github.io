@@ -32,6 +32,9 @@ jianshu_username:
 # from 2016, 'pygments' is unsupported on GitHub Pages. Use 'rouge' for highlighting instead.
 permalink: pretty
 paginate: 10
+# 文章 date 只写到日，按北京时间解释。不设时 GitHub Pages 按 UTC 构建，
+# 早上 8 点前推送的当天文章会被当成「未来文章」静默跳过。
+timezone: Asia/Shanghai
 exclude: ["less","node_modules","Gruntfile.js","package.json","README.md","scripts","CONTENT-PLAN.md","_templates","_design"]
 anchorjs: true                          # if you want to customize anchor. check out line:181 of `post.html`
 
@@ -85,9 +88,8 @@ ba_track_id: b50bf2b12b5338a1845e33832976fd68
 
 # Google Analytics
 # Universal Analytics（UA-136597966-1）已于 2023-07 停止收数，脚本留着只是空转。
-# 拿到 GA4 的 G-XXXXXXX 后，把下面两行取消注释并填进去即可；留空时不加载任何脚本。
+# 拿到 GA4 的 G-XXXXXXX 后，把下面一行取消注释并填进去即可；留空时不加载任何脚本。
 # ga_track_id: 'G-XXXXXXXXXX'
-# ga_domain: auto
 
 
 
