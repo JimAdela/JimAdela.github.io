@@ -1,0 +1,212 @@
+# 读书账本。不要写成 _posts，否则会进首页、搜索和 RSS。
+# shelf: cn | world | jp | nf
+# year: 初版或开书年份。year_end: 跨年写完才填。
+# 这里记的是作品本身，不记哪一天读的。
+# nf 是非虚构。勾选里混进来的史书和科普放在这里，不并进小说。
+
+# ----- 中国小说 -----
+
+- title: "诡秘之主"
+  shelf: cn
+  year: 2018
+  year_end: 2020
+  author: "爱潜水的乌贼"
+  note: "克莱恩·莫雷蒂成为愚者。第一部，不含 2023 年的《宿命之环》。"
+
+- title: "死神永生"
+  shelf: cn
+  year: 2010
+  author: "刘慈欣"
+  note: "程心与关一帆。地球往事三部曲的第三部。"
+
+- title: "斗破苍穹"
+  shelf: cn
+  year: 2009
+  year_end: 2011
+  author: "天蚕土豆"
+  note: "萧炎从斗之气三段重新开始。2009 至 2011 年连载。"
+
+- title: "斗罗大陆"
+  shelf: cn
+  year: 2008
+  author: "唐家三少"
+  note: "唐三与小舞。2008 年起在起点连载。"
+
+- title: "黑暗森林"
+  shelf: cn
+  year: 2008
+  author: "刘慈欣"
+  note: "罗辑成为面壁者。第二部。"
+
+- title: "三体"
+  shelf: cn
+  year: 2008
+  author: "刘慈欣"
+  note: "汪淼遇见三体游戏。2006 年起在《科幻世界》连载，2008 年出书。第一部。"
+
+- title: "盗墓笔记"
+  shelf: cn
+  year: 2006
+  year_end: 2011
+  author: "南派三叔"
+  note: "吴邪跟着张起灵下墓。正传八部，不含《重启》。"
+
+- title: "球状闪电"
+  shelf: cn
+  year: 2005
+  author: "刘慈欣"
+  note: "少年看见父母被一颗球状闪电烧掉。与《三体》共用人物丁仪。"
+
+- title: "诛仙"
+  shelf: cn
+  year: 2003
+  author: "萧鼎"
+  note: "张小凡、陆雪琪、碧瑶。2003 年台湾初版，内地版 2005 年。"
+
+- title: "悟空传"
+  shelf: cn
+  year: 2000
+  author: "今何在"
+  note: "孙悟空不愿再做那个齐天大圣。"
+
+- title: "许三观卖血记"
+  shelf: cn
+  year: 1995
+  author: "余华"
+  note: "许三观一次次卖血，把日子应付过去。"
+
+- title: "活着"
+  shelf: cn
+  year: 1993
+  author: "余华"
+  note: "福贵把身边的人一个个送走。"
+
+- title: "平凡的世界"
+  shelf: cn
+  year: 1986
+  year_end: 1988
+  author: "路遥"
+  note: "孙少安、孙少平兄弟。三部，从 1975 年写到八十年代中。"
+
+- title: "围城"
+  shelf: cn
+  year: 1947
+  author: "钱钟书"
+  note: "方鸿渐留学归来。城里的人想出去，城外的人想进来。"
+
+- title: "呐喊"
+  shelf: cn
+  year: 1923
+  author: "鲁迅"
+  note: "从《狂人日记》到《阿Q正传》，十四篇。"
+
+# ----- 外国小说 -----
+
+- title: "哈利·波特系列"
+  shelf: world
+  year: 1997
+  year_end: 2007
+  author: "J.K.罗琳"
+  note: "从魔法石到死亡圣器，七部。"
+
+- title: "苏菲的世界"
+  shelf: world
+  year: 1991
+  author: "乔斯坦·贾德"
+  note: "苏菲收到两封信：你是谁，世界从哪里来。"
+
+- title: "老人与海"
+  shelf: world
+  year: 1952
+  author: "欧内斯特·海明威"
+  note: "老渔夫圣地亚哥，和一条马林鱼耗在海上。"
+
+- title: "1984"
+  shelf: world
+  year: 1949
+  author: "乔治·奥威尔"
+  note: "温斯顿在大洋国里想保住自己的思想。"
+
+- title: "动物农场"
+  shelf: world
+  year: 1945
+  author: "乔治·奥威尔"
+  note: "庄园里的动物赶跑了主人。也常译作《动物庄园》。"
+
+- title: "小王子"
+  shelf: world
+  year: 1943
+  author: "安托万·德·圣埃克苏佩里"
+  note: "小王子离开自己的星球，一路问大人在忙什么。"
+
+- title: "局外人"
+  shelf: world
+  year: 1942
+  author: "阿尔贝·加缪"
+  note: "默尔索在母亲的葬礼上没有哭。"
+
+# ----- 日本小说 -----
+
+- title: "1Q84"
+  shelf: jp
+  year: 2009
+  year_end: 2010
+  author: "村上春树"
+  note: "青豆与天吾。1984 年裂开的另一个年份。"
+
+- title: "嫌疑人X的献身"
+  shelf: jp
+  year: 2005
+  author: "东野圭吾"
+  note: "石神替邻居算下一整桩命案。"
+
+- title: "海边的卡夫卡"
+  shelf: jp
+  year: 2002
+  author: "村上春树"
+  note: "田村卡夫卡在十五岁离开家。"
+
+- title: "白夜行"
+  shelf: jp
+  year: 1999
+  author: "东野圭吾"
+  note: "桐原亮司与西本雪穗。两个人用很长的时间互相躲着。"
+
+- title: "秘密"
+  shelf: jp
+  year: 1998
+  author: "东野圭吾"
+  note: "车祸之后，女儿平直子的身体里似乎换成了母亲。"
+
+- title: "恶意"
+  shelf: jp
+  year: 1996
+  author: "东野圭吾"
+  note: "加贺恭一郎查一桩成名之前就写下的杀意。加贺系列。"
+
+- title: "放学后"
+  shelf: jp
+  year: 1985
+  author: "东野圭吾"
+  note: "女子高中里的一间密室。东野圭吾的出道作。"
+
+# ----- 非虚构 -----
+
+- title: "人类简史"
+  shelf: nf
+  year: 2011
+  author: "尤瓦尔·赫拉利"
+  note: "智人如何成为地球上的主导物种。中译本 2014 年。"
+
+- title: "明朝那些事儿"
+  shelf: nf
+  year: 2006
+  year_end: 2009
+  author: "当年明月"
+  note: "从朱元璋写到崇祯。说书体的明史，不是小说。"
+
+- title: "时间简史"
+  shelf: nf
+  year: 1988
+  author: "史蒂芬·霍金"
+  note: "从大爆炸讲到黑洞。写给没有公式也能读下去的人。"

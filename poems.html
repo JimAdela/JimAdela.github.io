@@ -1,0 +1,17 @@
+---
+layout: page
+title: "诗"
+kicker: "Poems"
+description: "2012 到 2019 年写下的。从两集旧文按首拆出，不放在首页。"
+---
+
+{% assign san = site.data.poems | where: "group", "san" %}
+{% assign wu = site.data.poems | where: "group", "wu" %}
+
+<p class="shelf-jump">
+    <a href="#san">散诗</a> ·
+    <a href="#wu">无题</a>
+</p>
+
+{% include poem-section.html name="散诗" id="san" items=san note="有题目的，按原稿顺序" %}
+{% include poem-section.html name="无题" id="wu" items=wu note="按原稿序号" %}

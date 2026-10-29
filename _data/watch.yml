@@ -1,0 +1,552 @@
+# 观影账本。加一条就多写一块，不要写成 _posts，否则会进首页、搜索和 RSS。
+# kind: film | series | anime
+# region: zh | world | jp
+# year: 上映或首播年份。year_end: 作品跨年结束才填，还在更新的不填。
+# 这里记的是作品本身，不记哪一天看的。
+# 范围写进 note：比如「第一部」「第一季」「含《疾风传》」，避免把没看过的续作算进去。
+
+# ----- 华语电影 -----
+
+- title: "你好，李焕英"
+  kind: film
+  region: zh
+  year: 2021
+  creator: "贾玲"
+  note: "贾晓玲回到 1981 年，母亲还是少女。"
+
+- title: "哪吒之魔童降世"
+  kind: film
+  region: zh
+  year: 2019
+  creator: "饺子"
+  note: "魔丸哪吒与灵珠敖丙。"
+
+- title: "流浪地球"
+  kind: film
+  region: zh
+  year: 2019
+  creator: "郭帆"
+  note: "太阳即将氦闪，人类给地球装上行星发动机。第一部。"
+
+- title: "我不是药神"
+  kind: film
+  region: zh
+  year: 2018
+  creator: "文牧野"
+  note: "程勇从印度代购仿制药。徐峥。"
+
+- title: "芳华"
+  kind: film
+  region: zh
+  year: 2017
+  creator: "冯小刚"
+  note: "文工团里的刘峰与何小萍。严歌苓原著。"
+
+- title: "人再囧途之泰囧"
+  kind: film
+  region: zh
+  year: 2012
+  creator: "徐峥"
+  note: "徐朗在泰国碰上王宝。徐峥、王宝强、黄渤。"
+
+- title: "让子弹飞"
+  kind: film
+  region: zh
+  year: 2010
+  creator: "姜文"
+  note: "张麻子进了鹅城。姜文、葛优、周润发。"
+
+- title: "色，戒"
+  kind: film
+  region: zh
+  year: 2007
+  creator: "李安"
+  note: "张爱玲同名小说。汤唯、梁朝伟。"
+
+- title: "疯狂的石头"
+  kind: film
+  region: zh
+  year: 2006
+  creator: "宁浩"
+  note: "一块翡翠，三拨人在抢。"
+
+- title: "功夫"
+  kind: film
+  region: zh
+  year: 2004
+  creator: "周星驰"
+  note: "猪笼城寨。包租公、包租婆，还有如来神掌。"
+
+- title: "英雄"
+  kind: film
+  region: zh
+  year: 2002
+  creator: "张艺谋"
+  note: "无名在秦廷讲刺客的故事。"
+
+- title: "无间道"
+  kind: film
+  region: zh
+  year: 2002
+  creator: "刘伟强、麦兆辉"
+  note: "卧底与内鬼对调了身份。刘德华、梁朝伟。第一部。"
+
+- title: "卧虎藏龙"
+  kind: film
+  region: zh
+  year: 2000
+  creator: "李安"
+  note: "李慕白把青冥剑托出去。周润发、杨紫琼、章子怡。"
+
+- title: "喜剧之王"
+  kind: film
+  region: zh
+  year: 1999
+  creator: "周星驰、李力持"
+  note: "跑龙套的尹天仇。"
+
+- title: "大话西游之大圣娶亲"
+  kind: film
+  region: zh
+  year: 1995
+  creator: "刘镇伟"
+  note: "至尊宝与紫霞。周星驰、朱茵。"
+
+- title: "东邪西毒"
+  kind: film
+  region: zh
+  year: 1994
+  creator: "王家卫"
+  note: "欧阳锋在沙漠里开客栈，替人了结恩怨。"
+
+- title: "霸王别姬"
+  kind: film
+  region: zh
+  year: 1993
+  creator: "陈凯歌"
+  note: "程蝶衣与段小楼。张国荣、张丰毅、巩俐。"
+
+- title: "唐伯虎点秋香"
+  kind: film
+  region: zh
+  year: 1993
+  creator: "李力持"
+  note: "华府里的唐伯虎。周星驰、巩俐。"
+
+- title: "英雄本色"
+  kind: film
+  region: zh
+  year: 1986
+  creator: "吴宇森"
+  note: "小马哥。狄龙、张国荣、周润发。第一部。"
+
+# ----- 外语电影 -----
+
+- title: "沙丘"
+  kind: film
+  region: world
+  year: 2021
+  creator: "丹尼斯·维伦纽瓦"
+  note: "保罗·厄崔迪踏上阿拉基斯。弗兰克·赫伯特原著，第一部。"
+
+- title: "寄生虫"
+  kind: film
+  region: world
+  year: 2019
+  creator: "奉俊昊"
+  note: "金家一步步住进朴家的房子。"
+
+- title: "寻梦环游记"
+  kind: film
+  region: world
+  year: 2017
+  creator: "李·昂克里奇"
+  note: "米格尔在亡灵节走进亡灵之地，去找家族里被抹掉的那个人。"
+
+- title: "釜山行"
+  kind: film
+  region: world
+  year: 2016
+  creator: "延尚昊"
+  note: "末班列车上的僵尸。孔刘、郑有美。"
+
+- title: "摔跤吧！爸爸"
+  kind: film
+  region: world
+  year: 2016
+  creator: "尼特什·提瓦里"
+  note: "马哈维亚把两个女儿训练成摔跤选手。"
+
+- title: "你的名字。"
+  kind: film
+  region: world
+  year: 2016
+  creator: "新海诚"
+  note: "瀧与三叶互换身体，中间隔着时间和一场彗星。"
+
+- title: "降临"
+  kind: film
+  region: world
+  year: 2016
+  creator: "丹尼斯·维伦纽瓦"
+  note: "语言学家学习七肢桶的文字。特德·姜《你一生的故事》。"
+
+- title: "疯狂动物城"
+  kind: film
+  region: world
+  year: 2016
+  creator: "拜伦·霍华德、瑞奇·摩尔"
+  note: "兔子朱迪到动物城当警察。"
+
+- title: "火星救援"
+  kind: film
+  region: world
+  year: 2015
+  creator: "雷德利·斯科特"
+  note: "马克·沃特尼被留在火星，靠种土豆等救援。"
+
+- title: "星际穿越"
+  kind: film
+  region: world
+  year: 2014
+  creator: "克里斯托弗·诺兰"
+  note: "库珀穿过虫洞，替人类另找一颗行星。"
+
+- title: "盗梦空间"
+  kind: film
+  region: world
+  year: 2010
+  creator: "克里斯托弗·诺兰"
+  note: "柯布在一层层的梦里植入一个念头。"
+
+- title: "飞屋环游记"
+  kind: film
+  region: world
+  year: 2009
+  creator: "彼特·多克特"
+  note: "卡尔用彩色气球把房子拉上天。"
+
+- title: "忠犬八公的故事"
+  kind: film
+  region: world
+  year: 2009
+  creator: "拉斯·霍尔斯道姆"
+  note: "教授去上班，八公在车站等。2009 年的美国重拍，理查·基尔。"
+
+- title: "机器人总动员"
+  kind: film
+  region: world
+  year: 2008
+  creator: "安德鲁·斯坦顿"
+  note: "垃圾清理机器人瓦力，遇上来地球取样的夏娃。"
+
+- title: "蝙蝠侠：黑暗骑士"
+  kind: film
+  region: world
+  year: 2008
+  creator: "克里斯托弗·诺兰"
+  note: "小丑把哥谭的秩序拆开。希斯·莱杰。"
+
+- title: "熔炉"
+  kind: film
+  region: world
+  year: 2011
+  creator: "黄东赫"
+  note: "根据光州一所聋哑学校的真实案件改编。"
+
+- title: "当幸福来敲门"
+  kind: film
+  region: world
+  year: 2006
+  creator: "加布里尔·穆奇诺"
+  note: "克里斯·加德纳带儿子度过无薪实习。威尔·史密斯。"
+
+- title: "放牛班的春天"
+  kind: film
+  region: world
+  year: 2004
+  creator: "克里斯托夫·巴拉蒂"
+  note: "学监马修用合唱带一群寄宿学校的少年。"
+
+- title: "千与千寻"
+  kind: film
+  region: world
+  year: 2001
+  creator: "宫崎骏"
+  note: "千寻在汤屋打工，换回父母，也换回自己的名字。"
+
+- title: "指环王三部曲"
+  kind: film
+  region: world
+  year: 2001
+  year_end: 2003
+  creator: "彼得·杰克逊"
+  note: "《护戒使者》《双塔奇兵》《王者归来》。"
+
+- title: "哈利·波特系列"
+  kind: film
+  region: world
+  year: 2001
+  year_end: 2011
+  creator: "J.K.罗琳（原著）"
+  note: "从魔法石到死亡圣器，八部电影。"
+
+- title: "黑客帝国"
+  kind: film
+  region: world
+  year: 1999
+  creator: "拉娜·沃卓斯基、莉莉·沃卓斯基"
+  note: "尼奥吞下红色药丸。1999 年第一部。"
+
+- title: "海上钢琴师"
+  kind: film
+  region: world
+  year: 1998
+  creator: "朱塞佩·托纳多雷"
+  note: "1900 生在轮船上，一辈子没有上岸。"
+
+- title: "楚门的世界"
+  kind: film
+  region: world
+  year: 1998
+  creator: "彼得·威尔"
+  note: "楚门的人生是一档直播。金·凯瑞。"
+
+- title: "泰坦尼克号"
+  kind: film
+  region: world
+  year: 1997
+  creator: "詹姆斯·卡梅隆"
+  note: "杰克与露丝。1912 年的处女航。"
+
+- title: "这个杀手不太冷"
+  kind: film
+  region: world
+  year: 1994
+  creator: "吕克·贝松"
+  note: "杀手莱昂收留了邻居的女孩玛蒂尔达。"
+
+- title: "肖申克的救赎"
+  kind: film
+  region: world
+  year: 1994
+  creator: "弗兰克·达拉邦特"
+  note: "安迪冤入狱中，在肖申克挖了近二十年。"
+
+- title: "龙猫"
+  kind: film
+  region: world
+  year: 1988
+  creator: "宫崎骏"
+  note: "草壁姐妹搬到乡下，遇见森林里的龙猫。"
+
+# ----- 华语剧集 -----
+
+- title: "繁花"
+  kind: series
+  region: zh
+  year: 2023
+  creator: "王家卫"
+  note: "阿宝在九十年代的黄河路。胡歌。金宇澄原著。"
+
+- title: "狂飙"
+  kind: series
+  region: zh
+  year: 2023
+  creator: "徐纪周"
+  note: "高启强从卖鱼走到京海的对面。张译、张颂文。"
+
+- title: "漫长的季节"
+  kind: series
+  region: zh
+  year: 2023
+  creator: "辛爽"
+  note: "1997 到 2016，桦林的一桩碎尸案。范伟。"
+
+- title: "开端"
+  kind: series
+  region: zh
+  year: 2022
+  creator: "孙墨龙、刘洪源"
+  note: "一辆会爆炸的公交车，时间反复回到起点。白敬亭、赵今麦。"
+
+- title: "沉默的真相"
+  kind: series
+  region: zh
+  year: 2020
+  creator: "陈奕甫"
+  note: "检察官江阳用十年把旧案送到台面上。改编自紫金陈《长夜难明》。廖凡、白宇。"
+
+- title: "隐秘的角落"
+  kind: series
+  region: zh
+  year: 2020
+  creator: "辛爽"
+  note: "三个孩子在海边看见不该看见的事。改编自紫金陈《坏小孩》。"
+
+- title: "庆余年"
+  kind: series
+  region: zh
+  year: 2019
+  creator: "孙皓"
+  note: "范闲在庆国查身世。张若昀。猫腻原著，记第一季。"
+
+- title: "人民的名义"
+  kind: series
+  region: zh
+  year: 2017
+  creator: "李路"
+  note: "侯亮平查一桩牵出官场的案子。周梅森原著。"
+
+- title: "琅琊榜"
+  kind: series
+  region: zh
+  year: 2015
+  creator: "孔笙、李雪"
+  note: "梅长苏以病弱之身回到金陵。胡歌。海宴原著。"
+
+- title: "爱情公寓"
+  kind: series
+  region: zh
+  year: 2009
+  creator: "韦正"
+  note: "一幢公寓里的合租。系列共五季。"
+
+- title: "士兵突击"
+  kind: series
+  region: zh
+  year: 2006
+  creator: "康洪雷"
+  note: "许三多。王宝强。兰晓龙编剧。"
+
+- title: "武林外传"
+  kind: series
+  region: zh
+  year: 2006
+  creator: "尚敬"
+  note: "同福客栈。账本、捕快，和并不怎么武林的江湖。"
+
+- title: "仙剑奇侠传"
+  kind: series
+  region: zh
+  year: 2005
+  creator: "李国立、吴锦源"
+  note: "李逍遥、赵灵儿、林月如。胡歌、刘亦菲。2005 年版。"
+
+- title: "亮剑"
+  kind: series
+  region: zh
+  year: 2005
+  creator: "张前、陈健"
+  note: "李云龙。李幼斌。都梁原著。"
+
+- title: "还珠格格"
+  kind: series
+  region: zh
+  year: 1998
+  creator: "孙树培"
+  note: "小燕子与紫薇进了宫。琼瑶编剧，记第一部。"
+
+- title: "西游记"
+  kind: series
+  region: zh
+  year: 1986
+  creator: "杨洁"
+  note: "六小龄童饰孙悟空。1986 年版电视剧。"
+
+# ----- 海外剧集 -----
+
+- title: "黑暗荣耀"
+  kind: series
+  region: world
+  year: 2022
+  year_end: 2023
+  creator: "安吉镐"
+  note: "文东恩成年以后，向中学里的施暴者讨还。宋慧乔。金银淑编剧。"
+
+- title: "鱿鱼游戏"
+  kind: series
+  region: world
+  year: 2021
+  creator: "黄东赫"
+  note: "成奇勋进入以童戏赌命的竞赛。李政宰。"
+
+- title: "西部世界"
+  kind: series
+  region: world
+  year: 2016
+  creator: "乔纳森·诺兰、丽莎·乔伊"
+  note: "西部乐园里的接待员，开始记得自己重复过的人生。"
+
+- title: "权力的游戏"
+  kind: series
+  region: world
+  year: 2011
+  creator: "大卫·贝尼奥夫、D·B·魏斯"
+  note: "七国争夺铁王座。乔治·R·R·马丁《冰与火之歌》。"
+
+- title: "黑镜"
+  kind: series
+  region: world
+  year: 2011
+  creator: "查理·布鲁克"
+  note: "单元剧。每集把一项技术往前推一步，看人变成什么样。"
+
+- title: "绝命毒师"
+  kind: series
+  region: world
+  year: 2008
+  creator: "文斯·吉里根"
+  note: "化学老师沃尔特·怀特开始制毒。布莱恩·克兰斯顿。"
+
+- title: "生活大爆炸"
+  kind: series
+  region: world
+  year: 2007
+  creator: "查克·洛尔、比尔·普拉迪"
+  note: "四位物理学家，和隔壁的佩妮。"
+
+# ----- 动画 -----
+
+- title: "间谍过家家"
+  kind: anime
+  region: jp
+  year: 2022
+  creator: "远藤达哉"
+  note: "间谍、杀手，和会读心的孩子，组成一家。"
+
+- title: "咒术回战"
+  kind: anime
+  region: jp
+  year: 2020
+  creator: "芥见下下"
+  note: "虎杖悠仁吞下两面宿傩的手指。"
+
+- title: "鬼灭之刃"
+  kind: anime
+  region: jp
+  year: 2019
+  creator: "吾峠呼世晴"
+  note: "炭治郎带着变成鬼的妹妹祢豆子上路。"
+
+- title: "进击的巨人"
+  kind: anime
+  region: jp
+  year: 2013
+  creator: "谏山创"
+  note: "墙里的人遇见墙外的巨人。艾伦、三笠、阿尔敏。电视动画至 2023 年完结。"
+
+- title: "死亡笔记"
+  kind: anime
+  region: jp
+  year: 2006
+  year_end: 2007
+  creator: "大场鸫、小畑健"
+  note: "夜神月捡到死亡笔记，与 L 对局。电视动画。"
+
+- title: "火影忍者"
+  kind: anime
+  region: jp
+  year: 2002
+  creator: "岸本齐史"
+  note: "漩涡鸣人要成为火影。含《疾风传》。"

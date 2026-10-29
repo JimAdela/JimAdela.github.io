@@ -1,0 +1,21 @@
+{% if include.items.size > 0 %}
+<section class="serie" id="{{ include.id }}">
+    <header class="serie-head">
+        <h2>{{ include.name }}</h2>
+        <p class="serie-meta">{{ include.items.size }} 首{% if include.note %} · {{ include.note }}{% endif %}</p>
+    </header>
+    {% for poem in include.items %}
+    <article class="verse">
+        <header class="verse-head">
+            <h3>{{ poem.title }}</h3>
+            {% if poem.date %}<time datetime="{{ poem.date }}">{{ poem.date }}</time>{% endif %}
+        </header>
+        <div class="verse-body">
+            {% for line in poem.lines %}
+            <span>{{ line }}</span>
+            {% endfor %}
+        </div>
+    </article>
+    {% endfor %}
+</section>
+{% endif %}
