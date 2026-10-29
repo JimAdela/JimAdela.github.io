@@ -14,8 +14,11 @@ layout: default
                     <span>第 {{ page.chapter }}{% if page.chapters %}–{{ page.chapters }}{% endif %} 章</span>
                     {% endif %}
                 {% endif %}
+                {% comment %} 标签与系列名重复时（如系列「AI 数学直觉」+ 标签「数学直觉」）跳过，避免同一行出现两次 {% endcomment %}
                 {% for tag in page.tags limit:2 %}
+                {% unless s and s.name contains tag %}
                 <a href="{{ site.baseurl }}/tags/#{{ tag }}">{{ tag }}</a>
+                {% endunless %}
                 {% endfor %}
                 <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y-%m-%d" }}</time>
                 {% assign chars = content | strip_html | strip_newlines | size %}
