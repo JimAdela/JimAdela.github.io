@@ -29,7 +29,9 @@ description: "无意 Blog：AI 数学直觉与后端工程实战。把论文里�
                 {% if lead == '<h2' %}
                     {% assign body = body | split: '</h2>' | slice: 1, 50 | join: '</h2>' %}
                 {% endif %}
-                {% assign ex = body | strip_html | strip_newlines | truncate: 110 %}
+                {% assign flat = body | strip_html | strip_newlines %}
+                {% assign ex = flat | split: '。' | first | append: '。' %}
+                {% if ex.size > 118 %}{% assign ex = ex | truncate: 118 %}{% endif %}
             {% endif %}
             <p>{{ ex }}</p>
             <div class="tagrow">

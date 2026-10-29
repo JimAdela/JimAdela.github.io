@@ -5,18 +5,40 @@ kicker: "Search"
 description: "标题、标签、正文一起搜。支持多个词，空格分隔。"
 ---
 
-<input id="q" class="search-input" type="search" autocomplete="off" spellcheck="false"
-       placeholder="试试「分区」「PPO」「幂等」" aria-label="搜索文章">
+<div class="search-field">
+    <input id="q" class="search-input" type="search" autocomplete="off" spellcheck="false"
+           placeholder="试试「分区」「PPO」「幂等」" aria-label="搜索文章">
+</div>
 
 <p class="search-hint" id="hint">输入关键词开始——索引在本地，不打网络请求。</p>
 
 <ol class="search-results" id="results" aria-live="polite"></ol>
+
+<div class="search-empty" id="empty">
+    <div>
+        <p class="se-label">先看看</p>
+        <ul class="se-links">
+            <li><a href="{{ site.baseurl }}/series/">两条连载，从第一章读起</a></li>
+            <li><a href="{{ site.baseurl }}/tags/">全部标签，按主题翻</a></li>
+        </ul>
+    </div>
+    <div>
+        <p class="se-label">最近更新</p>
+        <ul class="se-links">
+            {% for post in site.posts limit:3 %}
+            <li><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+                <time>{{ post.date | date: "%m-%d" }}</time></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
 
 <script>
 (function () {
   var input = document.getElementById('q');
   var hint = document.getElementById('hint');
   var list = document.getElementById('results');
+  var empty = document.getElementById('empty');
   var index = null;
   var loading = false;
   var pending = '';
@@ -63,9 +85,11 @@ description: "标题、标签、正文一起搜。支持多个词，空格分隔
     var terms = q.toLowerCase().split(/\s+/).filter(Boolean);
     if (!terms.length) {
       list.innerHTML = '';
+      if (empty) empty.hidden = false;
       hint.textContent = '输入关键词开始——索引在本地，不打网络请求。';
       return;
     }
+    if (empty) empty.hidden = true;
 
     var hits = [];
     index.forEach(function (p) {
@@ -86,6 +110,7 @@ description: "标题、标签、正文一起搜。支持多个词，空格分隔
 
     if (!hits.length) {
       list.innerHTML = '';
+      if (empty) empty.hidden = false;
       hint.textContent = '没有匹配「' + q + '」的文章。';
       return;
     }

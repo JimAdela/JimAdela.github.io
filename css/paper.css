@@ -821,6 +821,12 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
 
 .serie { margin-top: 60px; }
 .serie:first-child { margin-top: 8px; }
+/* 两块之间给一条规线，否则第二块看起来像第一块的延续 */
+.serie + .serie {
+  margin-top: 44px;
+  padding-top: 44px;
+  border-top: 1px solid var(--rule);
+}
 
 .serie-head h2 {
   font-family: var(--serif);
@@ -1102,6 +1108,14 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
    搜索页
    ========================================================================== */
 
+.search-field {
+  background: var(--wash);
+  border-bottom: 2px solid var(--ink);
+  padding: 13px 18px 11px;
+  margin: 0 0 14px;
+}
+.search-field:focus-within { border-bottom-color: var(--press); }
+
 .search-input {
   display: block;
   width: 100%;
@@ -1111,16 +1125,54 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
   color: var(--ink);
   background: transparent;
   border: 0;
-  border-bottom: 1px solid var(--rule);
   border-radius: 0;
-  padding: 6px 0 12px;
-  margin: 0 0 14px;
+  padding: 0;
+  margin: 0;
   -webkit-appearance: none;
   appearance: none;
 }
-.search-input::placeholder { color: var(--ink-2); opacity: 0.65; }
-.search-input:focus { outline: none; border-bottom-color: var(--press); }
+.search-input::placeholder { color: var(--ink-2); opacity: 0.7; }
+.search-input:focus { outline: none; }
 .search-input::-webkit-search-cancel-button { -webkit-appearance: none; }
+
+/* 空状态：光有输入框太空，给两条路和三篇最近的 */
+.search-empty {
+  margin: 46px 0 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 44px;
+}
+.search-empty[hidden] { display: none; }
+
+.search-empty .se-label {
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin: 0 0 10px;
+}
+
+.sheet .se-links { list-style: none; margin: 0; padding: 0; }
+
+.sheet .se-links li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--rule-2);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.se-links a { color: var(--ink); text-decoration: none; }
+.se-links a:hover { color: var(--press); }
+.se-links time {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-2);
+}
 
 .search-hint {
   font-size: 12.5px;
@@ -1166,6 +1218,7 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
   .sheet .search-results li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
   .search-results time { padding-top: 0; }
   .search-input { font-size: 18px; }
+  .search-empty { grid-template-columns: minmax(0, 1fr); gap: 28px; }
 }
 
 /* ==========================================================================
@@ -1220,3 +1273,13 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
   .sheet .minor-list li { grid-template-columns: minmax(0, 1fr) 46px; row-gap: 2px; }
   .minor-list .p { grid-column: 1 / -1; }
 }
+
+/* 长文读到底给一条退路（顶栏虽然 sticky，回顶仍要一路滚） */
+.to-top {
+  max-width: var(--measure);
+  margin: 26px auto 0;
+  text-align: right;
+  font-size: 12.5px;
+}
+.to-top a { color: var(--ink-2); text-decoration: none; }
+.to-top a:hover { color: var(--press); }

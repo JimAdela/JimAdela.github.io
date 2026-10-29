@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>预览 · 搜索页</title>
+<link rel="stylesheet" href="../../css/paper.css">
+</head>
+<body>
+<header class="masthead">
+    <div class="masthead-in">
+        <a class="site-mark" href="#">无意 Blog</a>
+        <nav class="site-nav"><a href="#">首页</a><a href="#">系列</a><a href="#">标签</a><a href="#">关于</a><a href="#" class="is-on">搜索</a></nav>
+    </div>
+    <div class="readbar"><i style="width:0"></i></div>
+</header>
+<main id="main">
+<div class="wrap">
+    <header class="page-head">
+        <p class="kicker">Search</p>
+        <h1>搜索</h1>
+        <p class="deck">标题、标签、正文一起搜。支持多个词，空格分隔。</p>
+    </header>
+    <div class="sheet">
+        <div class="search-field">
+            <input class="search-input" type="search" placeholder="试试「分区」「PPO」「幂等」" aria-label="搜索文章">
+        </div>
+        <p class="search-hint">输入关键词开始——索引在本地，不打网络请求。</p>
+        <ol class="search-results"></ol>
+        <div class="search-empty">
+            <div>
+                <p class="se-label">先看看</p>
+                <ul class="se-links">
+                    <li><a href="#">两条连载，从第一章读起</a></li>
+                    <li><a href="#">全部标签，按主题翻</a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="se-label">最近更新</p>
+                <ul class="se-links">
+                    <li><a href="#">生成对抗网络：一场零和博弈的数学</a><time>10-29</time></li>
+                    <li><a href="#">PostgreSQL 月度 RANGE 分区：踩过的坑</a><time>10-28</time></li>
+                    <li><a href="#">策略梯度与 PPO：为什么“奖励”能变成“方向”</a><time>10-27</time></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</main>
+<footer class="colophon">
+    <div class="colophon-in"><span>© 2026 无意 Blog</span><span>关于 · RSS · 源码</span></div>
+</footer>
+</body>
+</html>
