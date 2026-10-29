@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>预览 · 文章页</title>
+<link rel="stylesheet" href="../../css/paper.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+
+<header class="masthead">
+    <div class="masthead-in">
+        <a class="site-mark" href="#">无意 Blog</a>
+        <nav class="site-nav" aria-label="主导航">
+            <a href="#">首页</a>
+            <a href="#">标签</a>
+            <a href="#">关于</a>
+            <a href="#">RSS</a>
+        </nav>
+    </div>
+    <div class="progress" aria-hidden="true"><i id="js-progress" style="width:0"></i></div>
+</header>
+
+<main id="main">
+<article>
+    <div class="wrap">
+
+        <header class="post-head">
+            <div class="meta-row">
+                <span class="accent">AI 数学直觉</span>
+                <span>第 25 章</span>
+                <a href="#">人工智能</a>
+                <a href="#">生成模型</a>
+                <time datetime="2026-10-29">2026-10-29</time>
+                <span>18 分钟</span>
+            </div>
+            <h1>生成对抗网络：一场零和博弈的数学</h1>
+            <p class="standfirst">判别器是考场，生成器是考生，而最优解不在任何一张考卷上</p>
+        </header>
+
+        <div class="sheet">
+            <details class="toc" id="js-toc" open>
+                <summary>本节目录<span>6 节</span></summary>
+                <ol>
+                    <li><a href="#a">开篇：这篇要解决什么</a></li>
+                    <li><a href="#b">第二十五章：生成对抗网络</a></li>
+                    <li class="lv3"><a href="#c">1. 直觉：造假币的人与验钞员</a></li>
+                    <li class="lv3"><a href="#d">1.2 两个人互相当陪练</a></li>
+                    <li class="lv3"><a href="#e">1.3 判别器不是越准越好</a></li>
+                    <li><a href="#f">训练诊断：六条判据</a></li>
+                </ol>
+            </details>
+
+            <h2 id="a">开篇：这篇要解决什么</h2>
+
+            <p>上一章的策略梯度里，只有一个优化者。它采样、算回报、调参数，目标函数是固定的，虽然方差大、难训，但至少有明确的方向：让期望回报变大。</p>
+
+            <p>生成对抗网络把优化者从一个变成了两个，而且两个的目标正好相反。你不再有一个固定的损失函数可以最小化——你最小化的东西，正在被另一个网络不断地改写。这件事在数学上叫<strong>博弈</strong>，不叫优化，而这个区别几乎解释了 GAN 所有的工程怪癖。</p>
+
+            <blockquote>
+                <p>这段是引用。默认的 blockquote 用规线，不斜体，字号比正文小半档，专门用来放别人的话。</p>
+            </blockquote>
+
+            <h2 id="b">第二十五章：生成对抗网络：一场零和博弈的数学</h2>
+
+            <h3 id="c">1. 直觉：造假币的人与验钞员</h3>
+
+            <h4>1.1 “像”这个词没有数学定义</h4>
+
+            <p>先看监督学习怎么工作。给一张图和一个标签，算交叉熵，梯度指向“让正确答案的概率更高”。目标函数是固定的、可微的、写死在那里的。</p>
+
+            <blockquote class="note">
+                <p>页边批注：写作时给 blockquote 加 <code>{: .note }</code>，桌面端会浮到版心外面，窄屏自动降级成左侧朱线块。</p>
+            </blockquote>
+
+            <p>生成任务没有这个便利。要让模型生成一张猫的图片，“正确输出”是哪个像素矩阵？不存在。同一只猫可以有无数张照片，每一张都正确。你没法写出一个“像猫程度”的解析表达式。</p>
+
+            <p>在 GAN 之前，主流做法是绕开这个问题：用逐像素的均方误差，或者用变分下界。逐像素 MSE 有一个众所周知的病：它的最优解是条件均值。给一批都算“猫”的图，逐像素平均之后得到的是所有猫的模糊叠影。</p>
+
+            <h4 id="d">1.2 两个人互相当陪练</h4>
+
+            <p>造假币的人和验钞员。验钞员见的假币越多，眼光越毒；造假币的人被识破得越多，工艺越精。关键在于：<strong>验钞员的标准不是固定的，它随着假币的水平一起进化</strong>。</p>
+
+            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 判别器最优解：密度比 p_data / (p_data + p_g)</span>
+<span class="k">def</span> <span class="nf">d_opt</span><span class="p">(</span><span class="n">p_data</span><span class="p">,</span> <span class="n">p_g</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">p_data</span> <span class="o">/</span> <span class="p">(</span><span class="n">p_data</span> <span class="o">+</span> <span class="n">p_g</span><span class="p">)</span>
+
+<span class="c1"># 代入极小极大目标，得到 2·JSD(p_data ‖ p_g) − 2·log2</span>
+</code></pre></div></div>
+
+            <p>行内代码长这样：<code>loss = -log D(x)</code>，它不该抢正文的注意力。</p>
+
+            <table>
+                <thead>
+                    <tr><th>损失函数</th><th>梯度来源</th><th>坍塌风险</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>原始 minimax</td><td>log(1−D)</td><td>高，D 过强即饱和</td></tr>
+                    <tr><td>非饱和启发式</td><td>−log D</td><td>中，需早停</td></tr>
+                    <tr><td>WGAN-GP</td><td>Wasserstein 距离</td><td>低</td></tr>
+                </tbody>
+            </table>
+
+            <h3 id="e">1.3 判别器不是越准越好</h3>
+
+            <ul>
+                <li>判别器一上来就完美，生成器收到的梯度是 0；</li>
+                <li>判别器太弱，生成器学到的是“这个弱判别器看不出来的东西”；</li>
+                <li>所以训练是两个网络的<strong>同步</strong>问题，不是单方的优化问题。</li>
+            </ul>
+
+            <h2 id="f">训练诊断：六条判据</h2>
+
+            <p>最后的结论段落。它检验正文最后一段的收尾留白是否合适，以及 li::marker 的颜色是否太跳。</p>
+        </div>
+
+        <div class="series">
+            <div class="series-row">
+                <a href="#">AI 数学直觉</a>
+                <span>第 25 / 52 章 · 共 31 篇</span>
+            </div>
+            <div class="track"><i style="width: 48%"></i></div>
+        </div>
+
+        <nav class="pager2" aria-label="上下篇">
+            <a class="prev" href="#">
+                <span class="dir">← 上一篇</span>
+                <span class="ttl">策略梯度与 PPO：为什么“奖励”能变成“方向”</span>
+            </a>
+            <a class="next" href="#">
+                <span class="dir">下一篇 →</span>
+                <span class="ttl">Laravel 12 分层：Controller 之外该放什么</span>
+            </a>
+        </nav>
+
+    </div>
+</article>
+</main>
+
+<footer class="colophon">
+    <div class="colophon-in">
+        <span>© 2026 无意 Blog</span>
+        <span><a href="#">RSS</a> · <a href="#">1608808586@qq.com</a> · <a href="#">源码</a></span>
+    </div>
+</footer>
+</body>
+</html>

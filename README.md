@@ -271,6 +271,27 @@ ga_domain: huangxuan.me			# 默认的是 auto, 这里我是自定义了的域名
 参考文档：[using jekyll with pages](https://help.github.com/articles/using-jekyll-with-pages/) & [Upgrading from 2.x to 3.x](http://jekyllrb.com/docs/upgrading/2-to-3/)
 
 
+## 视觉系统（Paper）
+
+2026-10 起站点的视觉由 `css/paper.css` 接管。主题原文件（`bootstrap.css` / `hux-blog.css` / `syntax.css`）一律不改，任何样式出问题，删掉 `_includes/head.html` 里那一行 `<link>` 就能回到旧版。
+
+- 色与字全部定义在 `:root` 变量：纸 `#FCFBF8`、墨 `#16191A`、套色 `#1E5B4E`、朱批 `#A2452E`
+- 版心 660px；标题用系统衬线，正文用系统黑体，等宽只留给纯数字（中文在等宽字体和小字号下会糊）
+- 文章目录由 `js/paper.js` 从 `h2` / `h3` 生成，不足 3 节自动隐藏
+
+写作时可以用两个扩展：
+
+```markdown
+> 这条会变成页边批注，桌面端浮到版心右侧，窄屏降级为左侧朱线块
+{: .note }
+```
+
+```yaml
+# 文章 front matter，填了才会在文末显示「第 25 / 52 章」进度条
+series:  ai-math
+chapter: 25
+```
+
 ## 致谢
 
 1. 这个模板是从这里 [Hux](https://github.com/Huxpro/huxpro.github.io) fork 的, 感谢这个作者。 

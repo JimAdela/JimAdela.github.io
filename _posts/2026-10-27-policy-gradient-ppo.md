@@ -6,6 +6,8 @@ date:       2026-10-27
 author:     WY
 header-img: img/post-bg-2015.jpg
 catalog: true
+series:     ai-math
+chapter:    24
 description: 用三臂老虎机手算一次策略梯度更新，把 REINFORCE、基线、优势函数与 PPO 的 clip 讲成能跑的代码，并给出七条上线调参的硬约束。
 tags:
     - 人工智能

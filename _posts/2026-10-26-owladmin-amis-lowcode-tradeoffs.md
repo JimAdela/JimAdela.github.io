@@ -6,6 +6,8 @@ date:       2026-10-26
 author:     WY
 header-img: img/post-bg-coffee.jpeg
 catalog: true
+series:     engineering
+chapter:    2
 description: 一份踩过坑的低代码后台复盘：四条安装命令、可直接照抄的 CRUD 控制器、金额与状态列的复用封装，以及联动表单、导出、权限、性能这五处真正卡住的地方和绕法。
 tags:
     - Laravel

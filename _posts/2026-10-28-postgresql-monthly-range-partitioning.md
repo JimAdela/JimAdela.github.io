@@ -6,6 +6,8 @@ date:       2026-10-28
 author:     WY
 header-img: img/post-bg-unix-linux.jpg
 catalog: true
+series:     engineering
+chapter:    3
 description: 月度 RANGE 分区的完整落地记录：唯一约束必须含分区键的连锁反应、DEFAULT 分区的锁陷阱、whereDate 让裁剪失效、DETACH 归档与不停机迁移步骤。
 tags:
     - PostgreSQL

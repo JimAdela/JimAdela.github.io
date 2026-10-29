@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>预览 · 标签页</title>
+<link rel="stylesheet" href="../../css/paper.css">
+</head>
+<body>
+<header class="masthead">
+    <div class="masthead-in">
+        <a class="site-mark" href="#">无意 Blog</a>
+        <nav class="site-nav" aria-label="主导航">
+            <a href="#">首页</a>
+            <a href="#" class="is-on" aria-current="page">标签</a>
+            <a href="#">关于</a>
+            <a href="#">RSS</a>
+        </nav>
+    </div>
+    <div class="progress"><i id="js-progress" style="width:0"></i></div>
+</header>
+
+<main id="main">
+<div class="wrap">
+    <header class="page-head">
+        <p class="kicker">Index</p>
+        <h1>标签</h1>
+        <p class="deck">按主题找文章。同一个主题下的篇目按时间倒序排列。</p>
+    </header>
+
+    <div class="sheet">
+        <div class="tagrow" style="margin: 0 0 8px;">
+            <a href="#ai">人工智能<span>9</span></a>
+            <a href="#math">数学直觉<span>7</span></a>
+            <a href="#pg">PostgreSQL<span>3</span></a>
+            <a href="#arch">架构设计<span>2</span></a>
+            <a href="#rl">强化学习<span>2</span></a>
+            <a href="#php">PHP<span>2</span></a>
+        </div>
+
+        <section class="tag-group" id="ai">
+            <h2>人工智能<span>9 篇</span></h2>
+            <ol class="tag-list">
+                <li><time>2026-10-29</time><a href="#">生成对抗网络：一场零和博弈的数学</a></li>
+                <li><time>2026-10-27</time><a href="#">策略梯度与 PPO：为什么“奖励”能变成“方向”</a></li>
+                <li><time>2026-10-25</time><a href="#">强化学习入门：马尔可夫决策与贝尔曼方程</a></li>
+                <li><time>2025-12-25</time><a href="#">Transformer 的数学之美（16-19 章）</a></li>
+            </ol>
+        </section>
+
+        <section class="tag-group" id="math">
+            <h2>数学直觉<span>7 篇</span></h2>
+            <ol class="tag-list">
+                <li><time>2026-10-29</time><a href="#">生成对抗网络：一场零和博弈的数学</a></li>
+                <li><time>2025-12-20</time><a href="#">线性代数直观入门（1-7 章）</a></li>
+            </ol>
+        </section>
+    </div>
+</div>
+</main>
+
+<footer class="colophon">
+    <div class="colophon-in">
+        <span>© 2026 无意 Blog</span>
+        <span><a href="#">RSS</a> · <a href="#">1608808586@qq.com</a> · <a href="#">源码</a></span>
+    </div>
+</footer>
+</body>
+</html>

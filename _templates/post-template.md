@@ -6,6 +6,8 @@ date:       2026-10-25
 author:     WY
 header-img: img/post-bg-2015.jpg
 catalog: true
+# series:     ai-math      # 可选。ai-math / engineering，见 _data/series.yml
+# chapter:    26           # 可选。本章编号，填了文末才会显示进度条
 description: 120 字以内的摘要，用于搜索结果与分享卡片
 tags:
     - 人工智能

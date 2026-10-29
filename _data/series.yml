@@ -1,0 +1,8 @@
+# 系列词表
+# 文章 front matter 用 series: <id> + chapter: <编号> 标注，文章页底部会显示进度条
+- id: ai-math
+  name: AI 数学直觉
+  total: 52
+- id: engineering
+  name: 工程实战
+  total: 30

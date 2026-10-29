@@ -6,6 +6,8 @@ date:       2026-10-29
 author:     WY
 header-img: img/post-bg-digital-native.jpg
 catalog: true
+series:     ai-math
+chapter:    25
 description: 手推最优判别器的闭式解，把极小极大目标化简成 JSD，用数值实验量出 GAN 的梯度为什么会消失，并给出可跑的最小实现与六条训练诊断规则。
 tags:
     - 人工智能

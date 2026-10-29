@@ -1,30 +1,38 @@
 ---
 layout: page
-title: "About"
-description: "Hey, this is WY."
+title: "关于"
+kicker: "About"
+description: "后端工程师，在杭州。白天写 Laravel 与 PostgreSQL，晚上拆 Transformer 的数学。"
 header-img: "img/post-bg-rwd.jpg"
 ---
 
-<div class="post-container">
+<blockquote>
+<p>天涯无岁月 歧路有风尘<br>
+百年浑似醉 是非一片云</p>
+</blockquote>
 
-    <blockquote><p>天涯无岁月 歧路有风尘<br>
-    百年浑似醉 是非一片云</p></blockquote>
+<p>Hey，我是<strong>无意（WY）</strong>，后端工程师，在杭州。</p>
 
-    <p>Hey，我是<strong>无意（WY）</strong>，后端工程师，在杭州。</p>
+<p>白天写 Laravel 与 PostgreSQL，处理支付、分区、幂等这些不能出错的东西；晚上拆 Transformer 的数学，把论文里的公式一行行推到能算出数字为止。</p>
 
-    <p>白天写 Laravel 与 PostgreSQL，处理支付、分区、幂等这些不能出错的东西；晚上拆 Transformer 的数学，把论文里的公式一行行推到能算出数字为止。</p>
+<p>这个博客只写两条线：<strong>AI 数学直觉</strong>——不满足于「调包能跑」，要能闭着眼睛推出那个式子；<strong>工程实战</strong>——真实项目里踩过的坑，写成可以直接照抄的配置、命令和判据。</p>
 
-    <p>这个博客只写两条线：<strong>AI 数学直觉</strong>——不满足于「调包能跑」，要能闭着眼睛推出那个式子；<strong>工程实战</strong>——真实项目里踩过的坑，写成可以直接照抄的配置、命令和判据。</p>
+<p>站点用 <a href="https://pages.github.com/">GitHub Pages</a> 与 <a href="https://jekyllrb.com/">Jekyll</a> 搭建，源码在 <a href="https://github.com/jimadela">GitHub</a>。有问题欢迎提 issue 或邮件。</p>
 
-    <p>站点用 <a href="https://pages.github.com/">GitHub Pages</a> 与 <a href="https://jekyllrb.com/">Jekyll</a> 搭建。源码在 <a href="https://github.com/jimadela">GitHub</a>，有问题欢迎提 issue 或邮件。</p>
+<h2>系列</h2>
 
-    <h5>Elsewhere</h5>
+<ul>
+    {% for s in site.data.series %}
+    <li><strong>{{ s.name }}</strong>：共 {{ s.total }} 章</li>
+    {% endfor %}
+</ul>
 
-    <ul>
-        <li><a href="https://github.com/jimadela">GitHub</a></li>
-        <li><a href="{{ '/feed.xml' | prepend: site.baseurl }}">RSS</a></li>
-        <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
-    </ul>
-</div>
+<h2>联系</h2>
+
+<ul>
+    <li><a href="https://github.com/jimadela">GitHub</a></li>
+    <li><a href="{{ site.baseurl }}/feed.xml">RSS</a></li>
+    <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
+</ul>
 
 {% include comments.html %}

@@ -6,6 +6,8 @@ date:       2026-10-25
 author:     WY
 header-img: img/post-bg-universe.jpg
 catalog: true
+series:     ai-math
+chapter:    23
 description: 用一本两状态的账本和一张 4×4 网格，把马尔可夫决策、值函数、折扣因子与贝尔曼方程讲成能跑出数字的东西。
 tags:
     - 人工智能

@@ -6,6 +6,8 @@ date:       2026-10-24
 author:     WY
 header-img: img/post-bg-desk.jpg
 catalog: true
+series:     engineering
+chapter:    1
 description: 从一段真实的臃肿控制器出发，给出 Laravel 12 项目的分层判据、六层目录职责、完整拆分对照代码，以及用 PHPStan 与架构测试把边界钉死的可照抄配置。
 tags:
     - Laravel

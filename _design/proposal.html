@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>无意 Blog · 视觉系统提案</title>
+<style>
+  :root{
+    --paper:#FCFBF8;
+    --ink:#16191A;
+    --ink-2:#5C6462;
+    --rule:#DCD8CE;
+    --rule-2:#EBE7DD;
+    --press:#1E5B4E;
+    --mark:#A2452E;
+    --wash:#F4F2EC;
+    --serif:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","SimSun",Georgia,"Times New Roman",serif;
+    --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    --mono:"JetBrains Mono","SFMono-Regular",ui-monospace,Consolas,"Liberation Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--sans);font-size:16px;line-height:1.6;
+    font-feature-settings:"kern" 1;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:#DCE8E2;color:var(--ink)}
+  a{color:var(--press);text-decoration-thickness:1px;text-underline-offset:3px}
+
+  /* ---------- masthead ---------- */
+  .masthead{
+    border-bottom:1px solid var(--rule);
+    padding:0 32px;
+  }
+  .masthead .inner{
+    max-width:1180px;margin:0 auto;height:56px;
+    display:flex;align-items:center;justify-content:space-between;gap:24px;
+  }
+  .mark{font-family:var(--serif);font-size:15px;font-weight:600;letter-spacing:0}
+  .mark span{color:var(--ink-2);font-weight:400;font-family:var(--sans);font-size:13px;margin-left:10px}
+  .masthead .tag{
+    font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);
+  }
+
+  /* ---------- cover ---------- */
+  .cover{max-width:1180px;margin:0 auto;padding:96px 32px 56px}
+  .kicker{
+    font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--press);margin:0 0 26px;
+  }
+  .cover h1{
+    font-family:var(--serif);font-weight:600;
+    font-size:clamp(36px,6vw,62px);line-height:1.16;letter-spacing:-.01em;
+    margin:0;max-width:16em;
+  }
+  .cover h1 em{font-style:normal;color:var(--press)}
+  .deck{
+    margin:30px 0 0;max-width:33em;font-size:17px;line-height:1.8;color:var(--ink-2);
+  }
+  .strip{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    border-top:1px solid var(--rule);margin-top:56px;padding-top:14px;gap:24px;
+  }
+  .strip div{font-size:13px;color:var(--ink-2)}
+  .strip dt{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#6E7671;margin-bottom:5px}
+  .strip dd{margin:0;color:var(--ink)}
+  .strip dd small{display:block;color:var(--ink-2);font-size:12px;margin-top:2px}
+
+  /* ---------- document grid ---------- */
+  .doc{
+    max-width:1180px;margin:0 auto;padding:0 32px 120px;
+    display:grid;grid-template-columns:150px minmax(0,1fr);gap:60px;
+  }
+  .toc{position:sticky;top:32px;align-self:start;padding-top:8px}
+  .toc ol{list-style:none;margin:0;padding:0;border-left:1px solid var(--rule)}
+  .toc li{margin:0}
+  .toc a{
+    display:block;padding:6px 0 6px 13px;margin-left:-1px;border-left:1px solid transparent;
+    font-size:12.5px;color:var(--ink-2);text-decoration:none;line-height:1.4;
+  }
+  .toc a:hover{color:var(--press);border-left-color:var(--press)}
+  .toc .num{font-family:var(--mono);font-size:10px;color:#7D8580;margin-right:7px}
+
+  main{min-width:0;counter-reset:sec}
+
+  section{padding-top:74px;scroll-margin-top:24px}
+  section:first-child{padding-top:8px}
+  h2{
+    font-family:var(--serif);font-weight:600;font-size:29px;line-height:1.32;
+    margin:0 0 18px;letter-spacing:-.005em;
+  }
+  h2::before{
+    counter-increment:sec;content:counter(sec,decimal-leading-zero);
+    display:block;font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+    color:var(--press);margin-bottom:12px;font-weight:400;
+  }
+  .lead{font-size:17px;line-height:1.8;color:var(--ink);max-width:33em;margin:0 0 8px}
+  .sub{font-size:14.5px;line-height:1.8;color:var(--ink-2);max-width:36em;margin:14px 0 0}
+
+  /* ---------- findings ---------- */
+  .findings{border-top:1px solid var(--rule);margin-top:34px}
+  .finding{
+    display:grid;grid-template-columns:76px minmax(0,1fr);gap:20px;
+    padding:20px 0;border-bottom:1px solid var(--rule-2);
+  }
+  .sev{
+    font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+    padding-top:3px;color:var(--ink-2);
+  }
+  .sev.hi{color:var(--mark)}
+  .sev.mid{color:#8A6A2F}
+  .finding h3{
+    font-family:var(--sans);font-size:15.5px;font-weight:600;line-height:1.5;margin:0 0 6px;
+  }
+  .finding p{margin:0;font-size:14px;line-height:1.75;color:var(--ink-2);max-width:38em}
+  .finding p code,.inline-code{
+    font-family:var(--mono);font-size:.88em;background:var(--wash);
+    padding:1px 5px;border-radius:2px;color:#2C3330;
+  }
+
+  /* ---------- contrast demo ---------- */
+  .contrast{
+    display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:30px;
+    border:1px solid var(--rule);
+  }
+  .contrast > div{padding:22px 24px}
+  .contrast > div:first-child{border-right:1px solid var(--rule)}
+  .contrast .lbl{
+    font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+    color:#6E7671;margin-bottom:12px;
+  }
+  .excerpt-old{font-size:13px;font-style:italic;color:#A3A3A3;line-height:1.7}
+  .excerpt-new{font-size:14px;color:var(--ink-2);line-height:1.75}
+  .ratio{font-family:var(--mono);font-size:12px;margin-top:14px;color:var(--mark)}
+  .ratio.ok{color:var(--press)}
+
+  /* ---------- palette ---------- */
+  .palette{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:32px}
+  .sw{border:1px solid var(--rule);background:#fff}
+  .sw .chip{height:76px;border-bottom:1px solid var(--rule)}
+  .sw .body{padding:12px 14px 14px}
+  .sw .nm{font-size:13.5px;font-weight:600;margin:0 0 2px}
+  .sw .hx{font-family:var(--mono);font-size:11px;color:var(--ink-2);letter-spacing:.04em}
+  .sw .use{font-size:12px;color:var(--ink-2);margin-top:9px;line-height:1.55}
+  .sw .cr{font-family:var(--mono);font-size:10.5px;color:var(--press);margin-top:8px;letter-spacing:.03em}
+
+  /* ---------- type specimen ---------- */
+  .specs{margin-top:34px;border-top:1px solid var(--rule)}
+  .spec{
+    display:grid;grid-template-columns:92px minmax(0,1fr);gap:22px;
+    padding:22px 0;border-bottom:1px solid var(--rule-2);align-items:baseline;
+  }
+  .spec .m{
+    font-family:var(--mono);font-size:10.5px;line-height:1.7;color:#6E7671;letter-spacing:.03em;
+  }
+  .spec .m b{display:block;color:var(--ink);font-weight:500;font-family:var(--sans);font-size:12px;letter-spacing:0}
+  .display{font-family:var(--serif);font-size:46px;line-height:1.2;font-weight:600;letter-spacing:-.01em;margin:0}
+  .h2s{font-family:var(--serif);font-size:29px;line-height:1.35;font-weight:600;margin:0}
+  .h3s{font-family:var(--sans);font-size:21px;line-height:1.45;font-weight:600;margin:0}
+  .bodys{font-size:17px;line-height:1.85;margin:0;max-width:32em}
+  .smalls{font-family:var(--mono);font-size:12px;letter-spacing:.05em;color:var(--ink-2);margin:0}
+
+  /* ---------- wireframes ---------- */
+  .frames{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:34px}
+  .frame{border:1px solid var(--rule);background:#fff}
+  .frame .cap{
+    font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-2);padding:9px 12px;border-bottom:1px solid var(--rule);background:#FAF9F5;
+  }
+  .frame .pad{padding:14px 16px 20px}
+  .bar{background:#E9E5DA;height:6px;border-radius:1px;margin-bottom:7px}
+  .bar.dk{background:#CFC9BA}
+  .bar.t{background:#DCD8CE}
+  .hfoto{height:58px;background:#E4DFD2;margin-bottom:12px}
+  .rowline{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-top:1px solid var(--rule-2)}
+  .rowline .dt{font-family:var(--mono);font-size:9px;color:#7D8580;width:46px;flex:none;padding-top:1px}
+  .rowline .cx{flex:1}
+  .gutter{display:flex;gap:10px}
+  .gutter .num{font-family:var(--mono);font-size:9px;color:var(--press);width:14px;flex:none;padding-top:2px}
+
+  /* ---------- components ---------- */
+  .demo{border-top:1px solid var(--rule);margin-top:34px;padding-top:36px}
+  .demo + .demo{border-top:1px solid var(--rule-2);margin-top:38px}
+  .demo .cap{
+    font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+    color:#6E7671;margin-bottom:18px;
+  }
+
+  .prose{max-width:34em;position:relative;font-size:17px}
+  .prose p{font-size:17px;line-height:1.85;margin:0 0 24px}
+  .prose p:last-child{margin-bottom:0}
+  .prose a{color:var(--press);text-decoration:underline;text-decoration-color:#A9C4B9;text-underline-offset:3px}
+  .prose a:hover{text-decoration-color:var(--press)}
+
+  .note-float{
+    float:right;clear:right;width:196px;margin:4px 0 18px 44px;
+    font-size:12.5px;line-height:1.65;color:var(--mark);
+    border-top:1px solid var(--mark);padding-top:7px;
+  }
+  .prose .note-float{float:right;clear:right;margin:4px -232px 18px 0}
+  .note-float b{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;
+    text-transform:uppercase;margin-bottom:4px;font-weight:400}
+
+  .q{
+    margin:0 0 24px;padding:0 0 0 18px;border-left:2px solid var(--rule);
+    font-size:16px;line-height:1.8;color:var(--ink-2);
+  }
+  .q p{margin:0;font-size:inherit;line-height:inherit}
+
+  pre.code{
+    margin:0 0 24px;max-width:660px;background:var(--wash);border-left:2px solid var(--press);
+    padding:14px 16px;overflow-x:auto;
+    font-family:var(--mono);font-size:12.5px;line-height:1.72;color:#2C3330;
+  }
+  pre.code .cm{color:#6E7671}
+  pre.code .kw{color:#8B3A2B}
+  pre.code .st{color:#1E5B4E}
+
+  table.bt{width:100%;border-collapse:collapse;margin:0 0 8px;font-size:14px}
+  table.bt caption{
+    caption-side:top;text-align:left;font-family:var(--mono);font-size:10px;
+    letter-spacing:.12em;text-transform:uppercase;color:#6E7671;padding-bottom:9px;
+  }
+  table.bt thead th{
+    text-align:left;font-weight:600;font-size:12.5px;color:var(--ink-2);
+    padding:7px 10px 7px 0;border-top:1.5px solid var(--ink);border-bottom:1px solid var(--rule);
+    letter-spacing:.02em;
+  }
+  table.bt td{padding:8px 10px 8px 0;border-bottom:1px solid var(--rule-2);vertical-align:top;line-height:1.6}
+  table.bt tbody tr:last-child td{border-bottom:1.5px solid var(--ink)}
+  table.bt td.mono{font-family:var(--mono);font-size:12px;color:var(--ink-2);white-space:nowrap}
+  table.bt td.n{text-align:right;font-family:var(--mono);font-size:12.5px;padding-right:0}
+
+  .tagrow{display:flex;flex-wrap:wrap;gap:7px;margin-top:22px}
+  .tagrow a{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--press);text-decoration:none;border:1px solid var(--rule);
+    padding:3px 9px;background:#fff;
+  }
+  .tagrow a:hover{border-color:var(--press)}
+
+  /* ---------- article sample ---------- */
+  .sample{
+    border:1px solid var(--rule);background:#fff;margin-top:34px;padding:0;
+  }
+  .sample .top{
+    padding:34px 40px 26px;border-bottom:1px solid var(--rule);
+  }
+  .sample .meta-row{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-2);display:flex;gap:18px;flex-wrap:wrap;margin-bottom:18px;
+  }
+  .sample .meta-row .accent{color:var(--press)}
+  .sample h1{
+    font-family:var(--serif);font-weight:600;font-size:34px;line-height:1.34;
+    margin:0;max-width:22em;letter-spacing:-.005em;
+  }
+  .sample .body{padding:32px 40px 40px}
+  .sample .body h2{
+    font-size:21px;margin:0 0 14px;padding-top:0;
+  }
+  .sample .body h2::before{
+    display:inline;counter-increment:sub;content:"§ " counter(sub);
+    font-family:var(--mono);font-size:11px;color:var(--press);
+    margin-right:9px;letter-spacing:0;
+  }
+  .sample .body{counter-reset:sub}
+  .sample .body p{font-size:16px;line-height:1.85;margin:0 0 20px;color:#22272A;max-width:34em}
+  .sample .body p:last-child{margin-bottom:0}
+
+  /* ---------- schedule ---------- */
+  .phase-h{
+    display:flex;align-items:baseline;gap:14px;margin:36px 0 14px;
+  }
+  .phase-h .p{
+    font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--press);
+  }
+  .phase-h .t{font-size:15.5px;font-weight:600}
+  .phase-h .e{font-family:var(--mono);font-size:11px;color:#6E7671;margin-left:auto}
+
+  /* ---------- tradeoff list ---------- */
+  ul.plain{list-style:none;margin:22px 0 0;padding:0}
+  ul.plain li{
+    padding:14px 0 14px 22px;border-bottom:1px solid var(--rule-2);
+    font-size:14.5px;line-height:1.75;color:var(--ink-2);position:relative;max-width:38em;
+  }
+  ul.plain li::before{
+    content:"";position:absolute;left:0;top:22px;width:11px;height:1px;background:var(--press);
+  }
+  ul.plain li b{color:var(--ink);font-weight:600}
+
+  footer{
+    border-top:1px solid var(--rule);padding:26px 32px 60px;
+  }
+  footer .inner{
+    max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;gap:20px;
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#6E7671;
+    flex-wrap:wrap;
+  }
+
+  @media (max-width:1080px){
+    .note-float,.prose .note-float{float:none;width:auto;margin:18px 0 22px;border-top:0;
+      border-left:2px solid var(--mark);padding:2px 0 2px 13px}
+  }
+  @media (max-width:900px){
+    .doc{grid-template-columns:minmax(0,1fr);gap:0}
+    .toc{display:none}
+    .palette{grid-template-columns:repeat(2,1fr)}
+    .frames{grid-template-columns:1fr}
+    .strip{grid-template-columns:repeat(2,1fr);row-gap:20px}
+    .sample .top,.sample .body{padding-left:24px;padding-right:24px}
+  }
+  @media (max-width:560px){
+    .masthead{padding:0 20px}
+    .cover{padding:64px 20px 40px}
+    .doc{padding:0 20px 80px}
+    .palette{grid-template-columns:1fr}
+    .contrast{grid-template-columns:1fr}
+    .contrast > div:first-child{border-right:0;border-bottom:1px solid var(--rule)}
+    .finding{grid-template-columns:minmax(0,1fr);gap:6px}
+    .spec{grid-template-columns:minmax(0,1fr);gap:8px}
+    .display{font-size:34px}
+    footer{padding:24px 20px 48px}
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="inner">
+    <div class="mark">无意 Blog<span>视觉系统提案</span></div>
+    <div class="tag">Draft 01 · 2026-10</div>
+  </div>
+</div>
+
+<header class="cover">
+  <p class="kicker">Visual System / Typography / Layout</p>
+  <h1>把博客做成一份<br>可以<em>长期翻阅</em>的讲义</h1>
+  <p class="deck">
+    现在的站是 2016 年的图片博客主题，内容却已经是每篇三千到八千字的数学推导与工程复盘。
+    形式与内容在对冲。下面是重新校准后的系统：一套只为「讲义」服务的字、色、版式，以及分三步落地的路径。
+  </p>
+  <dl class="strip">
+    <div><dt>定名</dt><dd>讲义 / Workbook<small>单色印刷 + 一处套色</small></dd></div>
+    <div><dt>承接内容</dt><dd>31 篇 · 双线连载<small>AI 数学直觉 / 工程实战</small></dd></div>
+    <div><dt>技术约束</dt><dd>Jekyll + 系统字体<small>零新增依赖，秒开</small></dd></div>
+    <div><dt>本轮交付</dt><dd>诊断 · token · 样张<small>确认后再动代码</small></dd></div>
+  </dl>
+</header>
+
+<div class="doc">
+  <nav class="toc" aria-label="目录">
+    <ol>
+      <li><a href="#s1"><span class="num">00</span>诊断</a></li>
+      <li><a href="#s2"><span class="num">01</span>主张</a></li>
+      <li><a href="#s3"><span class="num">02</span>色</a></li>
+      <li><a href="#s4"><span class="num">03</span>字</a></li>
+      <li><a href="#s5"><span class="num">04</span>版式</a></li>
+      <li><a href="#s6"><span class="num">05</span>组件</a></li>
+      <li><a href="#s7"><span class="num">06</span>样张</a></li>
+      <li><a href="#s8"><span class="num">07</span>排期</a></li>
+      <li><a href="#s9"><span class="num">08</span>取舍</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <section id="s1">
+      <h2>诊断：不是不好看，是穿错了衣服</h2>
+      <p class="lead">
+        这站是 <code class="inline-code">Hux Blog</code> 的 fork，骨架、间距、配色全部来自 2016 年给图片博客设计的模板。八年过去，内容换了、读者换了，衣服没换。
+      </p>
+      <p class="sub">
+        问题分三层：可读性硬伤（有客观指标）、内容与形式错配（主观但致命）、工程债（顺手就能还）。
+      </p>
+
+      <div class="findings">
+        <div class="finding">
+          <div class="sev hi">P0 可读性</div>
+          <div>
+            <h3>首页摘要的对比度只有 2.5:1，不到及格线的一半</h3>
+            <p><code>#A3A3A3</code> / 13px / 斜体，白底。WCAG AA 要求 4.5:1。而这段文字恰恰是读者决定"点不点开"的唯一依据——最该清楚的地方最糊。</p>
+          </div>
+        </div>
+        <div class="finding">
+          <div class="sev hi">P0 可读性</div>
+          <div>
+            <h3>白字直接压在照片上，没有遮罩</h3>
+            <p>文章页有 <code>header-mask</code>，首页和普通页没有。碰上浅色头图（如 <code>post-bg-digital-native.jpg</code>），标题几乎溶进背景。同一站两套规则，也是维护隐患。</p>
+          </div>
+        </div>
+        <div class="finding">
+          <div class="sev mid">P1 排版</div>
+          <div>
+            <h3>给 800 字软文设计的节奏，现在跑 8000 字推导</h3>
+            <p>正文 16px / 行高 1.7 / <code>p&#123;margin:30px 0&#125;</code>。中文长文在 1.7 行高下会显得拥挤，30px 段距又把它拉散——两头都不对。缺公式块、缺编号、缺图注。</p>
+          </div>
+        </div>
+        <div class="finding">
+          <div class="sev mid">P1 一致性</div>
+          <div>
+            <h3>三套链接色打架</h3>
+            <p>全局 <code>a</code> 是 <code>#404040</code>，正文内链接是 <code>#337ab7</code>，hover 又是 <code>#0085a1</code>。正文里的链接既无下划线也无足够色差，读者根本看不出哪是链接。</p>
+          </div>
+        </div>
+        <div class="finding">
+          <div class="sev mid">P1 架构</div>
+          <div>
+            <h3>两条连载没有入口</h3>
+            <p>「AI 数学直觉 25/52」「工程实战 3/30」是这站最值钱的资产，但站上只有 Home / About / Tags。读者没法连续追更，搜索引擎也拿不到系列关系。</p>
+          </div>
+        </div>
+        <div class="finding">
+          <div class="sev hi">P0 安全</div>
+          <div>
+            <h3>Gitalk 的 clientSecret 明文渲染到前端</h3>
+            <p><code>_config.yml</code> 里的 secret 会原样进入每篇文章的 HTML。这不是优化项，是必须处理的事故——详见排期 P0。</p>
+          </div>
+        </div>
+        <div class="finding">
+          <div class="sev mid">P1 性能</div>
+          <div>
+            <h3>Live2D 在 head 里同步加载，还和内容气质冲突</h3>
+            <p>一个 <code>&lt;script&gt;</code> 阻塞首屏，背后拉一整套模型资源。jQuery 载了两次（CDN + 本地），Font Awesome 也载了两次。技术博客挂着会跳舞的看板娘，是 2016 年的浪漫，不是 2026 年的签名。</p>
+          </div>
+        </div>
+        <div class="finding">
+          <div class="sev">P2 细节</div>
+          <div>
+            <h3>失修的小地方</h3>
+            <p>英文日期夹在中文里、<code>&lt;html lang="en"&gt;</code>、首页标题出现三次、空的 FRIENDS 区块仍在渲染、About 的文案还停在"PHP 程序猿，在杭州工作"。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="contrast">
+        <div>
+          <div class="lbl">现在 · 首页摘要</div>
+          <div class="excerpt-old">判别器是考场，生成器是考生，而最优解不在任何一张考卷上</div>
+          <div class="ratio">#A3A3A3 / 13px · 2.5:1 未达 AA</div>
+        </div>
+        <div>
+          <div class="lbl">提案 · 首页摘要</div>
+          <div class="excerpt-new">判别器是考场，生成器是考生，而最优解不在任何一张考卷上</div>
+          <div class="ratio ok">#5C6462 / 15px · 5.9:1 通过 AA</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="s2">
+      <h2>主张：从「图片博客」改成「印刷讲义」</h2>
+      <p class="lead">
+        这个判断不是审美偏好，是从内容里读出来的。你的文章有章节号、有"六条诊断规则"、有定理式推导、有可照抄的配置——这是讲义的语法，不是日志的语法。
+      </p>
+      <p class="sub">
+        讲义有真实的视觉原型可依：页边批注、章节序号、图注与表注、纸面的微暖、单色印刷里那一处套色。它同时容纳数学（公式、编号、定理框）和工程（代码、清单、对照表），而照片墙容纳不了其中任何一样。
+      </p>
+
+      <div class="note-float" style="margin-top:26px">
+        <b>为什么不是暗色</b>
+        暗色适合工具与仪表盘，不适合连续四十分钟读长文。它留到 P2 做可选主题，而不是默认。
+      </div>
+
+      <p class="sub" style="margin-top:26px">
+        三条原则，后面所有决定都从这里推出来：
+      </p>
+      <ul class="plain">
+        <li><b>纸不白，墨不黑。</b>底色取微暖的中性纸 <code class="inline-code">#FCFBF8</code>，正文用带一点绿调的近黑。二十万字的博客，降低的是长读疲劳，不是对比度。</li>
+        <li><b>只有一处用色。</b>套色绿只出现在"可交互"和"序号"上：链接、当前态、章节编号。看到绿色，就知道那里能点或那里是新的一节。朱色只做批注，全站面积不超过 2%。</li>
+        <li><b>用规线，不用盒子。</b>没有卡片、没有圆角、没有投影。分层靠 1px 细线和留白，像印刷品靠版心和对齐分层。</li>
+      </ul>
+    </section>
+
+    <section id="s3">
+      <h2>色：五个值，各有职务</h2>
+      <p class="lead">
+        全部对比度按正文底 <code class="inline-code">#FCFBF8</code> 实测。没有一个颜色是为了"好看"加的——去掉任何一个，某个信息层级就会塌。
+      </p>
+
+      <div class="palette">
+        <div class="sw">
+          <div class="chip" style="background:#FCFBF8"></div>
+          <div class="body">
+            <p class="nm">纸 Paper</p>
+            <div class="hx">#FCFBF8</div>
+            <div class="use">页面底色。比纯白暖 2%，屏幕长读时眼睛不刺。</div>
+          </div>
+        </div>
+        <div class="sw">
+          <div class="chip" style="background:#16191A"></div>
+          <div class="body">
+            <p class="nm">墨 Ink</p>
+            <div class="hx">#16191A</div>
+            <div class="use">正文与标题。纯黑在屏上过硬，带绿调的近黑更接近印墨。</div>
+            <div class="cr">17.1:1</div>
+          </div>
+        </div>
+        <div class="sw">
+          <div class="chip" style="background:#5C6462"></div>
+          <div class="body">
+            <p class="nm">次墨 Ink-2</p>
+            <div class="hx">#5C6462</div>
+            <div class="use">摘要、日期、图注、辅助说明。比现在的灰深两档。</div>
+            <div class="cr">5.9:1 · AA</div>
+          </div>
+        </div>
+        <div class="sw">
+          <div class="chip" style="background:#1E5B4E"></div>
+          <div class="body">
+            <p class="nm">套色 Press</p>
+            <div class="hx">#1E5B4E</div>
+            <div class="use">链接、当前态、章节序号、代码块定位线。替换掉模板青 #0085a1。</div>
+            <div class="cr">7.6:1 · AAA</div>
+          </div>
+        </div>
+        <div class="sw">
+          <div class="chip" style="background:#A2452E"></div>
+          <div class="body">
+            <p class="nm">朱 Mark</p>
+            <div class="hx">#A2452E</div>
+            <div class="use">页边批注、"注意/易错"标记。面积上限 2%，用它就必须少用。</div>
+            <div class="cr">5.9:1 · AA</div>
+          </div>
+        </div>
+        <div class="sw">
+          <div class="chip" style="background:#DCD8CE"></div>
+          <div class="body">
+            <p class="nm">规线 Rule</p>
+            <div class="hx">#DCD8CE</div>
+            <div class="use">分隔、表格横线、边框。仅装饰用途，不承载文字。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="s4">
+      <h2>字：一个衬线，一个无衬线，一个等宽</h2>
+      <p class="lead">
+        中文网页字体动辄三到八兆，不能为主题下载宋体。所以策略是：<b>让系统里已有的字各司其职。</b>
+      </p>
+      <p class="sub">
+        标题走衬线（Noto Serif SC → 思源宋体 → 宋体 → Georgia），拿到印刷品的重量感；正文走系统黑体，保证可读与速度；日期、标签、章节号走等宽，把"数据"和"叙述"在视觉上分开。
+      </p>
+
+      <div class="specs">
+        <div class="spec">
+          <div class="m"><b>封面 / 46px</b>serif 600<br>-0.01em</div>
+          <p class="display">一场零和博弈的数学</p>
+        </div>
+        <div class="spec">
+          <div class="m"><b>章标题 / 29px</b>serif 600<br>1.35</div>
+          <p class="h2s">直觉：造假币的人与验钞员</p>
+        </div>
+        <div class="spec">
+          <div class="m"><b>节标题 / 21px</b>sans 600<br>1.45</div>
+          <p class="h3s">判别器不是越准越好</p>
+        </div>
+        <div class="spec">
+          <div class="m"><b>正文 / 17px</b>sans 400<br>1.85 · 34 字</div>
+          <p class="bodys">生成任务没有这个便利。要让模型生成一张猫的图片，"正确输出"是哪个像素矩阵？不存在。同一只猫可以有无数张照片，每一张都正确。</p>
+        </div>
+        <div class="spec">
+          <div class="m"><b>元信息 / 12px</b>mono<br>0.05em</div>
+          <p class="smalls">第 25 章 · 2026-10-29 · 8 分钟</p>
+        </div>
+      </div>
+
+      <p class="sub" style="margin-top:28px">
+        正文字号从 16 提到 17、行高从 1.7 提到 1.85、段距从 30 收到 24——三个数一起动，中文长文才立得住。行宽锁在 34 个汉字，超过 40 个字符眼睛回行就开始丢行。
+      </p>
+    </section>
+
+    <section id="s5">
+      <h2>版式：把栅格换成版心</h2>
+      <p class="lead">
+        现在是 Bootstrap 十二栅格里的八列，正文右边缘被 <code class="inline-code">padding-right:5%</code> 又啃掉一截。改成固定版心之后，正文永远 660px，两侧的空白成为可用空间——批注就住在那里。
+      </p>
+
+      <div class="frames">
+        <div class="frame">
+          <div class="cap">现在 · 首页</div>
+          <div class="pad">
+            <div class="hfoto"></div>
+            <div class="bar dk" style="width:44%;height:9px;margin:0 auto 8px"></div>
+            <div class="bar" style="width:30%;margin:0 auto 18px"></div>
+            <div class="bar dk" style="width:62%;height:7px"></div>
+            <div class="bar" style="width:74%"></div>
+            <div class="bar" style="width:68%"></div>
+            <div class="bar t" style="width:40%;margin-bottom:14px"></div>
+            <div class="bar dk" style="width:58%;height:7px;margin-top:16px"></div>
+            <div class="bar" style="width:76%"></div>
+            <div class="bar" style="width:70%"></div>
+          </div>
+        </div>
+        <div class="frame">
+          <div class="cap">提案 · 首页</div>
+          <div class="pad">
+            <div class="bar dk" style="width:36%;height:9px;margin-bottom:6px"></div>
+            <div class="bar" style="width:22%;margin-bottom:16px"></div>
+            <div class="rowline"><div class="dt">10-29</div><div class="cx">
+              <div class="bar dk" style="width:70%;height:7px"></div>
+              <div class="bar" style="width:82%;margin-bottom:0"></div>
+            </div></div>
+            <div class="rowline"><div class="dt">10-28</div><div class="cx">
+              <div class="bar dk" style="width:64%;height:7px"></div>
+              <div class="bar" style="width:76%;margin-bottom:0"></div>
+            </div></div>
+            <div class="rowline"><div class="dt">10-27</div><div class="cx">
+              <div class="bar dk" style="width:74%;height:7px"></div>
+              <div class="bar" style="width:70%;margin-bottom:0"></div>
+            </div></div>
+            <div class="rowline"><div class="dt">10-26</div><div class="cx">
+              <div class="bar dk" style="width:58%;height:7px"></div>
+              <div class="bar" style="width:80%;margin-bottom:0"></div>
+            </div></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="sub">
+        首页从"照片 + 五段式"改成<b>目录式</b>：左边日期用等宽右对齐，右边标题加一行摘要。日期是这条流水线上真正的索引，把照片撤掉，一屏能看到四条而不是一条。
+      </p>
+
+      <div class="frames" style="margin-top:26px">
+        <div class="frame">
+          <div class="cap">提案 · 文章页（批注在版心外）</div>
+          <div class="pad">
+            <div class="bar" style="width:26%;margin-bottom:12px"></div>
+            <div class="bar dk" style="width:78%;height:10px;margin-bottom:6px"></div>
+            <div class="bar dk" style="width:52%;height:10px;margin-bottom:18px"></div>
+            <div class="gutter"><div class="num">01</div><div style="flex:1">
+              <div class="bar dk" style="width:46%;height:8px"></div>
+              <div class="bar" style="width:94%"></div>
+              <div class="bar" style="width:88%"></div>
+              <div class="bar" style="width:91%;margin-bottom:0"></div>
+            </div></div>
+            <div class="gutter" style="margin-top:14px"><div class="num">02</div><div style="flex:1">
+              <div class="bar dk" style="width:38%;height:8px"></div>
+              <div class="bar" style="width:90%"></div>
+              <div class="bar" style="width:84%;margin-bottom:0"></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="frame">
+          <div class="cap">提案 · 文章页（窄屏折叠）</div>
+          <div class="pad">
+            <div class="bar" style="width:34%;margin-bottom:12px"></div>
+            <div class="bar dk" style="width:82%;height:10px;margin-bottom:6px"></div>
+            <div class="bar dk" style="width:60%;height:10px;margin-bottom:18px"></div>
+            <div class="bar dk" style="width:44%;height:8px"></div>
+            <div class="bar" style="width:96%"></div>
+            <div class="bar" style="width:90%"></div>
+            <div style="border-left:2px solid #A2452E;padding-left:8px;margin:12px 0">
+              <div class="bar" style="width:70%;background:#E0C9C1;margin-bottom:0"></div>
+            </div>
+            <div class="bar" style="width:93%"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="s6">
+      <h2>组件：讲义需要的六个零件</h2>
+
+      <div class="demo">
+        <div class="cap">段落与链接</div>
+        <div class="prose">
+          <div class="note-float">
+            <b>批注 01</b>
+            桌面端浮到版心右侧，移动端降级为左侧朱线块。这一条同时解决了"引用块满屏左边框"和"重要提醒没人看"两个问题。
+          </div>
+          <p>
+            大部分 GAN 教程停在"生成器骗判别器、判别器识破生成器"这个比喻上，然后直接贴两段 loss 代码。但比喻解释不了三个真问题：为什么 D 训到 50% 准确率反而可能是坏的？为什么生成器只会画一种数字？
+          </p>
+          <p>
+            读完这篇你能做到四件事：闭着眼睛推出最优判别器的形式，并说清它为什么是一个密度比；把极小极大目标化简成 <a href="#">Jensen-Shannon 散度</a>；用一组数值实验量出梯度的消失点。
+          </p>
+        </div>
+      </div>
+
+      <div class="demo">
+        <div class="cap">代码块 · 左侧套色定位线，无边框无圆角</div>
+        <pre class="code"><span class="cm"># 判别器最优解：密度比 p_data / (p_data + p_g)</span>
+<span class="kw">def</span> d_opt(p_data, p_g):
+    <span class="kw">return</span> p_data / (p_data + p_g)
+
+<span class="cm"># 代入极小极大目标，得到 2·JSD(p_data ‖ p_g) − 2·log2</span>
+loss = <span class="st">"2 * JSD - 2 * log 2"</span></pre>
+      </div>
+
+      <div class="demo">
+        <div class="cap">表格 · Booktabs：三道横线，没有竖线</div>
+        <table class="bt">
+          <caption>表 1 · 三种损失在模式坍塌上的表现</caption>
+          <thead>
+            <tr><th>损失函数</th><th>梯度来源</th><th>坍塌风险</th><th class="n">收敛判据</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>原始 minimax</td><td>log(1−D)</td><td>高，D 过强即饱和</td><td class="n">无</td></tr>
+            <tr><td>非饱和启发式</td><td>−log D</td><td>中，需早停</td><td class="n">FID</td></tr>
+            <tr><td>WGAN-GP</td><td>Wasserstein 距离</td><td>低</td><td class="n">W 估计</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="demo">
+        <div class="cap">标签 · 等宽小字，只描边不填色</div>
+        <div class="tagrow">
+          <a href="#">人工智能</a><a href="#">数学直觉</a><a href="#">生成模型</a><a href="#">深度学习</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="s7">
+      <h2>样张：真实文章套上新系统</h2>
+      <p class="lead">用 10 月 29 日那篇 GAN 的开头，看看实际读起来是什么样。</p>
+
+      <div class="sample">
+        <div class="top">
+          <div class="meta-row">
+            <span class="accent">第 25 章 / 52</span><span>数学直觉</span><span>2026-10-29</span><span>8 分钟</span>
+          </div>
+          <h1>生成对抗网络：一场零和博弈的数学</h1>
+        </div>
+        <div class="body">
+          <h2>直觉：造假币的人与验钞员</h2>
+          <p>
+            先看监督学习怎么工作。给一张图和一个标签，算交叉熵，梯度指向"让正确答案的概率更高"。目标函数是固定的、可微的、写死在那里的。
+          </p>
+          <p>
+            生成任务没有这个便利。要让模型生成一张猫的图片，"正确输出"是哪个像素矩阵？不存在。同一只猫可以有无数张照片，每一张都正确。你没法写出一个"像猫程度"的解析表达式。
+          </p>
+          <h2>判别器不是越准越好</h2>
+          <p>
+            反了。假设判别器一上来就完美，任何假样本都能以 0.999 的概率判假。此时生成器收到的梯度是 0——老师太强，学生连该往哪改都看不出来。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="s8">
+      <h2>排期：先止血，再换骨</h2>
+      <p class="lead">分三步。P0 不改变任何结构，当天可上；P1 才动 layout；P2 是长期资产。</p>
+
+      <div class="phase-h"><span class="p">P0</span><span class="t">止血</span><span class="e">约 1 小时 · 不改结构</span></div>
+      <table class="bt">
+        <thead><tr><th>项</th><th>动作</th><th>影响</th></tr></thead>
+        <tbody>
+          <tr><td>安全</td><td>移除 Gitalk 的 clientSecret，改用 giscus（GitHub Discussions，无 secret）</td><td>先止血</td></tr>
+          <tr><td>摘要</td><td>#A3A3A3 → #5C6462，13px → 15px，去斜体</td><td>2.5:1 → 5.9:1</td></tr>
+          <tr><td>正文</td><td>16/1.7/30px → 17/1.85/24px</td><td>长读舒适</td></tr>
+          <tr><td>首页头图</td><td>补统一遮罩层，与文章页共用一套规则</td><td>白字可读</td></tr>
+          <tr><td>链接</td><td>正文链接加下划线，统一为套色</td><td>可辨识</td></tr>
+          <tr><td>清理</td><td>去 Live2D；jQuery 与 Font Awesome 各去一次重复加载</td><td>首屏减负</td></tr>
+          <tr><td>细节</td><td>中文日期、<code>lang="zh-CN"</code>、隐藏空 FRIENDS、更新 About</td><td>一致性</td></tr>
+        </tbody>
+      </table>
+
+      <div class="phase-h"><span class="p">P1</span><span class="t">换骨</span><span class="e">约 1–2 天 · 改 4 个 layout</span></div>
+      <table class="bt">
+        <thead><tr><th>项</th><th>动作</th></tr></thead>
+        <tbody>
+          <tr><td>Token 层</td><td>新建 <code>css/paper.css</code>，用 CSS 变量承接色与字阶，<code>hux-blog.css</code> 保留做渐进覆盖</td></tr>
+          <tr><td>首页</td><td>目录式列表：日期列 + 标题 + 一行摘要 + 标签</td></tr>
+          <tr><td>文章页</td><td>标题左对齐 + 元信息行（章节/系列/日期/时长）+ CSS counter 自动章节号</td></tr>
+          <tr><td>批注</td><td>blockquote 分两型：引用 vs 提醒，后者浮到版心外</td></tr>
+          <tr><td>代码</td><td>套色定位线 + 等宽 12.5px + 横向滚动；换一套低饱和高亮色，与配色同源</td></tr>
+          <tr><td>表格</td><td>Booktabs：无竖线，上下粗线表头细线</td></tr>
+          <tr><td>系列</td><td><code>_data/series.yml</code> + 文章底部"第 25 / 52 章"进度条</td></tr>
+          <tr><td>阅读</td><td>顶部 1px 进度条（套色），滚动时显示</td></tr>
+        </tbody>
+      </table>
+
+      <div class="phase-h"><span class="p">P2</span><span class="t">资产</span><span class="e">按需</span></div>
+      <table class="bt">
+        <thead><tr><th>项</th><th>动作</th></tr></thead>
+        <tbody>
+          <tr><td>系列页</td><td><code>/series/</code> 总览，52 章进度可视；文章页上下篇按系列而非按时间</td></tr>
+          <tr><td>暗色</td><td>同一套变量换值，<code>prefers-color-scheme</code> + 手动切换</td></tr>
+          <tr><td>分享卡</td><td>用 SVG 模板生成 1200×630 标题卡，替代现在的头图裁切</td></tr>
+          <tr><td>搜索</td><td>simple-jekyll-search，索引在构建时生成</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="s9">
+      <h2>取舍：我故意没做的事</h2>
+      <ul class="plain">
+        <li><b>没换 Hugo / Astro。</b>站点只有 31 篇，Jekyll 在 GitHub Pages 上是零运维。迁移换来的是更快的构建，付出的是全部 URL 与评论的迁移成本——不值。</li>
+        <li><b>没引入中文字体文件。</b>宋体全量三兆起步，子集化又要随每篇文章重建。系统字体栈在 macOS 与 Windows 上都有合格的字，够用。</li>
+        <li><b>没保留头图。</b>它对"数学讲义"没有信息增量，只增加首屏重量。若你舍不得，P1 可以退一步：头图裁成 16:6 的窄带放在标题上方，而不是撑满全屏。</li>
+        <li><b>没做卡片化。</b>卡片适合条目同质、需要快速扫读的场景。这里是长文，卡片会把连续阅读切成碎片。</li>
+        <li><b>编号只在真有序列的地方用。</b>章节号用 CSS counter 自动生成，不手写 01/02/03 当装饰——那是最典型的模板痕迹。</li>
+      </ul>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <div class="inner">
+    <span>无意 Blog · Visual System Proposal</span>
+    <span>Paper #FCFBF8 · Press #1E5B4E</span>
+  </div>
+</footer>
+
+</body>
+</html>
