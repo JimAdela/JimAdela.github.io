@@ -292,6 +292,23 @@ series:  ai-math
 chapter: 25
 ```
 
+### 分享卡
+
+`og:image` 用的是 1200×630 的预生成卡片，不是头图裁切。写完新文章后跑一次：
+
+```bash
+python scripts/gen_og.py            # 全量
+python scripts/gen_og.py --only 2026-10-29   # 只补某篇
+```
+
+脚本用本机 Chrome 渲染 `img/og/*.png` 并改写 `_data/og.yml`。没跑过的文章会自动退回
+`header-img`，不会出现空图。
+
+### 搜索
+
+`/search.json` 在构建时由 Liquid 生成全文索引（标题 / 标签 / 正文），`/search/` 页
+用原生 JS 过滤并计分排序。索引约 110KB（gzip），只在真正输入关键词时才请求。
+
 ## 致谢
 
 1. 这个模板是从这里 [Hux](https://github.com/Huxpro/huxpro.github.io) fork 的, 感谢这个作者。 

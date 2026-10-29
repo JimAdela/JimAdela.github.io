@@ -1,0 +1,38 @@
+# 分享卡映射：由 scripts/gen_og.py 生成，不要手改
+"_posts/2017-02-15-Git指令整理.md": /img/og/og-8803d163d0.png
+"_posts/2017-02-16-Git-代码回滚.md": /img/og/og-c97e69044e.png
+"_posts/2017-02-22-使用-.gitignore-忽略-git-仓库中的文件.md": /img/og/og-c378aa3abe.png
+"_posts/2019-03-03-PHP与MySQL基础复习.md": /img/og/og-13f4523144.png
+"_posts/2019-03-04-算法的基本概念.md": /img/og/og-f505560a6f.png
+"_posts/2019-03-10-记最近开发遇到的坑.md": /img/og/og-ce3c4a8c9a.png
+"_posts/2019-03-11-MySQL常用操作.md": /img/og/og-c51c59e8c6.png
+"_posts/2019-03-13-MySQL分库分表及分区.md": /img/og/og-418f1d71e9.png
+"_posts/2019-03-21-MySQL原理学习之一.md": /img/og/og-b81c1d6d19.png
+"_posts/2019-03-23-直觉泵和其他思考工具之通用思考工具.md": /img/og/og-70ce06498e.png
+"_posts/2019-03-25-MySQL原理学习之二.md": /img/og/og-1b61f32a0f.png
+"_posts/2019-03-28-MySQL原理学习之三.md": /img/og/og-cacf330761.png
+"_posts/2019-04-23-无题诗集.md": /img/og/og-a56f688c96.png
+"_posts/2019-04-26-散诗集.md": /img/og/og-9333ed67b6.png
+"_posts/2019-05-23-五月份反思与总结.md": /img/og/og-9d81de8f68.png
+"_posts/2019-07-10-如何理解Buffer pool.md": /img/og/og-c37260cf4b.png
+"_posts/2019-07-16-如何理解反射.md": /img/og/og-66eca53b43.png
+"_posts/2019-09-27-理解是什么.md": /img/og/og-dc2e68fa6f.png
+"_posts/2019-11-12-Go语法基础二.md": /img/og/og-e08bccf3b5.png
+"_posts/2019-11-7-Go语法基础一.md": /img/og/og-644b64aa14.png
+"_posts/2023-04-26-PHP程序员学Java指南--嫌麻烦之让chatgpt帮我学习.md": /img/og/og-1063691237.png
+"_posts/2025-12-20-线性代数直观入门.md": /img/og/og-f5f7a66ffb.png
+"_posts/2025-12-22-微积分与概率论进阶.md": /img/og/og-82ecb1f4e7.png
+"_posts/2025-12-24-AI 训练的进阶艺术.md": /img/og/og-51d69a75c1.png
+"_posts/2025-12-25-Transformer 的数学之美.md": /img/og/og-87531ac3f4.png
+"_posts/2025-12-27-感知与记忆.md": /img/og/og-822fb68d3c.png
+"_posts/2026-10-24-laravel-12-layering-beyond-controller.md": /img/og/og-bd4be6d045.png
+"_posts/2026-10-25-reinforcement-learning-mdp-bellman.md": /img/og/og-6b2879d913.png
+"_posts/2026-10-26-owladmin-amis-lowcode-tradeoffs.md": /img/og/og-2775763507.png
+"_posts/2026-10-27-policy-gradient-ppo.md": /img/og/og-c2e5692c03.png
+"_posts/2026-10-28-postgresql-monthly-range-partitioning.md": /img/og/og-33e6403587.png
+"_posts/2026-10-29-generative-adversarial-networks-minimax.md": /img/og/og-beb275d599.png
+"about.html": /img/og/site.png
+"index.html": /img/og/site.png
+"search.html": /img/og/site.png
+"series.html": /img/og/site.png
+"tags.html": /img/og/site.png
