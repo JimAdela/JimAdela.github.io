@@ -19,19 +19,25 @@ description: "无意 Blog：AI 数学直觉与后端工程实战。把论文里�
             <h2><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></h2>
             {% comment %}
                 摘要优先用 front matter 的 description（作者自己写的、已定稿）。
-                老文章没有 description，退回正文首段；正文以二级标题开头时先切掉标题，
-                否则「开篇：这篇要解决什么」会和正文粘成一句话。
+                老文章没有 description，退回正文：先切掉开头那个标题（h1–h4 都要处理，
+                否则「MySQL原理学习之三」会和正文粘成一句），再尽量截在第一句末尾。
             {% endcomment %}
             {% assign ex = post.description %}
             {% if ex == nil or ex == "" %}
                 {% assign body = post.content %}
                 {% assign lead = body | strip | slice: 0, 3 %}
-                {% if lead == '<h2' %}
-                    {% assign body = body | split: '</h2>' | slice: 1, 50 | join: '</h2>' %}
-                {% endif %}
+                {% if lead == '<h1' %}{% assign body = body | split: '</h1>' | slice: 1, 99 | join: '</h1>' %}{% endif %}
+                {% if lead == '<h2' %}{% assign body = body | split: '</h2>' | slice: 1, 99 | join: '</h2>' %}{% endif %}
+                {% if lead == '<h3' %}{% assign body = body | split: '</h3>' | slice: 1, 99 | join: '</h3>' %}{% endif %}
+                {% if lead == '<h4' %}{% assign body = body | split: '</h4>' | slice: 1, 99 | join: '</h4>' %}{% endif %}
                 {% assign flat = body | strip_html | strip_newlines %}
-                {% assign ex = flat | split: '。' | first | append: '。' %}
-                {% if ex.size > 118 %}{% assign ex = ex | truncate: 118 %}{% endif %}
+                {% assign first = flat | split: '。' | first %}
+                {% if first == flat %}
+                    {% assign ex = flat | truncate: 118 %}
+                {% else %}
+                    {% assign ex = first | append: '。' %}
+                    {% if ex.size > 118 %}{% assign ex = ex | truncate: 118 %}{% endif %}
+                {% endif %}
             {% endif %}
             <p>{{ ex }}</p>
             <div class="tagrow">
