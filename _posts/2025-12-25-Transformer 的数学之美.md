@@ -2,6 +2,7 @@
 layout:     post
 title:      Transformer 的数学之美：ChatGPT 的底层引擎
 subtitle:   从点积注意力到位置编码的逻辑闭环
+description: "第 16–19 章：Q、K、V 与缩放点积注意力，正弦位置编码为什么能表达顺序，残差连接为什么让深网络训得动。"
 date:       2025-12-25
 author:     WY
 header-img: img/post-bg-2015.jpg

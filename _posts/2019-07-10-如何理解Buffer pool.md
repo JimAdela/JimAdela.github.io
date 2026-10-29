@@ -2,6 +2,7 @@
 layout:     post
 title:      如何理解Buffer pool
 subtitle:   Buffer pool
+description: "InnoDB 的 Buffer Pool 为什么存在、页怎么被缓存，free 链表、flush 链表与改进版 LRU 链表各自管什么。"
 date:       2019-07-10
 author:     WY
 header-img: img/post-bg-os-metro.jpg

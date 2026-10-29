@@ -2,6 +2,7 @@
 layout:     post
 title:      PHP程序员学Java指南 –- 嫌麻烦之让chatgpt帮我学习
 subtitle:   php-to-java
+description: "让 ChatGPT 帮忙写的一份 PHP 转 Java 对照指南：背景用途、面向对象、类型、控制结构、函数，以及两边的类库与框架。"
 date:       2023-04-26
 author:     WY
 header-img: img/home-bg-art.jpg

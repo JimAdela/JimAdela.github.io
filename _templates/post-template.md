@@ -6,9 +6,16 @@ date:       2026-10-25
 author:     WY
 header-img: img/post-bg-2015.jpg
 catalog: true
-# series:     ai-math      # 可选。ai-math / engineering，见 _data/series.yml
+# series:     ai-math      # 可选。ai-math / engineering / deepseek-source，见 _data/series.yml
 # chapter:    26           # 可选。本章编号，填了文末才会显示进度条
+# math:       true         # 可选。有公式才写，页面才会加载 MathJax
 description: 120 字以内的摘要，用于搜索结果与分享卡片
+# 发布后改过内容时再加下面两项。last_modified_at 会显示「修订」日期并写进 sitemap
+# last_modified_at: 2026-11-02
+# errata:
+#   - date: 2026-11-02
+#     text: 第 3 节 `d_k` 原写作 128，应为 192
+# evergreen: true          # 随笔、读书笔记等不会过时的文章，不显示「写于 N 年前」提示
 tags:
     - 人工智能
     - 数学直觉

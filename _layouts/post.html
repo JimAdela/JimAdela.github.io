@@ -21,6 +21,9 @@ layout: default
                 {% endunless %}
                 {% endfor %}
                 <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y-%m-%d" }}</time>
+                {% if page.last_modified_at %}
+                <span>修订 <time datetime="{{ page.last_modified_at | date_to_xmlschema }}">{{ page.last_modified_at | date: "%Y-%m-%d" }}</time></span>
+                {% endif %}
                 {% assign chars = content | strip_html | strip_newlines | size %}
                 {% assign mins = chars | divided_by: 450 %}
                 {% if mins < 1 %}{% assign mins = 1 %}{% endif %}
@@ -42,7 +45,31 @@ layout: default
             </details>
             {% endif %}
 
+            {% comment %}
+                三年以上没修订过的技术文章，正文前提示可能过时。
+                随笔、读书笔记这类不会过时的，front matter 写 evergreen: true 跳过。
+            {% endcomment %}
+            {% unless page.evergreen %}
+                {% assign y_post = page.last_modified_at | default: page.date | date: "%Y" | plus: 0 %}
+                {% assign y_now = site.time | date: "%Y" | plus: 0 %}
+                {% assign age = y_now | minus: y_post %}
+                {% if age >= 3 %}
+                <p class="stale">这篇写于 {{ page.date | date: "%Y" }} 年，距今 {{ age }} 年。文中的版本、命令和结论可能已经过时，照着做之前先核对一下当前文档。</p>
+                {% endif %}
+            {% endunless %}
+
             {{ content }}
+
+            {% if page.errata %}
+            <section class="errata">
+                <h2 id="errata">勘误</h2>
+                <ul>
+                    {% for e in page.errata %}
+                    <li><time datetime="{{ e.date | date_to_xmlschema }}">{{ e.date | date: "%Y-%m-%d" }}</time><span>{{ e.text | markdownify | remove: '<p>' | remove: '</p>' | strip }}</span></li>
+                    {% endfor %}
+                </ul>
+            </section>
+            {% endif %}
         </div>
 
         {% if page.series %}
