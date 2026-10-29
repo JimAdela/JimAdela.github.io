@@ -24,7 +24,7 @@ header-img: "img/post-bg-rwd.jpg"
     {% assign posts = site.posts | where: "series", s.id | sort: "chapter" %}
     {% assign last = posts.last %}
     {% assign covered = last.chapters | default: last.chapter %}
-    <li><a href="{{ site.baseurl }}/series/#{{ s.id }}">{{ s.name }}</a>——{{ posts.size }} 篇，覆盖第 1–{{ covered }} 章，计划 {{ s.total }} 章</li>
+    <li><a href="{{ site.baseurl }}/series/#{{ s.id }}">{{ s.name }}</a>——{{ posts.size }} 篇，覆盖第 {% if covered > 1 %}1–{% endif %}{{ covered }} 章，计划 {{ s.total }} 章</li>
     {% endfor %}
 </ul>
 

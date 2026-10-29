@@ -14,7 +14,7 @@ description: "三条连载。一条把论文里的公式推到能算出数字，
 <section class="serie" id="{{ s.id }}">
     <header class="serie-head">
         <h2>{{ s.name }}</h2>
-        <p class="serie-meta">{% if s.status %}<span class="serie-status{% if s.status == '连载中' %} is-live{% endif %}">{{ s.status }}</span> · {% endif %}{{ posts.size }} 篇 · 覆盖第 1–{{ covered }} 章 · 计划 {{ s.total }} 章</p>
+        <p class="serie-meta">{% if s.status %}<span class="serie-status{% if s.status == '连载中' %} is-live{% endif %}">{{ s.status }}</span> · {% endif %}{{ posts.size }} 篇 · 覆盖第 {% if covered > 1 %}1–{% endif %}{{ covered }} 章 · 计划 {{ s.total }} 章</p>
         <p class="serie-desc">{{ s.desc }}</p>
     </header>
 

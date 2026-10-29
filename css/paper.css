@@ -956,8 +956,8 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
 .serie-status { color: var(--ink-2); }
 .serie-status.is-live { color: var(--press); }
 
-.roadmap-label {
-  margin: 26px 0 2px;
+.sheet .roadmap-label {
+  margin: 30px 0 0;
   font-size: 12.5px;
   letter-spacing: 0.08em;
   color: var(--ink-2);
