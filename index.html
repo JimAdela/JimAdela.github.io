@@ -17,7 +17,21 @@ description: "无意 Blog：AI 数学直觉与后端工程实战。把论文里�
         <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
         <div class="index-body">
             <h2><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></h2>
-            <p>{{ post.content | strip_html | strip_newlines | truncate: 96 }}</p>
+            {% comment %}
+                摘要优先用 front matter 的 description（作者自己写的、已定稿）。
+                老文章没有 description，退回正文首段；正文以二级标题开头时先切掉标题，
+                否则「开篇：这篇要解决什么」会和正文粘成一句话。
+            {% endcomment %}
+            {% assign ex = post.description %}
+            {% if ex == nil or ex == "" %}
+                {% assign body = post.content %}
+                {% assign lead = body | strip | slice: 0, 3 %}
+                {% if lead == '<h2' %}
+                    {% assign body = body | split: '</h2>' | slice: 1, 50 | join: '</h2>' %}
+                {% endif %}
+                {% assign ex = body | strip_html | strip_newlines | truncate: 110 %}
+            {% endif %}
+            <p>{{ ex }}</p>
             <div class="tagrow">
                 {% for tag in post.tags limit:3 %}
                 <a href="{{ site.baseurl }}/tags/#{{ tag }}">{{ tag }}</a>
