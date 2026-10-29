@@ -11,7 +11,7 @@ layout: default
                     {% assign s = site.data.series | where: "id", page.series | first %}
                     {% if s %}
                     <span class="accent">{{ s.name }}</span>
-                    <span>第 {{ page.chapter }} 章</span>
+                    <span>第 {{ page.chapter }}{% if page.chapters %}–{{ page.chapters }}{% endif %} 章</span>
                     {% endif %}
                 {% endif %}
                 {% for tag in page.tags limit:2 %}
@@ -46,11 +46,12 @@ layout: default
         {% assign s = site.data.series | where: "id", page.series | first %}
         {% if s %}
         <div class="series">
+            {% assign done = page.chapters | default: page.chapter %}
             <div class="series-row">
                 <a href="{{ site.baseurl }}/tags/">{{ s.name }}</a>
-                <span>第 {{ page.chapter }} / {{ s.total }} 章 · 共 {{ site.posts.size }} 篇</span>
+                <span>第 {{ page.chapter }}{% if page.chapters %}–{{ page.chapters }}{% endif %} / {{ s.total }} 章 · 共 {{ site.posts.size }} 篇</span>
             </div>
-            <div class="track"><i style="width: {{ page.chapter | times: 100 | divided_by: s.total }}%"></i></div>
+            <div class="track"><i style="width: {{ done | times: 100 | divided_by: s.total }}%"></i></div>
         </div>
         {% endif %}
         {% endif %}
@@ -62,12 +63,20 @@ layout: default
         {% if page.series %}
             {% assign prev_url = nil %}{% assign prev_title = nil %}
             {% assign next_url = nil %}{% assign next_title = nil %}
-            {% assign sibs = site.posts | where: "series", page.series %}
-            {% assign pc = page.chapter | minus: 1 %}
-            {% assign nc = page.chapter | plus: 1 %}
+            {% assign found = false %}
+            {% assign sibs = site.posts | where: "series", page.series | sort: "chapter" %}
+            {% comment %}
+                相邻篇按章号取，而不是 chapter±1——早期章节是多章合辑（如 1–7 章一篇），
+                用 ±1 会断链。排序后取前一篇/后一篇即可跨过合辑。
+            {% endcomment %}
             {% for p in sibs %}
-                {% if p.chapter == pc %}{% assign prev_url = p.url %}{% assign prev_title = p.title %}{% endif %}
-                {% if p.chapter == nc %}{% assign next_url = p.url %}{% assign next_title = p.title %}{% endif %}
+                {% if found %}
+                    {% if next_url == nil %}{% assign next_url = p.url %}{% assign next_title = p.title %}{% endif %}
+                {% elsif p.url == page.url %}
+                    {% assign found = true %}
+                {% else %}
+                    {% assign prev_url = p.url %}{% assign prev_title = p.title %}
+                {% endif %}
             {% endfor %}
             {% assign prev_label = "上一章" %}{% assign next_label = "下一章" %}
         {% else %}

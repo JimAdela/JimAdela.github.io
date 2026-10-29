@@ -6,6 +6,9 @@ date:       2025-12-25
 author:     WY
 header-img: img/post-bg-2015.jpg
 catalog: true
+series:     ai-math
+chapter:    16
+chapters:   19
 tags:
     - Transformer
     - 注意力机制
