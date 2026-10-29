@@ -58,17 +58,23 @@ kramdown:
 
 
 # 评论系统
-# 只保留 Gitalk（Disqus 的配置键名与模板不匹配，实际从未生效，已移除）
-
-# Gitalk
-gitalk:
-  enable: true    #是否开启Gitalk评论
-  clientID: 92f7e11965869294ce7d                        #生成的clientID
-  clientSecret: 1a2d8d1ed1ed7d553d6c243aabf729136be0f08f    #生成的clientSecret
-  repo: jimadela.github.io    #仓库名称
-  owner: jimadela    #github用户名
-  admin: jimadela
-  distractionFreeMode: true #是否启用类似FB的阴影遮罩
+# Gitalk 已停用：它的 clientSecret 必须下发到浏览器，等于把 OAuth 密钥公开在页面里。
+# 改用 giscus（基于 GitHub Discussions，前端不需要任何密钥）。
+# 启用只需两步（约 2 分钟）：
+#   1. 给仓库开启 Discussions，并新建一个 Announcement 类型的分类
+#   2. 打开 https://giscus.app ，填仓库名，把生成的 data-repo-id 与 data-category-id 抄到下面
+# 两个 id 都填上之后评论框才会出现；留空则整段脚本不加载，不会报错。
+giscus:
+  enable: true
+  repo: "jimadela/jimadela.github.io"
+  repo_id: ""            # 例：R_kgDOxxxxxxx
+  category: "Announcements"
+  category_id: ""        # 例：DIC_kwDOxxxxxxxxxx
+  mapping: pathname
+  reactions_enabled: 1
+  emit_metadata: 0
+  input_position: top
+  lang: zh-CN
 
 
 # 统计
