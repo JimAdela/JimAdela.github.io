@@ -8,3 +8,7 @@
   name: 工程实战
   total: 30
   desc: 真实项目里踩过的坑，写成可以直接照抄的配置、命令和判据。支付、分区、幂等、可观测性。
+- id: deepseek-source
+  name: 开源大模型源码精读
+  total: 14
+  desc: 从 809 行的 DeepSeek-V3 推理实现读到 V4.1 的 v4_modules。每期一个文件、一条 shape 流水线、一段能跑起来的复现。
