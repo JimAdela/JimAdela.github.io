@@ -2,8 +2,8 @@
    Paper — 视觉系统
    --------------------------------------------------------------------------
    定位：讲义。纸面微暖、墨色近黑、单一套色、以规线分层。
-   加载顺序在 bootstrap / hux-blog / syntax 之后，只做覆盖；
-   主题原文件一律不动，出问题删掉 <link> 即可整体回滚。
+   本文件是唯一的样式表（syntax.css 仅保留代码高亮配色），自带给基础归一。
+   改版回滚：git revert 对应提交即可。
    ========================================================================== */
 
 :root {
@@ -28,7 +28,19 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  scroll-behavior: smooth;
+}
+
+/* ==========================================================================
+   基础归一
+   --------------------------------------------------------------------------
+   原先这几十条来自 bootstrap.min.css（1404 条规则里只有 47 条还在生效）。
+   现在只留真正需要的，其余 170KB 不再下载。
+   ========================================================================== */
 
 body {
   margin: 0;
@@ -41,7 +53,29 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-img { max-width: 100%; height: auto; }
+/* —— 元素基线 —— */
+img { max-width: 100%; height: auto; border: 0; vertical-align: middle; }
+figure { margin: 0 0 26px; }
+
+a { color: var(--press); text-decoration: none; }
+a:hover, a:focus { color: var(--press); text-decoration: none; }
+
+b, strong { font-weight: 600; }
+small { font-size: 87.5%; }
+sub, sup { position: relative; font-size: 75%; line-height: 0; vertical-align: baseline; }
+sup { top: -0.5em; }
+sub { bottom: -0.25em; }
+
+p { margin: 0 0 24px; }
+ol, ul { margin: 0 0 24px; padding-left: 1.4em; }
+blockquote { margin: 0 0 26px; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 40px 0; }
+
+code, kbd, samp { font-family: var(--mono); font-size: 0.9em; }
+table { border-collapse: collapse; border-spacing: 0; }
+td, th { padding: 0; }
+
+button, input, select, textarea { font-family: inherit; font-size: inherit; line-height: inherit; }
 
 ::selection { background: #DCE8E2; color: var(--ink); }
 ::-moz-selection { background: #DCE8E2; color: var(--ink); }
@@ -128,8 +162,8 @@ img { max-width: 100%; height: auto; }
   background: var(--press);
 }
 
-.progress { height: 1px; }
-.progress i { display: block; height: 1px; width: 0; background: var(--press); }
+.readbar { height: 1px; background: transparent; }
+.readbar i { display: block; height: 1px; width: 0; background: var(--press); }
 
 .wrap {
   max-width: 1180px;
@@ -227,6 +261,7 @@ img { max-width: 100%; height: auto; }
   position: relative;
   font-size: 17px;
   line-height: 1.85;
+  overflow-wrap: break-word;
 }
 
 .sheet p { margin: 0 0 24px; }

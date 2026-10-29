@@ -1,7 +1,7 @@
 {
-  "name": "BY Blog",
-  "short_name": "BY Blog",
-  "description": "A personal blog by engineer",
+  "name": "无意 Blog",
+  "short_name": "无意",
+  "description": "AI 数学直觉与后端工程实战",
   "icons": [{
     "src": "icons/pwa_icon_128.png",
     "sizes": "128x128",
@@ -11,8 +11,8 @@
     "sizes": "512x512",
     "type": "image/png"
   }],
-  "background_color": "#fff",
-  "theme_color": "#000",
+  "background_color": "#FCFBF8",
+  "theme_color": "#FCFBF8",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait"

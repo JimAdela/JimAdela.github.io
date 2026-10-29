@@ -59,4 +59,24 @@
     p.insertBefore(w, t);
     w.appendChild(t);
   });
+
+  /* ---------- 图片：懒加载 + 失效外链降级 ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll('.sheet img'), function (img) {
+    img.loading = 'lazy';
+
+    var drop = function () {
+      var p = img.parentNode;
+      img.parentNode && img.parentNode.removeChild(img);
+      // 图片独占一段时，把空段落一并收掉，避免留下一条空白
+      if (p && p.tagName === 'P' && !p.textContent.trim() && !p.querySelector('img')) {
+        p.parentNode && p.parentNode.removeChild(p);
+      }
+    };
+
+    if (img.complete && img.naturalWidth === 0) {
+      drop();
+    } else {
+      img.addEventListener('error', drop);
+    }
+  });
 })();
