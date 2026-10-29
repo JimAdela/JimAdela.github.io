@@ -2,21 +2,37 @@
 layout: page
 title: "标签"
 kicker: "Index"
-description: "按主题找文章。同一个主题下的篇目按时间倒序排列。"
+description: "先按主题看，再按标签查。主题下按时间倒序；只有一两篇的标签压成一行，免得整页都是孤零零的标题。"
 header-img: "img/tag-bg.jpg"
 ---
 
-<div class="tagrow" style="margin: 0 0 8px;">
-    {% for tag in site.tags %}
-    <a href="#{{ tag[0] }}">{{ tag[0] }}<span>{{ tag[1].size }}</span></a>
-    {% endfor %}
-</div>
-
+{% comment %}
+    按篇数从多到少排。Liquid 没有 sort_by(hash)，把「补零后的篇数|标签名」拼成数组，
+    再 sort + reverse 就得到降序；篇数相同时按名字倒序，不影响阅读。
+{% endcomment %}
+{% assign ranked = "" | split: "" %}
 {% for tag in site.tags %}
-<section class="tag-group" id="{{ tag[0] }}">
-    <h2>{{ tag[0] }}<span>{{ tag[1].size }} 篇</span></h2>
+    {% assign pad = tag[1].size | prepend: "000" | slice: -3, 3 %}
+    {% assign one = pad | append: "|" | append: tag[0] | split: "~~~" %}
+    {% assign ranked = ranked | concat: one %}
+{% endfor %}
+{% assign ranked = ranked | sort | reverse %}
+
+{% assign major = 0 %}
+{% for item in ranked %}
+    {% assign p = item | split: "|" %}
+    {% if p[0] | plus: 0 >= 3 %}{% assign major = major | plus: 1 %}{% endif %}
+{% endfor %}
+
+{% for item in ranked %}
+{% assign p = item | split: "|" %}
+{% assign cnt = p[0] | plus: 0 %}
+{% assign name = p[1] %}
+{% if cnt >= 3 %}
+<section class="tag-group" id="{{ name }}">
+    <h2>{{ name }}<span class="count">{{ cnt }} 篇</span></h2>
     <ol class="tag-list">
-        {% for post in tag[1] %}
+        {% for post in site.tags[name] %}
         <li>
             <time>{{ post.date | date: "%Y-%m-%d" }}</time>
             <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
@@ -24,4 +40,22 @@ header-img: "img/tag-bg.jpg"
         {% endfor %}
     </ol>
 </section>
+{% endif %}
 {% endfor %}
+
+<h2 class="minor-head">其他标签<span class="count">{{ site.tags.size | minus: major }} 个</span></h2>
+
+<ul class="minor-list">
+{% for item in ranked %}
+{% assign p = item | split: "|" %}
+{% assign cnt = p[0] | plus: 0 %}
+{% assign name = p[1] %}
+{% if cnt < 3 %}
+    <li id="{{ name }}">
+        <span class="t">{{ name }}</span>
+        <span class="n">{{ cnt }}</span>
+        <span class="p">{% for post in site.tags[name] %}<a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>{% unless forloop.last %} · {% endunless %}{% endfor %}</span>
+    </li>
+{% endif %}
+{% endfor %}
+</ul>
