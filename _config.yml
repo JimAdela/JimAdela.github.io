@@ -35,7 +35,7 @@ paginate: 10
 # 文章 date 只写到日，按北京时间解释。不设时 GitHub Pages 按 UTC 构建，
 # 早上 8 点前推送的当天文章会被当成「未来文章」静默跳过。
 timezone: Asia/Shanghai
-exclude: ["less","node_modules","Gruntfile.js","package.json","README.md","scripts","CONTENT-PLAN.md","_templates","_design"]
+exclude: ["node_modules","README.md","scripts","CONTENT-PLAN.md","_templates","_design"]
 anchorjs: true                          # if you want to customize anchor. check out line:181 of `post.html`
 
 

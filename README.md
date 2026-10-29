@@ -273,7 +273,9 @@ ga_domain: huangxuan.me			# 默认的是 auto, 这里我是自定义了的域名
 
 ## 视觉系统（Paper）
 
-2026-10 起站点的视觉由 `css/paper.css` 接管。主题原文件（`bootstrap.css` / `hux-blog.css` / `syntax.css`）一律不改，任何样式出问题，删掉 `_includes/head.html` 里那一行 `<link>` 就能回到旧版。
+2026-10 起站点的视觉由 `css/paper.css` 接管，`syntax.css` 只管代码词法。原主题的 Bootstrap / jQuery / hux-blog / Font Awesome 及其 less 源码、Grunt 构建已全部删除，需要时从 git 历史取回。
+
+公式页（front matter 写 `math: true`）加载站内的 MathJax 3.2.2（`js/mathjax/`），不走外部 CDN。
 
 - 色与字全部定义在 `:root` 变量：纸 `#FCFBF8`、墨 `#16191A`、套色 `#1E5B4E`、朱批 `#A2452E`
 - 版心 660px；标题用系统衬线，正文用系统黑体，等宽只留给纯数字（中文在等宽字体和小字号下会糊）

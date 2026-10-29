@@ -85,7 +85,11 @@
             }
         };
     </script>
-    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    {% comment %}
+        MathJax 3.2.2 放在站内（js/mathjax/，只留 tex-chtml、woff-v2 字体与 TeX 扩展），
+        国内访问 jsDelivr 时快时慢，公式页会长时间显示裸 TeX。升级时从 npm 包 es5/ 下同路径覆盖。
+    {% endcomment %}
+    <script async src="{{ "/js/mathjax/tex-chtml.js" | prepend: site.baseurl }}"></script>
     {% endif %}
 
     <!-- ga & ba 的脚本在 footer.html -->

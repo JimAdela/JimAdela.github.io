@@ -1,145 +1,116 @@
 /* ===========================================================
  * sw.js
- * ===========================================================
- * Copyright 2016 @huxpro
- * Licensed under Apache 2.0 
- * Register service worker.
+ * 页面、索引、样式与脚本：网络优先（日更站点，回访要看到当天的首页）
+ * 图片与字体：先给缓存，后台再更新
+ * 离线：退回缓存，再退回 offline.html
  * ========================================================== */
 
-const PRECACHE = 'precache-v2';
-const RUNTIME = 'runtime';
-const HOSTNAME_WHITELIST = [
-  self.location.hostname
-]
+const VERSION = 'v3';
+const PRECACHE = 'precache-' + VERSION;
+const RUNTIME = 'runtime-' + VERSION;
+const RUNTIME_MAX = 80;
+const NETWORK_TIMEOUT = 4000;
 
+const PRECACHE_URLS = [
+  'offline.html',
+  'css/paper.css',
+  'css/syntax.css',
+  'js/paper.js'
+];
 
-// The Util Function to hack URLs of intercepted requests
-const getFixedUrl = (req) => {
-  var now = Date.now();
-  url = new URL(req.url)
+const isNavigation = (req) =>
+  req.mode === 'navigate' ||
+  (req.method === 'GET' && (req.headers.get('accept') || '').includes('text/html'));
 
-  // 1. fixed http URL
-  // Just keep syncing with location.protocol 
-  // fetch(httpURL) belongs to active mixed content. 
-  // And fetch(httpRequest) is not supported yet.
-  url.protocol = self.location.protocol
+const hasExtension = (url) => /\.\w+$/.test(url.pathname);
 
-  // 2. add query for caching-busting.
-  // Github Pages served with Cache-Control: max-age=600
-  // max-age on mutable content is error-prone, with SW life of bugs can even extend.
-  // Until cache mode of Fetch API landed, we have to workaround cache-busting with query string.
-  // Cache-Control-Bug: https://bugs.chromium.org/p/chromium/issues/detail?id=453190
-  url.search += (url.search ? '&' : '?') + 'cache-bust=' + now;
-  return url.href
-}
+// GitHub Pages 对 /about 这类不带斜杠的目录地址会 404，补一个斜杠再跳
+const needsSlash = (req, url) =>
+  isNavigation(req) && !url.pathname.endsWith('/') && !hasExtension(url);
 
-// The Util Function to detect and polyfill req.mode="navigate"
-// request.mode of 'navigate' is unfortunately not supported in Chrome
-// versions older than 49, so we need to include a less precise fallback,
-// which checks for a GET request with an Accept: text/html header.
-const isNavigationReq = (req) => (req.mode === 'navigate' || (req.method === 'GET' && req.headers.get('accept').includes('text/html')))
+const isStaticMedia = (url) =>
+  /\.(png|jpe?g|gif|webp|svg|ico|woff2?|ttf|otf)$/i.test(url.pathname);
 
-// The Util Function to detect if a req is end with extension
-// Accordin to Fetch API spec <https://fetch.spec.whatwg.org/#concept-request-destination>
-// Any HTML's navigation has consistently mode="navigate" type="" and destination="document" 
-// including requesting an img (or any static resources) from URL Bar directly.
-// So It ends up with that regExp is still the king of URL routing ;)
-// P.S. An url.pathname has no '.' can not indicate it ends with extension (e.g. /api/version/1.2/)
-const endWithExtension = (req) => Boolean(new URL(req.url).pathname.match(/\.\w+$/))
-
-// Redirect in SW manually fixed github pages arbitray 404s on things?blah 
-// what we want:
-//    repo?blah -> !(gh 404) -> sw 302 -> repo/?blah 
-//    .ext?blah -> !(sw 302 -> .ext/?blah -> gh 404) -> .ext?blah 
-// If It's a navigation req and it's url.pathname isn't end with '/' or '.ext'
-// it should be a dir/repo request and need to be fixed (a.k.a be redirected)
-// Tracking https://twitter.com/Huxpro/status/798816417097224193
-const shouldRedirect = (req) => (isNavigationReq(req) && new URL(req.url).pathname.substr(-1) !== "/" && !endWithExtension(req))
-
-// The Util Function to get redirect URL
-// `${url}/` would mis-add "/" in the end of query, so we use URL object.
-// P.P.S. Always trust url.pathname instead of the whole url string.
-const getRedirectUrl = (req) => {
-  url = new URL(req.url)
-  url.pathname += "/"
-  return url.href
-}
-
-/**
- *  @Lifecycle Install
- *  Precache anything static to this version of your app.
- *  e.g. App Shell, 404, JS/CSS dependencies...
- *
- *  waitUntil() : installing ====> installed
- *  skipWaiting() : waiting(installed) ====> activating
- */
-self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(PRECACHE).then(cache => {
-      return cache.add('offline.html')
-      .then(self.skipWaiting())
-      .catch(err => console.log(err))
-    })
-  )
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(PRECACHE)
+      .then((cache) => cache.addAll(PRECACHE_URLS))
+      .then(() => self.skipWaiting())
+      .catch(() => self.skipWaiting())
+  );
 });
 
-
-/**
- *  @Lifecycle Activate
- *  New one activated when old isnt being used.
- *
- *  waitUntil(): activating ====> activated
- */
-self.addEventListener('activate',  event => {
-  console.log('service worker activated.')
-  event.waitUntil(self.clients.claim());
+self.addEventListener('activate', (event) => {
+  const keep = [PRECACHE, RUNTIME];
+  event.waitUntil(
+    caches.keys()
+      .then((names) => Promise.all(
+        names.filter((n) => keep.indexOf(n) === -1).map((n) => caches.delete(n))
+      ))
+      .then(() => self.clients.claim())
+  );
 });
 
+const trim = (cache) =>
+  cache.keys().then((keys) => {
+    const extra = keys.length - RUNTIME_MAX;
+    if (extra <= 0) return;
+    return Promise.all(keys.slice(0, extra).map((k) => cache.delete(k)));
+  });
 
-/**
- *  @Functional Fetch
- *  All network requests are being intercepted here.
- * 
- *  void respondWith(Promise<Response> r);
- */
-self.addEventListener('fetch', event => {
-  // logs for debugging
-  console.log(`fetch ${event.request.url}`)
-  //console.log(` - type: ${event.request.type}; destination: ${event.request.destination}`)
-  //console.log(` - mode: ${event.request.mode}, accept: ${event.request.headers.get('accept')}`)
+const store = (req, resp) => {
+  if (!resp || !resp.ok || resp.type !== 'basic') return Promise.resolve();
+  const copy = resp.clone();
+  return caches.open(RUNTIME).then((cache) =>
+    cache.delete(req).then(() => cache.put(req, copy)).then(() => trim(cache))
+  );
+};
 
-  // Skip some of cross-origin requests, like those for Google Analytics.
-  if (HOSTNAME_WHITELIST.indexOf(new URL(event.request.url).hostname) > -1) {
-    
-    // Redirect in SW manually fixed github pages 404s on repo?blah 
-    if(shouldRedirect(event.request)){
-      event.respondWith(Response.redirect(getRedirectUrl(event.request)))
-      return;
-    }
+// waitUntil 必须在事件分发期间同步调用，所以写缓存的 promise 一开始就挂上
+const fetchAndStore = (event, init) => {
+  const req = event.request;
+  let saved = Promise.resolve();
+  const network = fetch(req, init).then((resp) => {
+    saved = store(req, resp);
+    return resp;
+  });
+  event.waitUntil(network.then(() => saved).catch(() => {}));
+  return network;
+};
 
-    // Stale-while-revalidate 
-    // similar to HTTP's stale-while-revalidate: https://www.mnot.net/blog/2007/12/12/stale
-    // Upgrade from Jake's to Surma's: https://gist.github.com/surma/eb441223daaedf880801ad80006389f1
-    const cached = caches.match(event.request);
-    const fixedUrl = getFixedUrl(event.request);
-    const fetched = fetch(fixedUrl, {cache: "no-store"});
-    const fetchedCopy = fetched.then(resp => resp.clone());
+const networkFirst = (event) => {
+  const req = event.request;
+  // 导航请求带 init 会被部分浏览器拒绝构造，只对子资源强制回源校验
+  const network = fetchAndStore(event, isNavigation(req) ? undefined : { cache: 'no-cache' });
 
-    // Call respondWith() with whatever we get first.
-    // If the fetch fails (e.g disconnected), wait for the cache.
-    // If there’s nothing in cache, wait for the fetch. 
-    // If neither yields a response, return offline pages.
-    event.respondWith(
-      Promise.race([fetched.catch(_ => cached), cached])
-        .then(resp => resp || fetched)
-        .catch(_ => caches.match('offline.html'))
-    );
+  // 网络慢到超时就先给缓存；没有缓存则继续等网络
+  const timeout = new Promise((resolve) => {
+    setTimeout(() => caches.match(req).then(resolve), NETWORK_TIMEOUT);
+  });
 
-    // Update the cache with the version we fetched (only for ok status)
-    event.waitUntil(
-      Promise.all([fetchedCopy, caches.open(RUNTIME)])
-        .then(([response, cache]) => response.ok && cache.put(event.request, response))
-        .catch(_ => {/* eat any errors */})
-    );
+  return Promise.race([network.catch(() => null), timeout])
+    .then((resp) => resp || network)
+    .catch(() => caches.match(req))
+    .then((resp) => resp || (isNavigation(req) ? caches.match('offline.html') : resp));
+};
+
+const staleWhileRevalidate = (event) => {
+  const network = fetchAndStore(event);
+  return caches.match(event.request).then((cached) => cached || network);
+};
+
+self.addEventListener('fetch', (event) => {
+  const req = event.request;
+  if (req.method !== 'GET') return;
+
+  const url = new URL(req.url);
+  if (url.origin !== self.location.origin) return;
+
+  if (needsSlash(req, url)) {
+    url.pathname += '/';
+    event.respondWith(Response.redirect(url.href));
+    return;
   }
+
+  event.respondWith(isStaticMedia(url) ? staleWhileRevalidate(event) : networkFirst(event));
 });
