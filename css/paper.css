@@ -755,6 +755,8 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
 
 @media (max-width: 560px) {
   body { font-size: 16.5px; }
+  /* 五个入口在 390px 下挤到边缘，RSS 页脚还有，窄屏先让位 */
+  .site-nav a[href$="feed.xml"] { display: none; }
   .sheet { font-size: 16.5px; }
   .sheet h2 { font-size: 22px; }
   .sheet h3 { font-size: 18.5px; }
