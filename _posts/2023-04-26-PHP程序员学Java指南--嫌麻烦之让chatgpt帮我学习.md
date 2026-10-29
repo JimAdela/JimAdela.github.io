@@ -527,7 +527,7 @@ public class HelloWorld {
 }
 ```
 
-这个程序输出 "Hello, world!"，并且用了以下几个 Java 的基本语法：
+这个程序输出 "Hello, world!“，并且用了以下几个 Java 的基本语法：
 
 1. 定义了一个 public 类 HelloWorld。
 2. 在类中定义了一个 public static 方法 main。
@@ -720,7 +720,7 @@ public String getUsers() {
 }
 ```
 
-3. 部署程序并启动，访问 http://localhost:8080/users，就可以看到 "user list"。
+3. 部署程序并启动，访问 http://localhost:8080/users，就可以看到 "user list“。
 
 步骤3：添加数据库支持
 
