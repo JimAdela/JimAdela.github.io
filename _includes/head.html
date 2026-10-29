@@ -71,5 +71,22 @@
     <link rel="stylesheet" href="{{ "/css/syntax.css" | prepend: site.baseurl }}">
     <link rel="stylesheet" href="{{ "/css/paper.css" | prepend: site.baseurl }}">
 
+    <!-- 公式页才加载。math: true 写在 front matter，避免 SQL 美元引号（$$）被当成公式 -->
+    {% if page.math %}
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            }
+        };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    {% endif %}
+
     <!-- ga & ba 的脚本在 footer.html -->
 </head>

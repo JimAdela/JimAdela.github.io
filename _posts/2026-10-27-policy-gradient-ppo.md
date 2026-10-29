@@ -6,6 +6,7 @@ date:       2026-10-27
 author:     WY
 header-img: img/post-bg-2015.jpg
 catalog: true
+math:       true
 series:     ai-math
 chapter:    24
 description: 用三臂老虎机手算一次策略梯度更新，把 REINFORCE、基线、优势函数与 PPO 的 clip 讲成能跑的代码，并给出七条上线调参的硬约束。
@@ -27,8 +28,6 @@ tags:
 读完这篇你能做到三件事：手算一次 softmax 策略的梯度更新，亲眼看到“奖励”怎么变成一个方向；写出一个三十行、不依赖任何 RL 库、直接能跑的 REINFORCE；说清楚 PPO 那个 `clip` 到底裁剪了什么，以及它在哪些情况下会失效、失效时该看哪个指标。
 
 ---
-
-## 第二十四章：策略梯度与 PPO：为什么“奖励”能变成“方向”
 
 ### 1. 直觉：奖励不是答案，是系数
 
@@ -364,17 +363,3 @@ $$
 - PPO 的 clip 是**单边刹车**：只在“已经朝正确方向走太远”时截断，走错方向时不设限。它不是 KL 约束，必须用 `approx_kl` 和 `clipfrac` 实测监控，不能靠 `clip=0.2` 这个数字安心。
 
 > 下一篇：《生成对抗网络：一场零和博弈的数学》，从“单方优化期望回报”走到“两方互相追赶”，看看极小极大目标为什么难训、以及它和策略梯度在数学上的亲缘关系。
-
-<!-- 本文公式较多，单独为本页挂载 MathJax；不影响其他页面，也不改动主题模板 -->
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['$', '$'], ['\\(', '\\)']],
-    displayMath: [['$$', '$$'], ['\\[', '\\]']]
-  },
-  options: {
-    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-  }
-};
-</script>
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

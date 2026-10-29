@@ -6,6 +6,7 @@ date:       2026-10-29
 author:     WY
 header-img: img/post-bg-digital-native.jpg
 catalog: true
+math:       true
 series:     ai-math
 chapter:    25
 description: 手推最优判别器的闭式解，把极小极大目标化简成 JSD，用数值实验量出 GAN 的梯度为什么会消失，并给出可跑的最小实现与六条训练诊断规则。
@@ -27,8 +28,6 @@ tags:
 读完这篇你能做到四件事：闭着眼睛推出最优判别器的形式，并说清它为什么是一个密度比；把极小极大目标一步步化简成 Jensen-Shannon 散度，亲眼看到 GAN 到底在最小化什么；用一组数值实验量出 JSD 的梯度在什么分离度下消失；写出一个六十行、不依赖任何 GAN 库、直接能跑的最小实现，并用三条指标判断它是否坍塌。
 
 ---
-
-## 第二十五章：生成对抗网络：一场零和博弈的数学
 
 ### 1. 直觉：造假币的人与验钞员
 
@@ -368,17 +367,3 @@ for step in range(1, 8001):
 - 模式坍塌、$D$ 到 50% 却不收敛、loss 曲线不下降，三件看似无关的怪事，根都在同一个地方：你优化的是一个会移动的判据，而它的地形里存在“看不见梯度”的稳定陷阱。判据要看覆盖率与判别器输出离散度，不要看 loss。
 
 > 下一篇：《变分自编码器：ELBO 与重参数化技巧》，从“用判别器隐式定义分布”走到“用显式的潜变量加一个可算的下界”，看看另一条路是怎么绕开对抗训练的，以及它为什么最终让位给了扩散模型。
-
-<!-- 本文公式较多，单独为本页挂载 MathJax；不影响其他页面，也不改动主题模板 -->
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['$', '$'], ['\\(', '\\)']],
-    displayMath: [['$$', '$$'], ['\\[', '\\]']]
-  },
-  options: {
-    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-  }
-};
-</script>
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

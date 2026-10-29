@@ -6,6 +6,7 @@ date:       2026-10-25
 author:     WY
 header-img: img/post-bg-universe.jpg
 catalog: true
+math:       true
 series:     ai-math
 chapter:    23
 description: 用一本两状态的账本和一张 4×4 网格，把马尔可夫决策、值函数、折扣因子与贝尔曼方程讲成能跑出数字的东西。
@@ -24,8 +25,6 @@ tags:
 大多数人在这一步卡住，不是因为不会推导，而是因为符号太密：$S$、$A$、$P$、$R$、$\gamma$、$V^\pi$、$Q^\pi$、$V^{\ast}$、$Q^{\ast}$ 一次性砸过来，每个都认识，合起来就不知道在说什么。这篇的目标很具体：**读完你能自己手算一个小规模 MDP 的值函数，能手写一个三十行的值迭代，并且知道它在什么情况下会骗你。**
 
 ---
-
-## 第二十三章：强化学习：马尔可夫决策与贝尔曼方程
 
 ### 1. 直觉：一个只会记账的赌徒
 
@@ -263,18 +262,4 @@ $$
 - 马尔可夫性约束的是你的**状态表示**够不够充分，不是环境有没有记忆；绝大多数训练不收敛的根因都在这里。
 
 > 下一篇：《策略梯度与 PPO：为什么“奖励”能变成“方向”》，从“给状态打分”走到“直接调策略参数”，把强化学习接回我们熟悉的反向传播。
-
-<!-- 本文公式较多，单独为本页挂载 MathJax；不影响其他页面，也不改动主题模板 -->
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['$', '$'], ['\\(', '\\)']],
-    displayMath: [['$$', '$$'], ['\\[', '\\]']]
-  },
-  options: {
-    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-  }
-};
-</script>
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 

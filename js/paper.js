@@ -48,13 +48,14 @@
   var sheet = document.querySelector('.sheet');
   if (toc && sheet) {
     var list = toc.querySelector('ol');
-    var heads = sheet.querySelectorAll('h2, h3');
+    var heads = sheet.querySelectorAll('h2, h3, h4');
     var n = 0;
 
     Array.prototype.forEach.call(heads, function (h) {
       if (!h.id) return;
       var li = document.createElement('li');
       if (h.tagName === 'H3') li.className = 'lv3';
+      if (h.tagName === 'H4') li.className = 'lv4';
       var a = document.createElement('a');
       a.href = '#' + h.id;
       a.textContent = h.textContent.replace(/^#+\s*/, '');
@@ -66,6 +67,7 @@
     if (n < 3) {
       toc.parentNode.removeChild(toc);
     } else {
+      if (sheet.querySelector('h4')) toc.classList.add('is-deep');
       var label = toc.querySelector('span');
       if (label) label.textContent = n + ' 节';
       if (window.innerWidth < 900) toc.removeAttribute('open');

@@ -22,8 +22,9 @@
   --sans:  "Noto Sans SC", "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --mono:  "JetBrains Mono", "SFMono-Regular", ui-monospace, Consolas, "Liberation Mono", monospace;
 
-  /* 版心 */
+  /* 版心。顶栏和页脚的内容区跟这条等宽，左右留白单独走 --gutter */
   --measure: 660px;
+  --gutter: 32px;
 
   /* 代码高亮：从纸墨套色里推出来的，不用 GitHub 那套粉绿 */
   --syn-com: #8A928C;
@@ -31,6 +32,7 @@
   --syn-str: #1E5B4E;
   --syn-num: #7A5C2E;
   --syn-fn:  #2C3330;
+  --link-line: #A9C4B9;
 
   --masthead-bg: rgba(252, 251, 248, 0.94);
   --rule-strong: #16191A;
@@ -52,6 +54,7 @@
   --syn-str: #8FC7AE;
   --syn-num: #C4A972;
   --syn-fn:  #DCD8CE;
+  --link-line: #6F9A8C;
 
   --masthead-bg: rgba(22, 25, 26, 0.94);
   --rule-strong: #5A655F;
@@ -153,9 +156,9 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
 }
 
 .masthead-in {
-  max-width: 1180px;
+  max-width: calc(var(--measure) + var(--gutter) * 2);
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 var(--gutter);
   height: 64px;
   display: flex;
   align-items: center;
@@ -206,7 +209,7 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
 .wrap {
   max-width: 1180px;
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 var(--gutter);
 }
 
 /* ==========================================================================
@@ -307,7 +310,7 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
 .sheet a {
   color: var(--press);
   text-decoration: underline;
-  text-decoration-color: #A9C4B9;
+  text-decoration-color: var(--link-line);
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
 }
@@ -315,6 +318,7 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
 
 /* 章标题：上方规线 + 左端套色刻度，替代会与手写章号打架的自动编号 */
 .sheet h2 {
+  font-family: var(--serif);
   font-size: 26px;
   line-height: 1.4;
   font-weight: 600;
@@ -336,17 +340,17 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
 .sheet h2:first-child::before { display: none; }
 
 .sheet h3 {
-  font-size: 20px;
+  font-size: 22px;
   line-height: 1.5;
   font-weight: 600;
   margin: 38px 0 12px;
 }
 
 .sheet h4 {
-  font-size: 17.5px;
-  line-height: 1.55;
+  font-size: 19px;
+  line-height: 1.5;
   font-weight: 600;
-  margin: 30px 0 10px;
+  margin: 32px 0 10px;
 }
 
 .sheet h5 {
@@ -415,7 +419,7 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
   font-family: var(--mono);
   font-size: 13px;
   line-height: 1.75;
-  color: #2C3330;
+  color: var(--ink);
   border-left: 2px solid var(--press);
   padding: 14px 18px;
   margin: 0 0 26px;
@@ -429,7 +433,7 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
   font-family: var(--mono);
   font-size: 0.88em;
   background: var(--wash);
-  color: #2C3330;
+  color: var(--ink);
   padding: 1px 5px;
   border-radius: 2px;
 }
@@ -509,9 +513,13 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
   columns: 2;
   column-gap: 34px;
 }
+/* 收到 h4 之后，两栏会把小节拆到另一栏顶上，层级就反了。深目录改单栏。 */
+.toc.is-deep ol { columns: 1; }
 .toc li { font-size: 13.5px; line-height: 1.95; margin: 0; break-inside: avoid; }
 .toc li.lv3 { padding-left: 14px; font-size: 13px; }
 .toc li.lv3 a { color: var(--ink-2); }
+.toc li.lv4 { padding-left: 28px; font-size: 12.5px; }
+.toc li.lv4 a { color: var(--ink-2); }
 .toc a { color: var(--ink); text-decoration: none; }
 .toc a:hover { color: var(--press); text-decoration: underline; text-underline-offset: 3px; }
 
@@ -587,8 +595,12 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
 .nameplate {
   max-width: var(--measure);
   margin: 0 auto;
-  padding: 96px 0 48px;
+  padding: 64px 0 32px;
   border-bottom: 1px solid var(--rule);
+}
+.nameplate .kicker {
+  margin: 20px 0 0;
+  letter-spacing: 0.08em;
 }
 .nameplate .poem {
   font-family: var(--serif);
@@ -603,7 +615,7 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
   font-size: 12.5px;
   letter-spacing: 0.04em;
   color: var(--ink-2);
-  margin: 26px 0 0;
+  margin: 12px 0 0;
   font-variant-numeric: tabular-nums;
 }
 
@@ -643,18 +655,24 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
   max-width: 40em;
 }
 
-.tagrow { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
-.tagrow a {
-  font-size: 12px;
-  letter-spacing: 0.02em;
-  color: var(--press);
-  text-decoration: none;
-  border: 1px solid var(--rule);
-  padding: 2px 10px;
+.tagrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  margin-top: 10px;
+  font-size: 12.5px;
   line-height: 1.7;
 }
-.tagrow a:hover { border-color: var(--press); }
-.tagrow a span { color: var(--ink-2); margin-left: 5px; }
+.tagrow a {
+  color: var(--ink-2);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+.tagrow a:hover { color: var(--press); }
+.tagrow a:not(:last-child)::after {
+  content: " · ";
+  color: var(--ink-2);
+}
 
 .pagination {
   max-width: var(--measure);
@@ -751,9 +769,9 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
   font-size: 16px;
 }
 .colophon-in {
-  max-width: 1180px;
+  max-width: calc(var(--measure) + var(--gutter) * 2);
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 var(--gutter);
   display: flex;
   justify-content: space-between;
   gap: 14px;
@@ -781,12 +799,12 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
 }
 
 @media (max-width: 900px) {
-  .masthead-in { padding: 0 20px; height: 58px; }
+  :root { --gutter: 20px; }
+  .masthead-in { height: 58px; }
   .site-nav { gap: 18px; }
-  .wrap { padding: 0 20px; }
   .page-head { padding: 56px 0 28px; }
   .post-head { padding: 40px 0 26px; }
-  .nameplate { padding: 56px 0 34px; }
+  .nameplate { padding: 48px 0 28px; }
   .index-item { grid-template-columns: minmax(0, 1fr); gap: 4px; padding: 22px 0; }
   .index-item time { padding-top: 0; }
   .tag-list li { grid-template-columns: minmax(0, 1fr); gap: 2px; }
@@ -794,7 +812,7 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
   .pager2 { grid-template-columns: minmax(0, 1fr); gap: 20px; }
   .pager2 .next { text-align: left; }
   .toc ol { columns: 1; }
-  .colophon-in { padding: 0 20px; flex-direction: column; gap: 8px; }
+  .colophon-in { flex-direction: column; gap: 8px; }
 }
 
 @media (max-width: 560px) {
@@ -804,6 +822,7 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
   .sheet { font-size: 16.5px; }
   .sheet h2 { font-size: 22px; }
   .sheet h3 { font-size: 18.5px; }
+  .sheet h4 { font-size: 17px; }
   .post-head h1 { font-size: 26px; }
   .standfirst { font-size: 16px; }
   .site-nav a { font-size: 12.5px; }
@@ -1082,6 +1101,27 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; line
 .highlight .err { color: var(--mark); background: transparent; }
 .highlight .hll { background: rgba(30, 91, 78, 0.1); }
 .highlight .gh, .highlight .gu, .highlight .gp { color: var(--ink-2); }
+
+/* syntax.css 里还留着 GitHub 的字色和 diff 底。这里把没接管的词类收进套色，并清掉粉绿底。 */
+.highlight .n, .highlight .nx, .highlight .py, .highlight .nl,
+.highlight .no, .highlight .ni, .highlight .bp,
+.highlight .vc, .highlight .vg, .highlight .vi {
+  color: var(--syn-fn);
+}
+.highlight .ne, .highlight .gr, .highlight .gt { color: var(--mark); }
+.highlight .go { color: var(--syn-com); }
+.highlight .gd, .highlight .gd .x,
+.highlight .gi, .highlight .gi .x,
+.highlight .gc { background: transparent; }
+
+/* 公式：字色跟着正文，长式子在版心里横向滚，不把行撑破 */
+mjx-container { color: inherit; }
+.sheet mjx-container[display="true"] {
+  margin: 1.15em 0 1.35em;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
 
 /* ==========================================================================
    主题切换按钮
