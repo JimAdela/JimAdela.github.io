@@ -30,7 +30,7 @@ description: "无意 Blog：AI 数学直觉与后端工程实战。把论文里�
                 {% if lead == '<h2' %}{% assign body = body | split: '</h2>' | slice: 1, 99 | join: '</h2>' %}{% endif %}
                 {% if lead == '<h3' %}{% assign body = body | split: '</h3>' | slice: 1, 99 | join: '</h3>' %}{% endif %}
                 {% if lead == '<h4' %}{% assign body = body | split: '</h4>' | slice: 1, 99 | join: '</h4>' %}{% endif %}
-                {% assign flat = body | strip_html | strip_newlines %}
+                {% assign flat = body | strip_html | strip_newlines | strip %}
                 {% assign first = flat | split: '。' | first %}
                 {% if first == flat %}
                     {% assign ex = flat | truncate: 118 %}
