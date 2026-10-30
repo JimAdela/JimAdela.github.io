@@ -9,6 +9,10 @@ catalog: true
 series:     engineering
 chapter:    2
 description: 一份踩过坑的低代码后台复盘：四条安装命令、可直接照抄的 CRUD 控制器、金额与状态列的复用封装，以及联动表单、导出、权限、性能这五处真正卡住的地方和绕法。
+last_modified_at: 2026-10-29
+errata:
+  - date: 2026-10-29
+    text: 日期范围筛选的结束条件原为 `<= 23:59:59`，会漏掉带毫秒的记录，已改为左闭右开；模块清单做了脱敏
 tags:
     - Laravel
     - PHP
@@ -18,7 +22,7 @@ tags:
 
 ## 开篇：两周、十九张表、没有前端
 
-去年接过一个后台：业务侧给了十九张表，拆成十一个管理模块——渠道、商户、订单、钱包、流水、结算、广告观看记录、语音素材、礼包商品。上线时间两周，团队里没有前端，只有我一个写 Laravel 的。
+去年接过一个后台：业务侧给了十九张表，拆成十一个管理模块——渠道、商户、订单、钱包、流水、结算，外加几类运营内容和商品配置。上线时间两周，团队里没有前端，只有我一个写 Laravel 的。（模块名和文中代码都做过脱敏，代码是按原理重写的示意代码。）
 
 正常做法是 Vue + Element Plus 起一个 SPA，光登录、路由、权限、菜单、请求封装这套壳子就要三天，然后每个模块的列表页、表单页、详情页再各写一遍。两周交不出来。
 
@@ -174,16 +178,21 @@ public function getAmountTextAttribute(): string
 **第三件：日期范围筛选。** 这里有一个几乎每个人都会踩的坑：amis 的 `DateRangeControl` 提交上来的是**逗号拼接的字符串**，不是数组。后端要这么接：
 
 ```php
+use Illuminate\Support\Carbon;
+
 public function list(array $filters)
 {
     [$start, $end] = array_pad(explode(',', (string) ($filters['created_range'] ?? '')), 2, null);
 
     return Order::query()
-        ->when($start, fn ($q, $v) => $q->where('created_at', '>=', $v.' 00:00:00'))
-        ->when($end, fn ($q, $v) => $q->where('created_at', '<=', $v.' 23:59:59'))
+        ->when($start, fn ($q, $v) => $q->where('created_at', '>=', Carbon::parse($v)->startOfDay()))
+        // 左闭右开：小于结束日期的次日零点，而不是 <= 23:59:59
+        ->when($end, fn ($q, $v) => $q->where('created_at', '<', Carbon::parse($v)->addDay()->startOfDay()))
         ->paginate((int) ($filters['perPage'] ?? 20));
 }
 ```
+
+结束条件不要写成 `<= '2026-10-15 23:59:59'`。时间列带毫秒或微秒时，`23:59:59.500` 这样的记录会被漏掉；左闭右开的写法没有这个缝隙，而且在分区表上同样能触发分区裁剪（见本系列第 3 篇）。
 
 **顺带说一个更隐蔽的坑：状态筛选选“停用”（值为 0）时失效。**
 

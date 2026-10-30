@@ -8,7 +8,13 @@ header-img: img/post-bg-desk.jpg
 catalog: true
 series:     engineering
 chapter:    1
-description: 从一段真实的臃肿控制器出发，给出 Laravel 12 项目的分层判据、六层目录职责、完整拆分对照代码，以及用 PHPStan 与架构测试把边界钉死的可照抄配置。
+description: 从一段典型的臃肿控制器出发，给出 Laravel 12 项目的分层判据、六层目录职责、完整拆分对照代码，以及用 PHPStan 与架构测试把边界钉死的可照抄配置。
+last_modified_at: 2026-10-29
+errata:
+  - date: 2026-10-29
+    text: Controller 的 `store()` 原先声明返回 `OrderResource`，实际返回的是 `JsonResponse`，会在运行时抛类型错误，已修正返回类型
+  - date: 2026-10-29
+    text: 补上正文用到但未定义的 `RecordOrderFlow` 的职责说明；类名与示例代码统一做了通用化脱敏
 tags:
     - Laravel
     - PHP
@@ -52,7 +58,8 @@ tags:
 app/
 ├── Actions/            # 用例层：一个业务动作一个类
 │   └── Payment/
-│       ├── CreateCollectionOrder.php
+│       ├── CreateOrder.php
+│       ├── RecordOrderFlow.php
 │       └── ResolveChannel.php
 ├── Data/               # DTO：跨层传递的只读数据对象
 │   └── Payment/CreateOrderData.php
@@ -148,7 +155,7 @@ final readonly class CreateOrderData
 
 ## 三、把一段 300 行的 Controller 拆开
 
-下面是拆分前的典型形态（为可读性做了压缩，真实版本更长）：
+下面是拆分前的典型形态。为了脱敏，本文所有代码都是按原理重写的示意代码，表名、类名做了通用化处理，不是生产源码：
 
 ```php
 public function store(Request $request)
@@ -201,16 +208,17 @@ public function store(Request $request)
 
 namespace App\Http\Controllers\Api;
 
-use App\Actions\Payment\CreateCollectionOrder;
+use App\Actions\Payment\CreateOrder;
 use App\Data\Payment\CreateOrderData;
 use App\Http\Requests\Api\CreateOrderRequest;
 use App\Http\Resources\OrderResource;
+use Illuminate\Http\JsonResponse;
 
-final class CollectionOrderController extends Controller
+final class OrderController extends Controller
 {
-    public function __construct(private readonly CreateCollectionOrder $action) {}
+    public function __construct(private readonly CreateOrder $action) {}
 
-    public function store(CreateOrderRequest $request): OrderResource
+    public function store(CreateOrderRequest $request): JsonResponse
     {
         $order = $this->action->handle(
             CreateOrderData::fromRequest($request, $request->user()->merchant_id)
@@ -236,7 +244,7 @@ use App\Repositories\Contracts\OrderRepository;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\DB;
 
-final class CreateCollectionOrder
+final class CreateOrder
 {
     public function __construct(
         private readonly OrderRepository $orders,
@@ -272,7 +280,11 @@ final class CreateCollectionOrder
 }
 ```
 
-注意幂等的处理方式变了：不再“先查再插”，而是**直接插，靠数据库唯一索引裁决**，捕获冲突后回查。这是并发下唯一可靠的做法——“先查”和“再插”之间永远有窗口。
+注意幂等的处理方式变了：不再“先查再插”，而是**直接插，靠数据库唯一索引裁决**，捕获冲突后回查。这是并发下唯一可靠的做法——“先查”和“再插”之间永远有窗口。（如果订单表做了分区，唯一索引必须包含分区键，这条路会变窄，做法见本系列第 3 篇的登记表方案。）
+
+Controller 的返回类型写的是 `JsonResponse` 而不是 `OrderResource`：`->response()->setStatusCode(201)` 返回的已经是响应对象，声明成 Resource 会在运行时抛类型错误。只想用默认的 200/201 状态码时，可以直接返回 `OrderResource::make($order)`，返回类型再改回 `OrderResource`。
+
+`RecordOrderFlow` 和下面的 `ResolveChannel` 结构相同：一个 `handle(Order $order)`，只负责写一条资金流水，不开事务——它运行在 `CreateOrder` 已经开好的事务里，订单和流水要么一起成功，要么一起回滚。
 
 通道选择被抽成独立的可测单元：
 
@@ -305,7 +317,7 @@ final class ResolveChannel
 
 ## 四、判断表：这行代码该放哪
 
-落地时最常卡住的不是“要不要分层”，而是具体某一行该去哪。做一张表贴在 Code Review 模板里，争议会少 80%：
+落地时最常卡住的不是“要不要分层”，而是具体某一行该去哪。做一张表贴在 Code Review 模板里，争议会少很多：
 
 | 你可能想写的东西 | 该放 | 理由 |
 |---|---|---|

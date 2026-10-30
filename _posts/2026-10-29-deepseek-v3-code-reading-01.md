@@ -11,6 +11,14 @@ math:       true
 series:     deepseek-source
 chapter:    1
 source:     deepseek-ai/DeepSeek-V3@9b4e9788e4a3
+last_modified_at: 2026-10-29
+errata:
+  - date: 2026-10-29
+    text: 第 1 节行数合计原写作 859 行并归因于边界重叠，实为重复计入了 `ModelArgs`；三层合计正好 790 行，对应第 20 到 809 行
+  - date: 2026-10-29
+    text: 原文称 `Linear.dtype` 是类属性所以「一个进程只能有一种精度」，与第 183 行允许按实例覆盖、输出头显式使用 bf16 的代码不符，已改正
+  - date: 2026-10-29
+    text: 原文称解码时不构造掩码「省下了 S×S 矩阵的开销」，有误，此时掩码最多是 1×1；已改为语义解释，并补充掩码形状带来的「不支持分块预填充」限制
 tags:
     - 人工智能
     - 深度学习
@@ -53,7 +61,7 @@ tags:
 | 算子 | `precompute_freqs_cis` | {% include src.html path="inference/model.py" lines="297-377" %} | 81 | 预计算旋转位置编码 |
 | 算子 | `apply_rotary_emb` | {% include src.html path="inference/model.py" lines="378-395" %} | 18 | 把 RoPE 应用到 q/k |
 
-把行数加起来：入口层 183 行，结构层 300 行，算子层 307 行，加上 `ModelArgs` 的 69 行，是 859——比 809 多，因为相邻定义的边界行有重叠（每个类的最后一行既是本类的结尾，也是下一个定义之前的空行）。真正的有效代码约 790 行，剩下的是空行。
+把行数加起来：入口层 183 行（已含 `ModelArgs` 的 69 行），结构层 300 行，算子层 307 行，合计 790 行，正好等于第 20 行到第 809 行这一段的长度——十六个定义首尾相接，没有重叠，也没有缝隙。文件开头的 18 行是 import 和几个全局变量（`world_size`、`rank`、`block_size` 等），第 19 行是 `ModelArgs` 头上的 `@dataclass` 装饰器。
 
 **阅读顺序不是从上往下。** 我的建议是：先读入口层的 114 行（`Block` 42 + `Transformer` 72），因为它是骨架；再读结构层的 300 行，那是这个模型真正的创新；算子层留到最后按需查——你不需要知道 `ColumnParallelLinear` 怎么实现，也能理解 MLA 在做什么。
 
@@ -122,11 +130,15 @@ logits = self.head(h)
 
 这二十几行里有三个细节，值得单独拎出来。
 
-**第一，`Linear.dtype` 是类属性，不是实例属性。** {% include src.html path="inference/model.py" lines="760" text="第 760 行" %}给 `Linear` 这个类赋了一个类型，之后所有 `Linear` 子类实例都用它。含义是：一个进程里只能有一种精度，你不能让第 1 层跑 bf16、第 30 层跑 fp8。这是刻意的简化——真实部署里按层混精度的收益很小，而分支判断的成本会渗到每一次矩阵乘里。
+**第一，`Linear.dtype` 是类属性，充当全局默认精度。** {% include src.html path="inference/model.py" lines="760" text="第 760 行" %}给 `Linear` 这个类赋了一个类型，之后凡是没有显式指定精度的 `Linear` 及其子类实例，都会用它。但它只是默认值：构造函数 {% include src.html path="inference/model.py" lines="183" text="第 183 行" %}写的是 `dtype=dtype or Linear.dtype`，允许单个实例覆盖。上面摘录里的输出头就是例子——`self.head` 显式传了 `dtype=torch.get_default_dtype()`，在 fp8 模式下也保持 bf16。所以准确的说法是：**所有中间层的线性变换共用一种精度，个别层（输出头）单独指定。** 这样既不用在每一层写精度分支，又能让直接产出 logits 的输出头保持更高精度。
+
+这个类属性还有一个副作用：fp8 模式下，`Linear` 会额外为每个 128×128 的权重块挂一个 fp32 的 scale（{% include src.html path="inference/model.py" lines="184-187" text="184-187 行" %}）。第 4 期会专门讲这些 scale 怎么参与计算。
 
 **第二，`freqs_cis` 用了 `persistent=False`。** 这个 buffer 不进 `state_dict`，也就是说它不会被存进 checkpoint。好处是：你改了 `rope_theta` 或 `rope_factor`，不需要重新保存一遍权重；坏处是：加载权重时如果忘了重新算，位置编码会静默错位。第 3 期会专门讲这 81 行。
 
-**第三，mask 只在 `seqlen > 1` 时构造。** 解码阶段每次只喂一个 token，`seqlen == 1`，因果掩码没有任何意义（一个位置不需要遮谁），直接传 `None`。这一行省下的是每一步都分配一个 `S × S` 矩阵的开销——在长上下文里这不是小数。
+**第三，mask 只在 `seqlen > 1` 时构造。** 解码阶段每次只喂一个新 token，`seqlen == 1`。这个新 token 本来就该看到全部历史，没有任何位置需要遮挡，所以直接传 `None`。注意这里省下的不是什么大矩阵——就算构造，它也只是 1×1 的；这一行的意义在于语义，而不是性能。
+
+顺着这一行还能读出一个更重要的限制。掩码的形状是 `(seqlen, seqlen)`，而注意力分数的形状是 `[bsz, seqlen, n_heads, end_pos]`（{% include src.html path="inference/model.py" lines="486-489" text="486-489 行" %}），其中 `end_pos = start_pos + seqlen`。两者要能相加，必须 `end_pos == seqlen`，也就是 `start_pos == 0`。换句话说，**这份参考实现只支持“一次性预填充整段提示词，然后逐个解码”**：如果想把长提示词切成几段分块预填充（第二段起 `start_pos > 0` 且 `seqlen > 1`），形状对不上，会直接报错。`generate.py` 的生成循环恰好只走这两条路径，所以平时碰不到。这是参考实现和生产推理引擎的一个典型差别。
 
 #### 顺带看一眼 Block 的那两行
 
@@ -178,7 +190,9 @@ $$
 2048 \times (8 + 1) = 18432
 $$
 
-**八个路由专家加一个共享专家，宽度刚好等于一个稠密前馈。** 也就是说，MoE 层每个 token 的实际计算量和稠密层完全一样，变的只是「这 18432 的宽度由谁来填」——稠密层用一组固定的权重，MoE 用 256 组里挑 9 组。参数涨了 19 倍，算力一点没涨。这就是 MoE 的全部秘密，也是为什么它能把 671B 塞进一张卡的算力预算里（显存另说）。
+**八个路由专家加一个共享专家，宽度刚好等于一个稠密前馈。** 也就是说，MoE 层每个 token 的实际计算量和稠密层完全一样，变的只是「这 18432 的宽度由谁来填」——稠密层用一组固定的权重，MoE 用 256 组里挑 9 组。按整层算（11.507B 对 0.5835B），参数涨了将近 20 倍，每个 token 的算力一点没涨。这就是 MoE 的核心账本：**算力按激活参数付，显存按总参数付。**
+
+显存这一侧的账也可以顺手算出来。权重以 fp8 存储时每个参数占 1 字节，671B 参数光权重就要约 671 GB；嵌入和输出头保持 bf16，再加上每个 128×128 块一个 fp32 的 scale，还要多出几 GB。一台 8 卡、每卡 80 GB 的机器合计 640 GB，连权重都放不下，更不用说 KV cache。这就是为什么 MoE 的工程难点集中在显存和跨卡通信上，第 4 期和第 8 期会分别展开。
 
 ### 5. 三个常见误解
 
@@ -261,7 +275,7 @@ self.ffn = MLP(args.dim, args.inter_dim) if layer_id < args.n_dense_layers else 
 地图画完了，用三个问题检查一下读没读懂。答得上来，这一期就没白读：
 
 1. `Transformer.forward` {% include src.html path="inference/model.py" lines="792" text="第 792 行" %}为什么是 `self.norm(h)[:, -1]` 而不是 `self.norm(h)`？如果去掉 `[:, -1]`，输出的形状会变成什么，后续哪一步会崩？
-2. 解码阶段 `mask` 传的是 `None`。如果误传了一个 `1 × 1` 的掩码矩阵，结果会错吗？为什么？
+2. 解码阶段 `mask` 传的是 `None`。如果误传了一个 `1 × 1` 的掩码矩阵（值为 0），结果会错吗？如果传的是 `(seqlen, seqlen)` 而此时 `start_pos > 0`，又会发生什么？
 3. 671B 里，哪一部分占了 99.4%？如果要把模型压到 100B 以内，最直接的一刀砍在哪？
 
 第三个问题的答案在表格里：MoE 层 667.42B，占 99.4%。把专家数从 256 砍到 128，参数量从 671B 掉到 344B，几乎腰斩；而每 token 的激活量**一点没变，还是 37.4B**——因为激活量由 `topk=8` 决定，跟专家总数无关。
@@ -279,5 +293,5 @@ self.ffn = MLP(args.dim, args.inter_dim) if layer_id < args.n_dense_layers else 
 ## 小结
 
 - 809 行里真正要先读的是入口层 114 行：`Block` 42 行说明一层长什么样，`Transformer` 72 行说明 61 层怎么串起来。算子层留到需要时再查。
-- `Transformer.forward` 只返回最后一个位置的 logits（{% include src.html path="inference/model.py" lines="792" text="第 792 行" %}），这个细节决定了整个仓库是推理实现而非训练实现；`Linear.dtype` 是类属性，一个进程只能有一种精度。
+- `Transformer.forward` 只返回最后一个位置的 logits（{% include src.html path="inference/model.py" lines="792" text="第 792 行" %}），这个细节决定了整个仓库是推理实现而非训练实现；`Linear.dtype` 是类属性形式的默认精度，输出头单独保持 bf16；掩码形状决定了这份实现只支持「整段预填充 + 逐个解码」。
 - 671.0B 与 37.4B 都能从一份 config 手算出来，误差在小数点后一位。MoE 的部分之所以划算，是因为 8 个路由专家加 1 个共享专家的宽度恰好等于一个稠密前馈（2048 × 9 = 18432）——参数涨 19 倍，算力不涨。
