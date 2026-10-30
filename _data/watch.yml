@@ -456,6 +456,61 @@
 
 # ----- 海外剧集 -----
 
+- title: "星期三"
+  kind: series
+  region: world
+  year: 2022
+  creator: "阿尔弗雷德·高夫、迈尔斯·米勒"
+  note: "星期三·亚当斯被送进奈弗莫尔学院。珍妮娜·奥尔特加。还在更新。"
+
+- title: "黑袍纠察队"
+  kind: series
+  region: world
+  year: 2019
+  year_end: 2026
+  creator: "埃里克·克里普基"
+  note: "比利·布彻带着一队人，专门对付超级英雄。正传，不含《V世代》。"
+
+- title: "少年谢尔顿"
+  kind: series
+  region: world
+  year: 2017
+  year_end: 2024
+  creator: "查克·洛尔、史蒂文·莫拉罗"
+  note: "九岁的谢尔顿住在得克萨斯。写在《生活大爆炸》之前。"
+
+- title: "风骚律师"
+  kind: series
+  region: world
+  year: 2015
+  year_end: 2022
+  creator: "文斯·吉里根、彼得·古尔德"
+  note: "吉米·麦吉尔变成索尔·古德曼。《绝命毒师》里那个人的来处。"
+
+- title: "硅谷"
+  kind: series
+  region: world
+  year: 2014
+  year_end: 2019
+  creator: "迈克·贾奇"
+  note: "理查德带着一套压缩算法，在硅谷办公司。"
+
+- title: "行尸走肉"
+  kind: series
+  region: world
+  year: 2010
+  year_end: 2022
+  creator: "弗兰克·达拉邦特"
+  note: "瑞克从昏迷中醒来，外面已经是丧尸。正传，不含后来的衍生剧。"
+
+- title: "迷失"
+  kind: series
+  region: world
+  year: 2004
+  year_end: 2010
+  creator: "J·J·艾布拉姆斯、达蒙·林德洛夫"
+  note: "海洋航空815航班坠落荒岛。杰克他们要离开，岛却不让。"
+
 - title: "黑暗荣耀"
   kind: series
   region: world

@@ -32,6 +32,34 @@
   author: "老猪"
   note: "紫川秀与紫川三杰。2003 至 2009 年在起点连载。"
 
+- title: "不死不灭"
+  shelf: cn
+  year: 2004
+  year_end: 2006
+  author: "辰东"
+  note: "太古的独孤败天。后来的《神墓》接在这本后面。"
+
+- title: "星峰传说"
+  shelf: cn
+  year: 2005
+  year_end: 2006
+  author: "我吃西红柿"
+  note: "张星峰六岁被逐出家门，要创出自己的传说。"
+
+- title: "师士传说"
+  shelf: cn
+  year: 2006
+  year_end: 2008
+  author: "方想"
+  note: "叶重在丛林法则里穿上智能光甲。"
+
+- title: "寸芒"
+  shelf: cn
+  year: 2006
+  year_end: 2007
+  author: "我吃西红柿"
+  note: "一把只有寸长的飞剑，从凡间杀出去。"
+
 - title: "尘缘"
   shelf: cn
   year: 2006
@@ -60,6 +88,13 @@
   author: "梦入神机"
   note: "周青走进封神与西游叠在一起的洪荒。"
 
+- title: "黑山老妖"
+  shelf: cn
+  year: 2007
+  year_end: 2008
+  author: "梦入神机"
+  note: "王钟练了十年铁砂掌，落到明末，要逆转天道。"
+
 - title: "无限恐怖"
   shelf: cn
   year: 2007
@@ -80,6 +115,20 @@
   year_end: 2009
   author: "猫腻"
   note: "范闲在庆国查身世。这里记小说。剧集在观影里只记了第一季。"
+
+- title: "龙蛇演义"
+  shelf: cn
+  year: 2008
+  year_end: 2009
+  author: "梦入神机"
+  note: "王超从怯懦的混混练起。古人学武，只杀敌不表演。"
+
+- title: "卡徒"
+  shelf: cn
+  year: 2008
+  year_end: 2010
+  author: "方想"
+  note: "制卡师陈暮靠一张一星卡，走进以卡片为兵器的未来。"
 
 - title: "长生界"
   shelf: cn
@@ -102,6 +151,34 @@
   author: "忘语"
   note: "韩立资质平庸，靠一只小绿瓶把修仙走完。"
 
+- title: "狩魔手记"
+  shelf: cn
+  year: 2009
+  year_end: 2012
+  author: "烟雨江南"
+  note: "核战之后秩序塌了。左边是地狱，右边也是地狱。"
+
+- title: "九鼎记"
+  shelf: cn
+  year: 2009
+  year_end: 2010
+  author: "我吃西红柿"
+  note: "形意宗师滕青山落到禹皇劈开的九州。"
+
+- title: "上品寒士"
+  shelf: cn
+  year: 2009
+  year_end: 2011
+  author: "贼道三痴"
+  note: "陈操之从寒门走进南朝的士林。"
+
+- title: "罗浮"
+  shelf: cn
+  year: 2009
+  year_end: 2011
+  author: "无罪"
+  note: "洛北本是乞儿，拜入罗浮，成了那一脉的传人。"
+
 - title: "阳神"
   shelf: cn
   year: 2009
@@ -115,6 +192,20 @@
   year_end: 2012
   author: "耳根"
   note: "王林从赵国的小村子里走出去。"
+
+- title: "仙葫"
+  shelf: cn
+  year: 2010
+  year_end: 2011
+  author: "流浪的蛤蟆"
+  note: "千般法术，只问可得长生。"
+
+- title: "修真世界"
+  shelf: cn
+  year: 2010
+  year_end: 2013
+  author: "方想"
+  note: "左莫被抹去容貌，从天月界一路打到诸界。"
 
 - title: "永生"
   shelf: cn
@@ -136,6 +227,13 @@
   year_end: 2013
   author: "辰东"
   note: "叶凡随着同学进入北斗。"
+
+- title: "最终进化"
+  shelf: cn
+  year: 2011
+  year_end: 2013
+  author: "卷土"
+  note: "方森岩在梦魇世界里把能力数据化，穿行人类的幻想。"
 
 - title: "赘婿"
   shelf: cn
@@ -185,6 +283,19 @@
   author: "爱潜水的乌贼"
   note: "孟奇从少林走进一场轮回。"
 
+- title: "龙符"
+  shelf: cn
+  year: 2015
+  author: "梦入神机"
+  note: "古尘沙持龙符。2015 年 12 月开书。"
+
+- title: "斗战狂潮"
+  shelf: cn
+  year: 2016
+  year_end: 2018
+  author: "骷髅精灵"
+  note: "双月当空的英魂世界里，一个废柴学长靠轮盘撬动局面。"
+
 - title: "武道宗师"
   shelf: cn
   year: 2016
@@ -210,6 +321,20 @@
   year_end: 2019
   author: "二目"
   note: "工程师变成边境王子罗兰，女巫和蒸汽机在同一座城里。"
+
+- title: "轮回乐园"
+  shelf: cn
+  year: 2017
+  year_end: 2025
+  author: "那一只蚊子"
+  note: "苏晓签下轮回契约，在一个个世界里猎杀。"
+
+- title: "我有一座冒险屋"
+  shelf: cn
+  year: 2018
+  year_end: 2020
+  author: "我会修空调"
+  note: "陈歌继承一座快倒闭的鬼屋，靠手机里的任务把它做大。"
 
 - title: "秦吏"
   shelf: cn
