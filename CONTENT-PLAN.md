@@ -21,7 +21,7 @@
 |---|---|---|---|---|
 | 01 | S1 | 仓库地图：809 行里哪 100 行最重要 | `model.py` `ModelArgs` 20-88、`Transformer` 738-809 | 已写 |
 | 02 | S1 | 并行线性层：切一刀为什么要 all-reduce | `linear()` 131-165、`Column/RowParallelLinear` 208-269 | 已写 |
-| 03 | S1 | 位置编码：81 行的 freqs_cis | `RMSNorm` 270-296、`precompute_freqs_cis` 297-377 | 待写 |
+| 03 | S1 | 位置编码：81 行的 freqs_cis | `RMSNorm` 270-296、`precompute_freqs_cis` 297-377 | 已写 |
 | 04 | S1 | fp8 与权重：checkpoint 怎么变成能算的数 | `convert.py` 97 行、`kernel.py` 197 行 | 待写 |
 | 05 | S1 | MLA 上：1536 与 512 这两个数在压什么 | `MLA.__init__` 396-450 | 待写 |
 | 06 | S1 | MLA 下：576 维的 KV cache 与吸收技巧 | `MLA.forward` 450-499 | 待写 |
@@ -128,3 +128,4 @@
 | 2026-10-29 | 生成对抗网络：一场零和博弈的数学 | A |
 | 2026-10-29 | DeepSeek-V3 源码精读（1）：809 行里的 671B | C |
 | 2026-10-30 | DeepSeek-V3 源码精读（2）：切一刀为什么要 all-reduce | C |
+| 2026-10-31 | DeepSeek-V3 源码精读（3）：81 行的 freqs_cis 与 YaRN | C |
